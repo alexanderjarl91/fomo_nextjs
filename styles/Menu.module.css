@@ -1,0 +1,154 @@
+.menu {
+  position: absolute;
+  width: 65vw;
+  height: 100%;
+  top: 0;
+  z-index: 100;
+  background-color: #171619;
+  overflow-y: hidden;
+  font-family: Saira Condensed;
+  font-size: 18px;
+  line-height: 29px;
+}
+
+.copyright {
+  position: absolute;
+  bottom: 0;
+}
+
+.loggedOut__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 6rem;
+  text-align: center;
+}
+
+.loggedOut__container > img {
+  width: 80px;
+  margin: 0 auto;
+}
+
+.loggedOut__container > p {
+  width: 170px;
+  margin: 1rem auto;
+  text-align: center;
+}
+
+.loggedOut__container > button {
+  background-color: #de6a7c;
+  padding: 10px 38px;
+  border-radius: 10px;
+  font-weight: 500;
+
+  margin: 0 auto;
+}
+
+/* MENU FOOTER */
+
+.footer {
+  position: absolute;
+  bottom: 0px;
+  left: 30px;
+  justify-content: center;
+  width: 180px;
+}
+
+.footer__line {
+  height: 2px;
+  width: 200px;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin: 0 auto;
+  margin-bottom: 1rem;
+}
+
+.footer > ul {
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+}
+.footer > ul > li {
+  margin: 6px;
+}
+
+.footer__socialIcons {
+  margin: 0 auto;
+  align-items: center;
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.footer__socialIcons > img {
+  padding: 0px 8px;
+}
+
+.copyright {
+  position: relative;
+  bottom: 10px;
+  text-align: center;
+}
+
+/* LOGGED IN */
+
+.menu__profile {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  justify-content: center;
+  text-align: center;
+}
+
+.menu__profile > img {
+  width: 80px;
+  height: auto;
+  margin: 0 auto;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  border-radius: 85px;
+}
+
+.menu__profile > h1 {
+  font-size: 28px;
+}
+
+.menu__nav {
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 2rem;
+}
+
+.menu__nav > li {
+  display: flex;
+  padding: 10px;
+  width: 100%;
+  padding-left: 40px;
+  cursor: pointer;
+}
+
+.menu__nav > li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu__nav > li:focus {
+  background-color: green;
+}
+
+.menu__nav > li > img {
+  margin-right: 10px;
+}
+
+.menu__nav > button {
+  display: flex;
+  background-color: #de6a7c;
+  padding: 10px 38px;
+  border-radius: 10px;
+  font-weight: 500;
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+  font-weight: 600;
+  width: 100px;
+  margin: 0 auto;
+  margin-top: 4rem;
+}

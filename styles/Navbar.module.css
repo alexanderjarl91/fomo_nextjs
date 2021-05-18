@@ -1,0 +1,12 @@
+.navbar__container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  margin-top: 2rem;
+}
+
+.avatar {
+  width: 35px;
+  border-radius: 500px;
+}

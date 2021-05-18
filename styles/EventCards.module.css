@@ -1,0 +1,55 @@
+.cards__container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.card {
+  position: relative;
+  width: 600px;
+  max-width: 80vw;
+  height: 58vh;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+
+  border: 0.5px solid #f5bbbb;
+  box-sizing: border-box;
+  box-shadow: 6.3963px 7.46235px 23.5384px -8.5284px rgba(245, 187, 187, 0.18);
+}
+.card > h3 {
+  position: absolute;
+  bottom: 80px;
+  left: 20px;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 45px;
+  max-width: 260px;
+}
+
+.location__container {
+  font-size: 18px;
+  position: absolute;
+  display: flex;
+  bottom: 50px;
+  left: 18px;
+}
+.location__container > img {
+  margin-right: 5px;
+}
+
+.date__container {
+  font-size: 18px;
+  position: absolute;
+  display: flex;
+  bottom: 20px;
+  left: 18px;
+}
+
+.date__container > img {
+  margin-right: 5px;
+}
+
+.swipe {
+  position: absolute;
+}
