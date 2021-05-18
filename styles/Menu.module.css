@@ -59,7 +59,7 @@
   width: 200px;
   background-color: rgba(255, 255, 255, 0.2);
   margin: 0 auto;
-  margin-bottom: 1rem;
+  margin-bottom: 6px;
 }
 
 .footer > ul {
@@ -75,8 +75,8 @@
   margin: 0 auto;
   align-items: center;
   text-align: center;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 
 .footer__socialIcons > img {
@@ -100,7 +100,7 @@
 }
 
 .menu__profile > img {
-  width: 80px;
+  width: 100px;
   height: auto;
   margin: 0 auto;
   margin-top: 3rem;
@@ -115,7 +115,7 @@
 .menu__nav {
   width: 100%;
   margin: 0 auto;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .menu__nav > li {
@@ -141,7 +141,7 @@
 .menu__nav > button {
   display: flex;
   background-color: #de6a7c;
-  padding: 10px 38px;
+  padding: 8px 38px;
   border-radius: 10px;
   font-weight: 500;
   justify-content: center;
@@ -150,5 +150,5 @@
   font-weight: 600;
   width: 100px;
   margin: 0 auto;
-  margin-top: 4rem;
+  margin-top: 6px;
 }
