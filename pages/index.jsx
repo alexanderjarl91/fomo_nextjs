@@ -3,17 +3,15 @@ import React, { useState } from "react";
 import Head from 'next/head'
 import styles from '../styles/Index.module.css'
 
-import fire, { auth, db } from "../firebase";
-
-
 //components
 import Navbar from '../components/Navbar'
 import Menu from '../components/Menu'
 import EventCards from '../components/EventCards'
+import Buttons from '../components/Buttons'
 
 export default function Home() {
   const [showMenu, setShowMenu] = useState(false);
-  console.log(auth.currentUser)
+
   return (
     <div className={styles.container}>
       <Head>
@@ -24,9 +22,12 @@ export default function Home() {
 
       {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
       <Navbar showMenu={showMenu} setShowMenu={setShowMenu} />
+      
       {/* EVENT CARDS */}
       <EventCards />
+
       {/* BUTTONS */}
+      <Buttons />
 
 
 

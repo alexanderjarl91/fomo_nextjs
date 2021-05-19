@@ -2,12 +2,14 @@ import React, { useContext, useState } from "react";
 import fire from "../firebase";
 import { UsersContext } from "../context";
 import Navbar from "../components/Navbar";
-export default function signup() {
-  const { signInWithGoogle, signOut } = useContext(UsersContext);
-  const [showMenu, setShowMenu] = useState(false);
+
+export default function signup({}) {
+  const { signInWithGoogle, signOut, showMenu, setShowMenu } =
+    useContext(UsersContext);
+
   return (
     <div>
-      <Navbar showMenu={showMenu} setShowMenu={setShowMenu} />
+      <Navbar />
       <h1>SIGN UP</h1>
       <button
         onClick={() => {

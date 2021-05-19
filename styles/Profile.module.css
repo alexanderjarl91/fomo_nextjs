@@ -1,0 +1,42 @@
+.profile__container {
+  text-align: center;
+  background-color: #161618;
+}
+
+.profile__header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.profile__header > img {
+  width: 130px;
+  margin: 0 auto;
+  border-radius: 30px;
+}
+
+.profile__header > h1 {
+  color: rgb(255, 255, 255, 0.9);
+  margin-top: 1rem;
+  line-height: 24px;
+}
+
+.profile__header > h2 {
+  color: rgb(255, 255, 255, 0.7);
+}
+
+.profile__header > p {
+  color: rgb(255, 255, 255, 0.7);
+}
+
+.logout__btn {
+  margin: 0 auto;
+  background-color: #de6a7c;
+  padding: 6px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  margin-top: 1rem;
+}

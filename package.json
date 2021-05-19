@@ -14,5 +14,8 @@
     "react": "16.8.0",
     "react-dom": "16.8.0",
     "react-tinder-card": "^1.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }

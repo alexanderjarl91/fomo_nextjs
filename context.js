@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-
 import fire, { google_provider } from "./firebase";
 
 export const UsersContext = React.createContext();
-
 export const UsersProvider = ({ children }) => {
   // SIGN IN WITH GOOGLE
   const signInWithGoogle = () => {
@@ -30,10 +28,26 @@ export const UsersProvider = ({ children }) => {
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
         // ...
+      })
+      // CREATE USER DATA IN FIRESTORE
+      .then(async () => {
+        const data = {
+          name: fire.auth().currentUser.displayName,
+          email: fire.auth().currentUser.email,
+          promoter: false,
+          avatar: fire.auth().currentUser.photoURL,
+          uid: fire.auth().currentUser.uid,
+          interested: [],
+        };
+        await fire
+          .firestore()
+          .collection("users")
+          .doc(fire.auth().currentUser.email)
+          .set(data);
       });
   };
 
-  //   SIGN OUT
+  //SIGN OUT
   const signOut = () => {
     fire
       .auth()
@@ -55,8 +69,12 @@ export const UsersProvider = ({ children }) => {
     }
   });
 
+  const [showMenu, setShowMenu] = useState(false);
+
   return (
-    <UsersContext.Provider value={{ signInWithGoogle, signOut }}>
+    <UsersContext.Provider
+      value={{ signInWithGoogle, signOut, showMenu, setShowMenu }}
+    >
       {children}
     </UsersContext.Provider>
   );

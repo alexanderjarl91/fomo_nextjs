@@ -14,6 +14,7 @@
 .copyright {
   position: absolute;
   bottom: 0;
+  font-size: 12px;
 }
 
 .loggedOut__container {
@@ -73,8 +74,6 @@
 
 .footer__socialIcons {
   margin: 0 auto;
-  align-items: center;
-  text-align: center;
   margin-top: 6px;
   margin-bottom: 6px;
 }
@@ -100,29 +99,29 @@
 }
 
 .menu__profile > img {
-  width: 100px;
+  width: 80px;
   height: auto;
   margin: 0 auto;
   margin-top: 3rem;
-  margin-bottom: 1rem;
+  margin-bottom: 10px;
   border-radius: 85px;
 }
 
 .menu__profile > h1 {
-  font-size: 28px;
+  font-size: 26px;
 }
 
 .menu__nav {
   width: 100%;
   margin: 0 auto;
-  margin-top: 1rem;
+  margin-top: 24px;
 }
 
 .menu__nav > li {
   display: flex;
   padding: 10px;
   width: 100%;
-  padding-left: 40px;
+  padding-left: 50px;
   cursor: pointer;
 }
 

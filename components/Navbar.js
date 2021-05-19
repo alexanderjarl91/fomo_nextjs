@@ -1,11 +1,18 @@
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import React, { useState, useEffect, useContext } from "react";
+import { useRouter } from "next/router";
 import fire from "../firebase";
-
 import styles from "../styles/Navbar.module.css";
+import { UsersContext } from "../context";
 
-export default function Navbar({ setShowMenu, showMenu }) {
+//components
+import Menu from "./Menu";
+
+export default function Navbar() {
+  const router = useRouter();
   const [avatar, setAvatar] = useState();
+
+  const { signInWithGoogle, signOut, showMenu, setShowMenu } =
+    useContext(UsersContext);
 
   fire.auth().onAuthStateChanged((user) => {
     if (user) {
@@ -18,16 +25,27 @@ export default function Navbar({ setShowMenu, showMenu }) {
   });
 
   return (
-    <div className={styles.navbar__container}>
-      <img
-        onClick={() => {
-          setShowMenu(!showMenu);
-        }}
-        src="/hamburger.svg"
-        alt=""
-      />
-      <img src="/fomo_logo.svg" alt="" />
-      <img className={styles.avatar} src={avatar} alt="" />
-    </div>
+    <>
+      {showMenu ? <Menu /> : null}
+      <div className={styles.navbar__container}>
+        <img
+          onClick={() => {
+            setShowMenu(!showMenu);
+          }}
+          src="/hamburger.svg"
+          alt=""
+        />
+        <img src="/fomo_logo.svg" alt="" />
+        <img
+          onClick={() => {
+            router.push("/profile");
+          }}
+          className={styles.avatar}
+          src={avatar}
+          alt=""
+          style={{ cursor: "pointer" }}
+        />
+      </div>
+    </>
   );
 }

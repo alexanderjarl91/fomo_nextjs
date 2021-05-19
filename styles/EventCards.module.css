@@ -53,3 +53,24 @@
 .swipe {
   position: absolute;
 }
+
+.noCards__container {
+  margin-top: 14rem;
+  max-width: 220px;
+  justify-content: center;
+  text-align: center;
+  font-size: 18px;
+}
+
+.noCards__container > button {
+  display: flex;
+  background-color: #de6a7c;
+  padding: 8px 38px;
+  border-radius: 10px;
+  font-weight: 500;
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+  margin: 0 auto;
+  margin-top: 1rem;
+}
