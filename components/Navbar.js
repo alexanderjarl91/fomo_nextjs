@@ -38,7 +38,11 @@ export default function Navbar() {
         <img src="/fomo_logo.svg" alt="" />
         <img
           onClick={() => {
-            router.push("/profile");
+            if (fire.auth().currentUser) {
+              router.push("/profile");
+            } else {
+              router.push("/signup");
+            }
           }}
           className={styles.avatar}
           src={avatar}

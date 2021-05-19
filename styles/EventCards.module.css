@@ -55,7 +55,7 @@
 }
 
 .noCards__container {
-  margin-top: 14rem;
+  margin-top: 10rem;
   max-width: 220px;
   justify-content: center;
   text-align: center;
@@ -72,5 +72,4 @@
   text-align: center;
   align-content: center;
   margin: 0 auto;
-  margin-top: 1rem;
 }

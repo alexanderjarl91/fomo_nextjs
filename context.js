@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import fire, { google_provider } from "./firebase";
 
 export const UsersContext = React.createContext();
 export const UsersProvider = ({ children }) => {
+  const router = useRouter();
   // SIGN IN WITH GOOGLE
   const signInWithGoogle = () => {
     fire

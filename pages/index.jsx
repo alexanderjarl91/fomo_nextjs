@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Head from 'next/head'
 import styles from '../styles/Index.module.css'
@@ -11,6 +11,22 @@ import Buttons from '../components/Buttons'
 
 export default function Home() {
   const [showMenu, setShowMenu] = useState(false);
+
+
+  // GET USERS POSITION
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      console.log("Available");
+    } else {
+      console.log("Not Available");
+    }
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position)
+    }, (err) => console.log('err:', err), {maximumAge:60000, timeout:5000, enableHighAccuracy:true})
+  }, [])
+
+
 
   return (
     <div className={styles.container}>

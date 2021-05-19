@@ -2,8 +2,10 @@ import React, { useContext, useState } from "react";
 import fire from "../firebase";
 import { UsersContext } from "../context";
 import Navbar from "../components/Navbar";
+import { useRouter } from "next/router";
 
 export default function signup({}) {
+  const router = useRouter();
   const { signInWithGoogle, signOut, showMenu, setShowMenu } =
     useContext(UsersContext);
 

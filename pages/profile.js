@@ -1,5 +1,5 @@
 
-import React, {useContext,useState} from "react";
+import React, {useContext,useState, useEffect} from "react";
 import Navbar from "../components/Navbar";
 import { UsersContext } from "../context";
 import { useRouter } from "next/router";
@@ -8,11 +8,10 @@ import styles from "../styles/Profile.module.css";
 
 
 export default function profile() {
-  const {signOut} =
-  useContext(UsersContext);
+  const {signOut} = useContext(UsersContext);
   const router = useRouter();
 
-console.log(fire.auth().currentUser)
+
 
   return (
     <div className={styles.profile__container}>
