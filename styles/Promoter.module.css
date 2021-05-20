@@ -1,0 +1,22 @@
+.content {
+  max-width: 300px;
+  margin: 0 auto;
+  margin-top: 2rem;
+}
+
+.content > p {
+  max-width: 260px;
+  margin: 0 auto;
+  margin-top: 1rem;
+}
+
+.upgrade__btn {
+  display: flex;
+  background-color: #de6a7c;
+  padding: 10px 38px;
+  border-radius: 10px;
+  font-weight: 600;
+  margin: 0 auto;
+
+  margin-top: 1rem;
+}

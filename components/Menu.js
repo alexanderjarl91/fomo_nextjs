@@ -104,9 +104,14 @@ export default function Menu() {
         <div className={styles.footer__line}></div>
         <ul>
           <li>
-            <a href="">
+            <p
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                router.push("/promoter");
+              }}
+            >
               <strong>Become a promoter</strong>
-            </a>
+            </p>
           </li>
           <li>
             <a href="">About us</a>

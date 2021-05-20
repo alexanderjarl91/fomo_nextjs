@@ -5,6 +5,19 @@ import fire, { google_provider } from "./firebase";
 export const UsersContext = React.createContext();
 export const UsersProvider = ({ children }) => {
   const router = useRouter();
+  const [userData, setUserData] = useState();
+
+  const getUserData = async () => {
+    const userRef = fire
+      .firestore()
+      .collection("users")
+      .doc(fire.auth().currentUser.email);
+
+    const doc = await userRef.get();
+    let tempUser = doc.data();
+    setUserData(tempUser);
+  };
+
   // SIGN IN WITH GOOGLE
   const signInWithGoogle = () => {
     fire
@@ -12,13 +25,6 @@ export const UsersProvider = ({ children }) => {
       .signInWithPopup(google_provider)
       .then((result) => {
         /** @type {firebase.auth.OAuthCredential} */
-        var credential = result.credential;
-
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        var token = credential.accessToken;
-        // The signed-in user info.
-        var user = result.user;
-        // ...
       })
       .catch((error) => {
         // Handle Errors here.
