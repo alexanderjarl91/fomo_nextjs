@@ -5,6 +5,9 @@
   color: white;
   margin-top: 2rem;
 }
+.navbar__container > img {
+  cursor: pointer;
+}
 
 .avatar {
   width: 35px;

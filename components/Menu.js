@@ -5,14 +5,18 @@ import { useRouter } from "next/router";
 import { UsersContext } from "../context";
 
 export default function Menu() {
-  const { showMenu, setShowMenu } = useContext(UsersContext);
-
+  const { user, userData, showMenu, setShowMenu } = useContext(UsersContext);
   const router = useRouter();
 
+  // Route to parameter
   const routeTo = (route) => {
     router.push(`/${route}`);
     setShowMenu(!showMenu);
   };
+
+  // useEffect(() => {
+  //   console.log(userData.promoter);
+  // }, [userData]);
 
   return (
     <div className={styles.menu}>
@@ -56,15 +60,27 @@ export default function Menu() {
               <img src="/menu_icons/user.svg" alt="" />
               <p>My profile</p>
             </li>
-            <li
-              onClick={() => {
-                routeTo("my-events");
-              }}
-            >
-              <img src="/menu_icons/events.svg" alt="" />
-              <p>My events</p>
-            </li>
-            <button>Create event</button>
+
+            {userData && userData.promoter ? (
+              <>
+                <li
+                  onClick={() => {
+                    routeTo("my-events");
+                  }}
+                >
+                  <img src="/menu_icons/events.svg" alt="" />
+                  <p>My events</p>
+                </li>
+                <button
+                  onClick={() => {
+                    router.push("/create-event");
+                    setShowMenu(false);
+                  }}
+                >
+                  Create event
+                </button>
+              </>
+            ) : null}
           </div>
         </>
       ) : (
@@ -103,16 +119,19 @@ export default function Menu() {
       <div className={styles.footer}>
         <div className={styles.footer__line}></div>
         <ul>
-          <li>
-            <p
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                router.push("/promoter");
-              }}
-            >
-              <strong>Become a promoter</strong>
-            </p>
-          </li>
+          {!userData || (userData && !userData.promoter) ? (
+            <li>
+              <p
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  router.push("/promoter");
+                  setShowMenu(false);
+                }}
+              >
+                <strong>Become a promoter</strong>
+              </p>
+            </li>
+          ) : null}
           <li>
             <a href="">About us</a>
           </li>

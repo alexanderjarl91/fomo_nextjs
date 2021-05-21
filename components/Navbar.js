@@ -35,7 +35,13 @@ export default function Navbar() {
           src="/hamburger.svg"
           alt=""
         />
-        <img src="/fomo_logo.svg" alt="" />
+        <img
+          onClick={() => {
+            router.push("/");
+          }}
+          src="/fomo_logo.svg"
+          alt=""
+        />
         <img
           onClick={() => {
             if (fire.auth().currentUser) {

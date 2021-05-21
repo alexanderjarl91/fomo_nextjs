@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import Head from 'next/head'
 import styles from '../styles/Index.module.css'
+
+import { UsersContext, DataContext } from "../context";
 
 //components
 import Navbar from '../components/Navbar'
@@ -10,21 +12,23 @@ import EventCards from '../components/EventCards'
 import Buttons from '../components/Buttons'
 
 export default function Home() {
-  const [showMenu, setShowMenu] = useState(false);
+  const { user, userData, showMenu, setShowMenu } = useContext(UsersContext);
+  const { activeCardIndex, setActiveCardIndex } = useContext(DataContext);
+
 
 
   // GET USERS POSITION
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      console.log("Available");
-    } else {
-      console.log("Not Available");
-    }
+  // useEffect(() => {
+  //   if ("geolocation" in navigator) {
+  //     console.log("Available");
+  //   } else {
+  //     console.log("Not Available");
+  //   }
 
-    navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position)
-    }, (err) => console.log('err:', err), {maximumAge:60000, timeout:5000, enableHighAccuracy:true})
-  }, [])
+  //   navigator.geolocation.getCurrentPosition((position) => {
+  //     console.log(position)
+  //   }, (err) => console.log('err:', err), {maximumAge:60000, timeout:5000, enableHighAccuracy:true})
+  // }, [])
 
 
 

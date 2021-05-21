@@ -1,0 +1,48 @@
+.createEvent__container {
+  display: flex;
+  flex-direction: column;
+  overflow: initial;
+}
+
+.createEvent__container > p {
+  text-align: center;
+  font-style: italic;
+}
+
+.event__form {
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.event__form > div {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.event__form > div > label {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.event__form > div > input {
+  background-color: white;
+  color: black;
+  border-radius: 8px;
+  height: 45px;
+  left: 40px;
+  font-size: 18px;
+  text-indent: 10px;
+}
+
+.post__button {
+  text-align: center;
+  margin: 0 auto;
+  background-color: #de6a7c;
+  padding: 10px 38px;
+  border-radius: 10px;
+  font-weight: 600;
+}

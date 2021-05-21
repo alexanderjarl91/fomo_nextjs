@@ -10,7 +10,7 @@ body {
   font-family: Saira Condensed;
   color: #f8d2d2;
   max-height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 a {
@@ -31,6 +31,7 @@ button {
 ul {
   all: unset;
 }
+input,
 li {
   all: unset;
 }

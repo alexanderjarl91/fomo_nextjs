@@ -1,88 +1,139 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useContext } from "react";
 import TinderCard from "react-tinder-card";
 import styles from "../styles/EventCards.module.css";
-import fire from "../firebase";
+
+import { DataContext } from "../context";
 
 function EventCards() {
-  const [cards, setCards] = useState([]);
-  const [activeCard, setActiveCard] = useState(0);
+  const { activeCardIndex, setActiveCardIndex, cards, setCards } =
+    useContext(DataContext);
+    
+const [classlist, setClasslist] = useState(styles.card)
+  const [flipFront, setFlipFront] = useState(styles.flipFront);
+  const [flipBack, setFlipBack] = useState(styles.flipBack);
 
-  useEffect(() => {
-    // fetch event data, shuffle them and set to state
-    const getCards = async () => {
-      const cardsRef = fire.firestore().collection("events");
-      const snapshot = await cardsRef.get();
-      let tempCards = [];
-      await snapshot.forEach((doc) => {
-        tempCards = [...tempCards, doc.data()];
-      });
-      // set cards
-      shuffleArray(tempCards);
-      setCards(tempCards);
-      setActiveCard(tempCards.length - 1);
-    };
-    getCards();
-  }, []);
-
-// callback to log the active cards index
-  useEffect(() => {
-    console.log("current active card index:", activeCard);
-  }, [activeCard]);
-
-  // randomize order of array
-  const shuffleArray = (array) => {
-    for (var i = array.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
+  const handleSwipe = (dir, index) => {
+    // console.log("swiped:", dir, index);
+    setActiveCardIndex(index - 1);
   };
 
-  const handleSwipe = () => {
-    setActiveCard(() => {
-      return activeCard - 1});
+  // show last card
+  const showLastCard = () => {
+    let lastCard = cards[activeCardIndex + 1];
+    console.log(lastCard);
+
+    const tester = document.querySelector(".test");
+
+    const text = document.createElement("div");
+    text.classList.add(`${styles.card}`);
+    text.innerHTML = `<h1>CLASS?</h1>`;
+    tester.appendChild(text);
+  };
+
+  
+  const flip = () => {
+    if (classlist == styles.card) {
+      setClasslist(() => {
+        return styles.card, flipFront, flipBack
+      })
+    } else {
+      setClasslist(styles.card)
+    }
   };
 
 
   return (
     <div>
       <div className={styles.cards__container}>
-        <div className={styles.noCards__container}>
-          <p>No more events in your area.. change your filter or swipe again</p>
-          <button>Reshuffle cards</button>
-        </div>
-        {cards.map((card) => (
+        {activeCardIndex < 0 ? (
+          <div className={styles.noCards__container}>
+            <p>
+              No more events in your area.. change your filter or swipe again
+            </p>
+           <button><a href="/">Reshuffle cards</a></button>
+          </div>
+        ) : null}
+
+        {cards.map((card, index) => (
           <TinderCard
-            className={styles.swipe}
+            className={`test ${styles.swipe}`}
             key={card.title}
             preventSwipe={["up", "down"]}
-            onSwipe={ handleSwipe }
-            onCardLeftScreen={handleSwipe}
-
+            onSwipe={(dir) => handleSwipe(dir, index)          
+            }
           >
             <div
-              className={styles.card}
-              style={{
-                backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(${card.image})`,
-              }}
+              onClick={()=> flip() }
+              className={classlist}
             >
-              <h3>{card.title}</h3>
-              <div className={styles.location__container}>
-                <img src="/location_pin.svg" alt="" />
-                <p>{card.location}</p>
+              {/* FRONTSIDE */}
+              <div
+                className={styles.card__front}
+                style={{
+                  backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(${card.image})`,
+                }}
+              >
+                <h3>{card.title}</h3>
+                <div className={styles.location__container}>
+                  <img src="/location_pin.svg" alt="" />
+                  <p>{card.location}</p>
+                </div>
+                <div className={styles.date__container}>
+                  <img src="/date.svg" alt="" />
+                  <p>{card.date}</p>
+                </div>
               </div>
-              <div className={styles.date__container}>
-                <img src="/date.svg" alt="" />
-                <p>{card.date}</p>
+
+              {/* BACKSIDE */}
+              <div
+                className={styles.card__back}
+                style={{
+                  backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) ), url(${card.image})`,
+                }}
+              >
+                <div className={styles.backside__content}>
+                  <div className={styles.backside__header}>
+                    <p>SENA</p>
+                    <h3>{card.title}</h3>
+                    <div className={styles.header__info}>
+                      <div>
+                        <img src="/location_pin.svg" alt="" />
+                        <p>{card.location}</p>
+                      </div>
+                      <div>
+                        <img src="/date.svg" alt="" />
+                        <p>{card.date}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <p>
+                    Kevin Hart hefur skapað sér nafn sem einn helsti grínisti,
+                    skemmtikraftur, höfundur og viðskiptamaður afþreyingarbransa
+                    samtímans. Nú leggur hann af stað í einn allra stærsta
+                    gríntúr fyrr og síðar og við erum svo heppin að fá
+                    stórstjörnuna til Íslands með nýju sýninguna sína, nánar
+                    tiltekið í Laugardalshöll þann 4. sept.
+                  </p>
+                  <div className={styles.backside__footer}>
+                    <div>
+                      <button>share</button>
+                      <h2>13990 kr</h2>
+                    </div>
+                    <button>KAUPA MIÐA</button>
+                  </div>
+                </div>
               </div>
             </div>
           </TinderCard>
         ))}
       </div>
-    <h1 onClick={()=>{
-      console.log(activeCard)
-    }}>ACTIVE CARD</h1>
+      <h3
+        onClick={() => {
+          showLastCard();
+        }}
+      >
+        last card
+      </h3>
     </div>
   );
 }
