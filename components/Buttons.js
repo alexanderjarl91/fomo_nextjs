@@ -18,18 +18,18 @@ export default function Buttons() {
 
     // create a temp array and fill it with firestore data
     let tempInterested = [];
-    console.log(tempInterested);
 
-    if (!doc.exists) {
-      console.log("No such document!");
-    } else {
+    if (!doc.exists) return;
+
+    if (doc.data().interested) {
       tempInterested = doc.data().interested;
     }
+    console.log(tempInterested);
     // push active Card to temporary interested array
-    // tempInterested.push(activeCard);
+    tempInterested.push(activeCard);
 
     // save new interested array to firestore
-    // userRef.update({ interested: tempInterested });
+    userRef.update({ interested: tempInterested });
   };
   return (
     <div className={styles.swipeButtons}>

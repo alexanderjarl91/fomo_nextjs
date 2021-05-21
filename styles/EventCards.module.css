@@ -8,7 +8,6 @@
 .card {
   position: relative;
   perspective: 800px;
-
   transition: transform 1s ease;
 }
 
@@ -31,21 +30,13 @@
   box-shadow: 6.3963px 7.46235px 23.5384px -8.5284px rgba(245, 187, 187, 0.18);
 }
 
-.flipFront {
-  transform: rotateY(-180deg);
-}
-
-.flipBack {
-  transform: rotateY(180deg);
-}
-
-/* .card:hover > .card__front {
+.card:hover > .card__front {
   transform: rotateY(180deg);
 }
 
 .card:hover > .card__back {
   transform: rotateY(0);
-} */
+}
 
 /* CARD DATA */
 .card__front > h3 {
