@@ -6,13 +6,14 @@ import fire from "../firebase";
 import styles from "../styles/Profile.module.css";
 
 export default function profile() {
+  //context data
   const { userData, signOut } = useContext(UsersContext);
+  //initialize router
   const router = useRouter();
 
   return (
     <div className={styles.profile__container}>
       <Navbar />
-
       {fire.auth().currentUser ? (
         <div className={styles.profile__header}>
           <img src={fire.auth().currentUser.photoURL} alt="" />

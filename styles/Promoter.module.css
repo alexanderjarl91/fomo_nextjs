@@ -1,13 +1,13 @@
 .content {
   max-width: 300px;
   margin: 0 auto;
-  margin-top: 2rem;
+  margin-top: 10rem;
 }
 
 .content > p {
   max-width: 260px;
   margin: 0 auto;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .upgrade__btn {
@@ -17,6 +17,5 @@
   border-radius: 10px;
   font-weight: 600;
   margin: 0 auto;
-
-  margin-top: 1rem;
+  margin-top: 3rem;
 }

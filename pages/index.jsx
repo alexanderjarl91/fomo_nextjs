@@ -12,23 +12,21 @@ import EventCards from '../components/EventCards'
 import Buttons from '../components/Buttons'
 
 export default function Home() {
-  const { user, userData, showMenu, setShowMenu } = useContext(UsersContext);
-  const { activeCardIndex, setActiveCardIndex } = useContext(DataContext);
+  const { showMenu, setShowMenu } = useContext(UsersContext);
 
 
-
-  // GET USERS POSITION
-  // useEffect(() => {
-  //   if ("geolocation" in navigator) {
-  //     console.log("Available");
-  //   } else {
-  //     console.log("Not Available");
-  //   }
-
-  //   navigator.geolocation.getCurrentPosition((position) => {
-  //     console.log(position)
-  //   }, (err) => console.log('err:', err), {maximumAge:60000, timeout:5000, enableHighAccuracy:true})
-  // }, [])
+  // GET USERS POSITION ON MOUNT (maybe handled in context?)
+  useEffect(() => {
+    //check if location is allowed
+    if ("geolocation" in navigator) {
+      console.log("Available");
+    } else {
+      console.log("Not Available");
+    }
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position)
+    }, (err) => console.log('err:', err), {maximumAge:60000, timeout:5000, enableHighAccuracy:true})
+  }, [])
 
 
 

@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Router, useRouter } from "next/router";
-import fire, { google_provider } from "./firebase";
+import fire, {
+  google_provider,
+  getAuth,
+  signInWithPopup,
+  FacebookAuthProvider,
+} from "./firebase";
 
 export const UsersContext = React.createContext();
 export const UsersProvider = ({ children }) => {
@@ -64,7 +69,6 @@ export const UsersProvider = ({ children }) => {
           // promoter: false,
           avatar: fire.auth().currentUser.photoURL,
           uid: fire.auth().currentUser.uid,
-          interested: [],
         };
         await fire
           .firestore()
@@ -73,6 +77,39 @@ export const UsersProvider = ({ children }) => {
           .set(data, { merge: true });
       });
   };
+
+  // const provider = new FacebookAuthProvider();
+  // provider.addScope("user_birthday");
+  // provider.setCustomParameters({
+  //   display: "popup",
+  // });
+
+  // const signInWithFacebook = () => {
+  //   const provider = new FacebookAuthProvider();
+  //   provider.addScope("user_birthday");
+  //   provider.setCustomParameters({
+  //     display: "popup",
+  //   });
+
+  //   const auth = getAuth();
+
+  //   fire
+  //     .auth()
+  //     .signInWithPopup(auth, provider)
+  //     .then((result) => {
+  //       // The signed-in user info.
+  //       const user = result.user;
+
+  //       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+  //       const credential = FacebookAuthProvider.credentialFromResult(result);
+  //       const accessToken = credential.accessToken;
+
+  //       // ...
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   //SIGN OUT
   const signOut = () => {

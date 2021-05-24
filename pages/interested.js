@@ -8,7 +8,8 @@ export default function interested() {
   const [cards, setCards] = useState([]);
   const { userData } = useContext(UsersContext);
 
-  const [cardOpen, setCardOpen] = useState(false)
+  //state for card open/closed
+  const [cardOpen, setCardOpen] = useState(false);
 
   //get users interested array and set to cards state
   useEffect(() => {
@@ -16,19 +17,14 @@ export default function interested() {
     setCards(userData.interested);
   }, [userData]);
 
-
+  //handle open/close card function
   const openCard = () => {
-    setCardOpen(!cardOpen)
-  }
-
-  useEffect(()=>{
-    console.log(cardOpen)
-  }, [cardOpen])
+    setCardOpen(!cardOpen);
+  };
 
   return (
     <div className={styles.interested__container}>
       <Navbar />
-
       <div className={styles.cards}>
         <h3>interested</h3>
         {cards.map((card) => (
@@ -42,28 +38,10 @@ export default function interested() {
               openCard();
             }}
           >
-              {!cardOpen && 
-            <div className={styles.closed__content}>
-              <h1>{card.title}</h1>
-              <div className={styles.info__container}>
-                <div>
-                  <img src="/location_pin.svg" alt="" />
-                  <p>{card.location}</p>
-                </div>
-                <div>
-                  <img src="/date.svg" alt="" />
-                  <p>{card.date}</p>
-                </div>
-              </div>
-            </div>
-          }
-            
-            {cardOpen &&
-            <div className={styles.open__content}>
-              <div className={styles.open__header}>
-                <p>SENA</p>
-                <h3>{card.title}</h3>
-                <div className={styles.header__info}>
+            {!cardOpen && (
+              <div className={styles.closed__content}>
+                <h1>{card.title}</h1>
+                <div className={styles.info__container}>
                   <div>
                     <img src="/location_pin.svg" alt="" />
                     <p>{card.location}</p>
@@ -74,25 +52,43 @@ export default function interested() {
                   </div>
                 </div>
               </div>
+            )}
 
-              <p>
-                Kevin Hart hefur skapað sér nafn sem einn helsti grínisti,
-                skemmtikraftur, höfundur og viðskiptamaður afþreyingarbransa
-                samtímans. Nú leggur hann af stað í einn allra stærsta
-                gríntúr fyrr og síðar og við erum svo heppin að fá
-                stórstjörnuna til Íslands með nýju sýninguna sína, nánar
-                tiltekið í Laugardalshöll þann 4. sept.
-              </p>
-              <div className={styles.open__footer}>
-                <div>
-                  <button>share</button>
-                  <h2>13990 kr</h2>
+            {cardOpen && (
+              <div className={styles.open__content}>
+                <div className={styles.open__header}>
+                  <p>SENA</p>
+                  <h3>{card.title}</h3>
+                  <div className={styles.header__info}>
+                    <div>
+                      <img src="/location_pin.svg" alt="" />
+                      <p>{card.location}</p>
+                    </div>
+                    <div>
+                      <img src="/date.svg" alt="" />
+                      <p>{card.date}</p>
+                    </div>
+                  </div>
                 </div>
-                <button>KAUPA MIÐA</button>
+
+                <p>
+                  Kevin Hart hefur skapað sér nafn sem einn helsti grínisti,
+                  skemmtikraftur, höfundur og viðskiptamaður afþreyingarbransa
+                  samtímans. Nú leggur hann af stað í einn allra stærsta gríntúr
+                  fyrr og síðar og við erum svo heppin að fá stórstjörnuna til
+                  Íslands með nýju sýninguna sína, nánar tiltekið í
+                  Laugardalshöll þann 4. sept.
+                </p>
+                <div className={styles.open__footer}>
+                  <div>
+                    <button>share</button>
+                    <h2>13990 kr</h2>
+                  </div>
+                  <button>KAUPA MIÐA</button>
+                </div>
+                <button onClick={() => {}}>remove event</button>
               </div>
-              <button>remove event</button>
-            </div>
-            }
+            )}
           </div>
         ))}
       </div>

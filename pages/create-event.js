@@ -22,7 +22,30 @@ export default function createEvent() {
       .set(event)
       .then(() => {
         router.push("/");
+        saveToMyEvents();
       });
+  };
+
+  const saveToMyEvents = async () => {
+    //get user
+    const userRef = await fire
+      .firestore()
+      .collection("users")
+      .doc(fire.auth().currentUser.email);
+
+    //get users data
+    const doc = await userRef.get();
+    let tempEvents = [];
+    if (!doc.exists) return;
+
+    //create a copy of users events array
+    if (doc.data().events) {
+      tempEvents = doc.data().events;
+    }
+    //push new item to copy of array
+    tempEvents.push(event);
+    //post new array to database
+    userRef.update({ events: tempEvents });
   };
 
   return (
@@ -123,7 +146,10 @@ export default function createEvent() {
             onChange={(e) => {
               const tempEvent = event;
               tempEvent.price = e.target.value;
-              setEvent(tempEvent);
+
+              if (tempEvent > 0) {
+                setEvent(tempEvent);
+              }
             }}
           />
         </div>
@@ -158,9 +184,13 @@ export default function createEvent() {
           />
         </div>
       </div>
-        
-        <p> note: events are not published until they have been accepted by an admin</p>
-      <button class={styles.post__button}
+
+      <p>
+        {" "}
+        note: events are not published until they have been accepted by an admin
+      </p>
+      <button
+        className={styles.post__button}
         onClick={() => {
           postEvent();
         }}

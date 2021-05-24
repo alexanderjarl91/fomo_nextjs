@@ -3,44 +3,23 @@ import TinderCard from "react-tinder-card";
 import styles from "../styles/EventCards.module.css";
 
 import { DataContext } from "../context";
+import { useRouter } from "next/router";
 
 function EventCards() {
-  const { activeCardIndex, setActiveCardIndex, cards, setCards } =
+  const router = useRouter();
+  const { activeCardIndex, setActiveCardIndex, cards } =
     useContext(DataContext);
-    
-const [classlist, setClasslist] = useState(styles.card)
-  const [flipFront, setFlipFront] = useState(styles.flipFront);
-  const [flipBack, setFlipBack] = useState(styles.flipBack);
 
+  //when card is swiped, set active card index to the next one
   const handleSwipe = (dir, index) => {
-    // console.log("swiped:", dir, index);
     setActiveCardIndex(index - 1);
   };
 
-  // show last card
-  const showLastCard = () => {
-    let lastCard = cards[activeCardIndex + 1];
-    console.log(lastCard);
-
-    const tester = document.querySelector(".test");
-
-    const text = document.createElement("div");
-    text.classList.add(`${styles.card}`);
-    text.innerHTML = `<h1>CLASS?</h1>`;
-    tester.appendChild(text);
+  //go to event dynamic page
+  const goToEvent = () => {
+    console.log(cards[activeCardIndex].eventId);
+    router.push(`/${cards[activeCardIndex].eventId}`);
   };
-
-  
-  const flip = () => {
-    if (classlist == styles.card) {
-      setClasslist(() => {
-        return styles.card, flipFront, flipBack
-      })
-    } else {
-      setClasslist(styles.card)
-    }
-  };
-
 
   return (
     <div>
@@ -50,22 +29,19 @@ const [classlist, setClasslist] = useState(styles.card)
             <p>
               No more events in your area.. change your filter or swipe again
             </p>
-           <button><a href="/">Reshuffle cards</a></button>
+            <button>
+              <a href="/">Reshuffle cards</a>
+            </button>
           </div>
         ) : null}
-
         {cards.map((card, index) => (
           <TinderCard
             className={`test ${styles.swipe}`}
             key={card.title}
             preventSwipe={["up", "down"]}
-            onSwipe={(dir) => handleSwipe(dir, index)          
-            }
+            onSwipe={(dir) => handleSwipe(dir, index)}
           >
-            <div
-              onClick={()=> flip() }
-              className={classlist}
-            >
+            <div className={styles.card}>
               {/* FRONTSIDE */}
               <div
                 className={styles.card__front}
@@ -93,7 +69,7 @@ const [classlist, setClasslist] = useState(styles.card)
               >
                 <div className={styles.backside__content}>
                   <div className={styles.backside__header}>
-                    <p>SENA</p>
+                    <p>{card.promoter}</p>
                     <h3>{card.title}</h3>
                     <div className={styles.header__info}>
                       <div>
@@ -106,20 +82,17 @@ const [classlist, setClasslist] = useState(styles.card)
                       </div>
                     </div>
                   </div>
-                  <p>
-                    Kevin Hart hefur skapað sér nafn sem einn helsti grínisti,
-                    skemmtikraftur, höfundur og viðskiptamaður afþreyingarbransa
-                    samtímans. Nú leggur hann af stað í einn allra stærsta
-                    gríntúr fyrr og síðar og við erum svo heppin að fá
-                    stórstjörnuna til Íslands með nýju sýninguna sína, nánar
-                    tiltekið í Laugardalshöll þann 4. sept.
-                  </p>
+                  <p>{card.description}</p>
                   <div className={styles.backside__footer}>
                     <div>
                       <button>share</button>
-                      <h2>13990 kr</h2>
+                      {card && card.price > 0 ? (
+                        <h2>{card.price}</h2>
+                      ) : (
+                        <h3></h3>
+                      )}
                     </div>
-                    <button>KAUPA MIÐA</button>
+                    <button>{card.actionButton}</button>
                   </div>
                 </div>
               </div>
@@ -127,13 +100,6 @@ const [classlist, setClasslist] = useState(styles.card)
           </TinderCard>
         ))}
       </div>
-      <h3
-        onClick={() => {
-          showLastCard();
-        }}
-      >
-        last card
-      </h3>
     </div>
   );
 }

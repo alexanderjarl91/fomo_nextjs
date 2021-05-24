@@ -14,14 +14,17 @@ export default function Navbar() {
   const { signInWithGoogle, signOut, showMenu, setShowMenu } =
     useContext(UsersContext);
 
-  fire.auth().onAuthStateChanged((user) => {
-    if (user) {
-      setAvatar(fire.auth().currentUser.photoURL);
-    } else {
-      setAvatar(
-        "https://iicllhawaii.iafor.org/wp-content/uploads/sites/31/2017/02/IAFOR-Blank-Avatar-Image-1.jpg"
-      );
-    }
+  //on mount, if user is logged in, set avatar to his avatar - else set to placeholder
+  useEffect(() => {
+    fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        setAvatar(fire.auth().currentUser.photoURL);
+      } else {
+        setAvatar(
+          "https://iicllhawaii.iafor.org/wp-content/uploads/sites/31/2017/02/IAFOR-Blank-Avatar-Image-1.jpg"
+        );
+      }
+    });
   });
 
   return (

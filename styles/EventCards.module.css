@@ -27,16 +27,16 @@
   background-position: center;
   border: 0.5px solid #f5bbbb;
   box-sizing: border-box;
-  box-shadow: 6.3963px 7.46235px 23.5384px -8.5284px rgba(245, 187, 187, 0.18);
+  box-shadow: 6px 7px 23px -8px rgba(245, 187, 187, 0.01);
 }
 
-.card:hover > .card__front {
+/* .card:hover > .card__front {
   transform: rotateY(180deg);
 }
 
 .card:hover > .card__back {
   transform: rotateY(0);
-}
+} */
 
 /* CARD DATA */
 .card__front > h3 {
