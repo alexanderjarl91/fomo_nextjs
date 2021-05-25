@@ -6,15 +6,15 @@ import fire from "../firebase";
 import styles from "../styles/CreateEvent.module.css";
 
 export default function createEvent() {
-  const [event, setEvent] = useState({});
   const router = useRouter();
+  const [event, setEvent] = useState({});
 
   const postEvent = () => {
-    //add UID to event
+    //add userId to event
     const tempEvent = event;
     tempEvent.uid = fire.auth().currentUser.uid;
     setEvent(tempEvent);
-    // post event to firestore
+    // post event to firestore events collection
     fire
       .firestore()
       .collection("events")
@@ -26,14 +26,15 @@ export default function createEvent() {
       });
   };
 
+  //post event to users own event collection
   const saveToMyEvents = async () => {
-    //get user
+    //get authenticated user
     const userRef = await fire
       .firestore()
       .collection("users")
       .doc(fire.auth().currentUser.email);
 
-    //get users data
+    //get auth users data
     const doc = await userRef.get();
     let tempEvents = [];
     if (!doc.exists) return;

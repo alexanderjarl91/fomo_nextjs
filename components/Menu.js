@@ -5,18 +5,14 @@ import { useRouter } from "next/router";
 import { UsersContext } from "../context";
 
 export default function Menu() {
-  const { user, userData, showMenu, setShowMenu } = useContext(UsersContext);
+  const { userData, showMenu, setShowMenu } = useContext(UsersContext);
   const router = useRouter();
 
-  // Route to parameter
+  // Route to X parameter function
   const routeTo = (route) => {
     router.push(`/${route}`);
     setShowMenu(!showMenu);
   };
-
-  // useEffect(() => {
-  //   console.log(userData.promoter);
-  // }, [userData]);
 
   return (
     <div className={styles.menu}>

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import fire from "../firebase";
+import fire from "../../firebase";
+import styles from "../../styles/Event.module.css";
 
 //components
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 
 export default function Event() {
   const router = useRouter();
@@ -23,17 +24,19 @@ export default function Event() {
   };
 
   return (
-    <div>
-      <Navbar />
-      <button
-        onClick={() => {
-          console.log(event);
-        }}
-      >
-        event
-      </button>
+    <>
+      {event && (
+        <div
+          styles={{
+            backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.5), url(${event.image})`,
+            backgroundColor: "white",
+          }}
+        >
+          <Navbar />
 
-      {event && <h1>{event.promoter}</h1>}
-    </div>
+          {event && <h1>{event.promoter}</h1>}
+        </div>
+      )}
+    </>
   );
 }

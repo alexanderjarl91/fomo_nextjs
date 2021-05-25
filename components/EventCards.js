@@ -18,7 +18,7 @@ function EventCards() {
   //go to event dynamic page
   const goToEvent = () => {
     console.log(cards[activeCardIndex].eventId);
-    router.push(`/${cards[activeCardIndex].eventId}`);
+    router.push(`/events/${cards[activeCardIndex].eventId}`);
   };
 
   return (
@@ -41,9 +41,10 @@ function EventCards() {
             preventSwipe={["up", "down"]}
             onSwipe={(dir) => handleSwipe(dir, index)}
           >
-            <div className={styles.card}>
+            <div onClick={goToEvent} className={styles.card}>
               {/* FRONTSIDE */}
               <div
+                onClick={goToEvent}
                 className={styles.card__front}
                 style={{
                   backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(${card.image})`,
