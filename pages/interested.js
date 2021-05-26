@@ -12,27 +12,31 @@ export default function interested() {
   useEffect(() => {
     if (!userData) return;
     console.log('test1')
-
-    getInterestedEvents();
+    console.log(userData,'userdata')    
+    setCards(getInterestedEvents());
   }, [userData]);
 
   useEffect(() => {
-    console.log(cards);
+    console.log(cards,'cards');
   }, [cards]);
 
   
 
   const getInterestedEvents = () => {
-    userData.interested.forEach(async (item) => {
+    let tempCards = []
+    userData.interested?.forEach(async (item) => {
       const eventsRef = fire.firestore().collection("events");
       const snapshot = await eventsRef.where("eventId", "==", item).get();
+      
       snapshot.forEach((doc) => {
-        let tempCards = [...cards, doc.data()]
-        // tempCards.push(doc.data());
-        console.log(tempCards)
-        setCards(tempCards);
+        // let tempCards = [...cards, doc.data()]
+        tempCards.push(doc.data());
+        // console.log(tempCards,'tempCards')
       });
     });
+
+    return tempCards
+
   };
 
   return (
