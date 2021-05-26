@@ -34,7 +34,7 @@ export default function Navbar() {
 
   return (
     <>
-      {showMenu ? <Menu /> : null}
+      {/* {showMenu ? <Menu /> : null} */}
       <div className={styles.navbar__container}>
         {router.query.event? 
           <p>back</p>
