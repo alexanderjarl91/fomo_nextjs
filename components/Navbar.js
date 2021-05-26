@@ -37,7 +37,9 @@ export default function Navbar() {
       {showMenu ? <Menu /> : null}
       <div className={styles.navbar__container}>
         {router.query.event? 
-          <p>back</p>
+          <img src="/back_arrow2.svg" alt="" onClick={() => {
+            router.back()
+          }} />
           : 
           <img
             onClick={() => {

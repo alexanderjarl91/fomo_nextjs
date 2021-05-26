@@ -28,6 +28,20 @@
   line-height: 28px;
 }
 
+.event__form > div > textarea {
+  font-family: Saira Condensed;
+  font-style: normal;
+  font-weight: 400;
+  background-color: white;
+  color: black;
+  border-radius: 8px;
+  height: 200px;
+  left: 40px;
+  font-size: 18px;
+  text-indent: 10px;
+  resize: none;
+}
+
 .event__form > div > input {
   background-color: white;
   color: black;

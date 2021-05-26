@@ -10,9 +10,7 @@ export default function createEvent() {
   const router = useRouter();
   const [event, setEvent] = useState({});
 
-  const date = new Date();
-
-  console.log(date);
+  const currentDate = new Date();
 
   const postEvent = () => {
     //add userId to event
@@ -117,10 +115,7 @@ export default function createEvent() {
         <div>
           <label htmlFor="">Date</label>
           <input
-            type="text"
-            name=""
-            id=""
-            placeholder="When does your event take place?"
+            type="date"
             onChange={(e) => {
               const tempEvent = event;
               tempEvent.date = e.target.value;
@@ -130,12 +125,9 @@ export default function createEvent() {
         </div>
 
         <div>
-          <label htmlFor="">Time*</label>
+          <label htmlFor="">Time</label>
           <input
-            type="text"
-            name=""
-            id=""
-            placeholder="At what time?"
+            type="time"
             onChange={(e) => {
               const tempEvent = event;
               tempEvent.time = e.target.value;
@@ -163,6 +155,20 @@ export default function createEvent() {
         </div>
 
         <div>
+          <label htmlFor="">Description</label>
+          <textarea
+            type="text"
+            cols="5"
+            placeholder="What should your action button say?"
+            onChange={(e) => {
+              const tempEvent = event;
+              tempEvent.actionButton = e.target.value;
+              setEvent(tempEvent);
+            }}
+          />
+        </div>
+
+        <div>
           <label htmlFor="">Action button text</label>
           <input
             type="text"
@@ -172,6 +178,20 @@ export default function createEvent() {
             onChange={(e) => {
               const tempEvent = event;
               tempEvent.actionButton = e.target.value;
+              setEvent(tempEvent);
+            }}
+          />
+        </div>
+        <div>
+          <label htmlFor="">Action button URL</label>
+          <input
+            type="text"
+            name=""
+            id=""
+            placeholder="Where should your action button lead to?"
+            onChange={(e) => {
+              const tempEvent = event;
+              tempEvent.url = e.target.value;
               setEvent(tempEvent);
             }}
           />

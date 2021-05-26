@@ -29,8 +29,6 @@ export default function Home() {
     }, (err) => console.log('err:', err), {maximumAge:60000, timeout:5000, enableHighAccuracy:true})
   }, [])
 
-
-
   return (
     <div className={styles.container}>
       <Head>
