@@ -14,6 +14,11 @@ export default function Navbar() {
   const { signInWithGoogle, signOut, showMenu, setShowMenu } =
     useContext(UsersContext);
 
+  useEffect(() => {
+    if (router.query.event)
+      console.log("event query from nav", router.query.event);
+  }, []);
+
   //on mount, if user is logged in, set avatar to his avatar - else set to placeholder
   useEffect(() => {
     fire.auth().onAuthStateChanged((user) => {
@@ -31,13 +36,18 @@ export default function Navbar() {
     <>
       {showMenu ? <Menu /> : null}
       <div className={styles.navbar__container}>
-        <img
-          onClick={() => {
-            setShowMenu(!showMenu);
-          }}
-          src="/hamburger.svg"
-          alt=""
-        />
+        {router.query.event? 
+          <p>back</p>
+          : 
+          <img
+            onClick={() => {
+              setShowMenu(!showMenu);
+            }}
+            src="/hamburger.svg"
+            alt=""
+          />
+          
+        }
         <img
           onClick={() => {
             router.push("/");

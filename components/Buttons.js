@@ -1,10 +1,17 @@
 import React, { useContext } from "react";
 
 import styles from "../styles/Buttons.module.css";
-import { DataContext } from "../context";
+import { DataContext, UsersContext } from "../context";
 import fire from "../firebase";
 export default function Buttons() {
   const { cards, activeCardIndex } = useContext(DataContext);
+  const { setShowFilter, showFilter } = useContext(UsersContext);
+
+  // show filter
+  const handleShowFilter = () => {
+    setShowFilter(!showFilter);
+    console.log(showFilter);
+  };
 
   const saveToInterested = async () => {
     const activeCard = cards[activeCardIndex];
@@ -20,8 +27,8 @@ export default function Buttons() {
     if (doc.data().interested) {
       tempInterested = doc.data().interested;
     }
-    // push active Card to temporary interested array
-    tempInterested.push(activeCard);
+    // push activeCards eventId to temporary interested array
+    tempInterested.push(activeCard.eventId);
     // save new interested array to firestore
     userRef.update({ interested: tempInterested });
   };
@@ -37,7 +44,7 @@ export default function Buttons() {
         }}
         className={styles.interested__button}
       ></div>
-      <div className={styles.event__button}>
+      <div onClick={handleShowFilter} className={styles.event__button}>
         <img src="/filter_icon.svg" alt="" />
       </div>
     </div>

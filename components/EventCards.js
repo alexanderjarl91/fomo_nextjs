@@ -18,6 +18,7 @@ function EventCards() {
   //go to event dynamic page
   const goToEvent = () => {
     console.log(cards[activeCardIndex].eventId);
+    console.log("routing to event..");
     router.push(`/events/${cards[activeCardIndex].eventId}`);
   };
 
@@ -44,7 +45,6 @@ function EventCards() {
             <div onClick={goToEvent} className={styles.card}>
               {/* FRONTSIDE */}
               <div
-                onClick={goToEvent}
                 className={styles.card__front}
                 style={{
                   backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(${card.image})`,

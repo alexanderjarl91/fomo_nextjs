@@ -4,15 +4,21 @@ import { UsersContext } from "../context";
 import { useRouter } from "next/router";
 import fire from "../firebase";
 import styles from "../styles/CreateEvent.module.css";
+import { v4 as uuidv4 } from "uuid";
 
 export default function createEvent() {
   const router = useRouter();
   const [event, setEvent] = useState({});
 
+  const date = new Date();
+
+  console.log(date);
+
   const postEvent = () => {
     //add userId to event
     const tempEvent = event;
     tempEvent.uid = fire.auth().currentUser.uid;
+    tempEvent.eventId = uuidv4();
     setEvent(tempEvent);
     // post event to firestore events collection
     fire
@@ -43,8 +49,9 @@ export default function createEvent() {
     if (doc.data().events) {
       tempEvents = doc.data().events;
     }
-    //push new item to copy of array
-    tempEvents.push(event);
+
+    //push new events ID to copy of array
+    tempEvents.push(event.eventId);
     //post new array to database
     userRef.update({ events: tempEvents });
   };

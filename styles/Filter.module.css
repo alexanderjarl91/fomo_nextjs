@@ -1,0 +1,25 @@
+.container {
+  position: absolute;
+  bottom: 0;
+  margin-top: 10rem;
+  border-radius: 20px 20px 0px 0px;
+  height: 70vh;
+  width: 100vw;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #170505;
+  z-index: 99;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  align-content: flex-start;
+  max-width: 80%;
+  margin: 0 auto;
+  margin-top: 1rem;
+}
+.header > h1 {
+  margin-right: 5rem;
+}

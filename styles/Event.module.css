@@ -1,0 +1,65 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: 300px;
+  height: 100vh;
+  margin-top: 2rem;
+}
+
+.content > h1 {
+  font-family: Saira Condensed;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30.2843px;
+  line-height: 48px;
+
+  color: #f8d2d2;
+}
+
+.header__info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header__info > div {
+  display: flex;
+  gap: 10px;
+}
+
+.description {
+  margin-top: 1rem;
+  font-size: 18px;
+  line-height: 25px;
+}
+
+.action__btn {
+  text-align: center;
+  background-color: #de6a7c;
+  padding: 8px 0px;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 232px;
+  margin: 0 auto;
+  color: white;
+  line-height: 25px;
+  letter-spacing: 0.06em;
+}
+
+.bottom__btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  width: 232px;
+  margin-top: 1rem;
+}
+
+.share__btn {
+  color: white;
+  background: rgba(255, 255, 255, 0.18);
+  border: 0.85277px solid #ffffff;
+  box-sizing: border-box;
+  border-radius: 13px;
+  padding: 5px 15px;
+}

@@ -134,6 +134,7 @@ export const UsersProvider = ({ children }) => {
   });
 
   const [showMenu, setShowMenu] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
 
   return (
     <UsersContext.Provider
@@ -144,6 +145,8 @@ export const UsersProvider = ({ children }) => {
         signOut,
         showMenu,
         setShowMenu,
+        showFilter,
+        setShowFilter,
       }}
     >
       {children}

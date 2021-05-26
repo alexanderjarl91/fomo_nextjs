@@ -10,9 +10,10 @@ import Navbar from '../components/Navbar'
 import Menu from '../components/Menu'
 import EventCards from '../components/EventCards'
 import Buttons from '../components/Buttons'
+import Filter from "../components/Filter";
 
 export default function Home() {
-  const { showMenu, setShowMenu } = useContext(UsersContext);
+  const { showMenu, setShowMenu, showFilter, setShowFilter } = useContext(UsersContext);
 
 
   // GET USERS POSITION ON MOUNT (maybe handled in context?)
@@ -46,6 +47,9 @@ export default function Home() {
 
       {/* BUTTONS */}
       <Buttons />
+
+      {showFilter&& <Filter/>}
+      
 
 
 
