@@ -18,7 +18,7 @@ const Menu = () => {
   return (
     <OutsideClickHandler
       onOutsideClick={() => {
-        alert("You clicked outside of this component!!!");
+        setShowMenu(false)
       }}
    
     >
