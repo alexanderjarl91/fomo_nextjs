@@ -47,37 +47,39 @@ export default function Event() {
               {/* TOP INFO */}
               <div className={styles.header__info}>
                 <div>
-                  <p>i</p>
                   <p>{event.promoter}</p>
                 </div>
                 <div>
-                  <p>i</p>
+                  <img src="/location_pin.svg" alt="" />
                   <p>{event.location}</p>
                 </div>
               </div>
               {/* TITLE */}
               <h1>{event.title}</h1>
-              
+
               {/* BELOW TITLE INFO */}
               <div className={styles.header__info}>
                 <div>
-                  <p>i</p>
+                  <img src="/date.svg" alt="" />
                   <p>{event.date}</p>
                 </div>
                 <div>
-                  <p>i</p>
+                  <img src="/time_icon.svg" alt="" />
                   <p>19:15</p>
                 </div>
-              
               </div>
 
               <p className={styles.description}>{event.description}</p>
+
+              <div className={styles.footer__btns}>
+
               <button className={styles.action__btn}>KAUPA MIÐA</button>
               <div className={styles.bottom__btns}>
                 <button className={styles.share__btn}>SHARE</button>
                 <p>i</p>
               </div>
             </div>
+          </div>
           )}
         </div>
       )}

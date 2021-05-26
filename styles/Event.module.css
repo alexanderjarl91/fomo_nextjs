@@ -2,9 +2,11 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  max-width: 300px;
+  min-width: 300px;
+  max-width: 85%;
   height: 100vh;
   margin-top: 2rem;
+  overflow: hidden;
 }
 
 .content > h1 {
@@ -31,6 +33,13 @@
   margin-top: 1rem;
   font-size: 18px;
   line-height: 25px;
+  height: 40%;
+}
+
+.footer__btns {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
 }
 
 .action__btn {

@@ -6,16 +6,17 @@ import { UsersContext } from "../context";
 import onClickOutside from "react-onclickoutside";
 
 const clickOutsideConfig = {
-  handleClickOutside: () => Menu.handleClickOutside
+  handleClickOutside: () => Menu.handleClickOutside,
 };
 
- function Menu() {
+function Menu() {
   const { userData, showMenu, setShowMenu } = useContext(UsersContext);
   const router = useRouter();
 
-   const toggle = () => setShowMenu(!showMenu);
-   
-   Menu.handleClickOutside = () => setShowMenu(false);
+  const toggle = () => setShowMenu(!showMenu);
+
+  Menu.handleClickOutside = () => setShowMenu(false);
+
   // Route to X parameter function
   const routeTo = (route) => {
     router.push(`/${route}`);
