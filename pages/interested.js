@@ -24,10 +24,14 @@ export default function interested() {
     userData.interested?.forEach(async (item) => {
       const eventsRef = fire.firestore().collection("events");
       const snapshot = await eventsRef.where("eventId", "==", item).get();
+
       snapshot.forEach((doc) => {
+        // let tempCards = [...cards, doc.data()]
         tempCards.push(doc.data());
+        // console.log(tempCards,'tempCards')
       });
     });
+
     return tempCards;
   };
   return (

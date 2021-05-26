@@ -3,11 +3,19 @@ import styles from "../styles/Menu.module.css";
 import fire from "../firebase";
 import { useRouter } from "next/router";
 import { UsersContext } from "../context";
+import onClickOutside from "react-onclickoutside";
 
-export default function Menu() {
+const clickOutsideConfig = {
+  handleClickOutside: () => Menu.handleClickOutside
+};
+
+ function Menu() {
   const { userData, showMenu, setShowMenu } = useContext(UsersContext);
   const router = useRouter();
 
+   const toggle = () => setShowMenu(!showMenu);
+   
+   Menu.handleClickOutside = () => setShowMenu(false);
   // Route to X parameter function
   const routeTo = (route) => {
     router.push(`/${route}`);
@@ -145,3 +153,4 @@ export default function Menu() {
     </div>
   );
 }
+export default onClickOutside(Menu, clickOutsideConfig);
