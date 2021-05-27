@@ -1,14 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
+import Link from 'next/link'
 import fire from "../../firebase";
 import styles from "../../styles/Event.module.css";
+import { UsersContext, DataContext } from "../../context";
+
 
 //components
 import Navbar from "../../components/Navbar";
 
 export default function Event() {
+  //context data
+  const {userData} = useContext(UsersContext)
+
+  //initialize router
   const router = useRouter();
+
+  //states
   const [event, setEvent] = useState();
+  const [isInterested, setIsInterested] = useState();
 
   // get the data when component mounts
   useEffect(() => {
@@ -18,7 +28,7 @@ export default function Event() {
   useEffect(() => {
     console.log(`event`, event);
   }, [event]);
-
+  
   // get clicked event data
   const matchEventWithQuery = async () => {
     const eventsRef = fire.firestore().collection("events");
@@ -26,6 +36,24 @@ export default function Event() {
     const foundEvent = await queryRef.get();
     foundEvent.forEach((doc) => setEvent(doc.data()));
   };
+  
+  
+  const checkIfUserIsInterested = () => {
+    //check if users interested array includes the eventId from query, set boolean state accordingly
+    setIsInterested(userData.interested.includes(router.query.event))
+  }
+
+  useEffect(() => {
+    if (!userData) return
+    checkIfUserIsInterested()
+  }, [userData])
+
+  useEffect(() => {
+    console.log('is user interested in this event?', isInterested)
+  }, [isInterested])
+
+
+  // BUILD THE SET AS INTERESTED/REMOVE FROM INTERESTED FUNCTION
 
   return (
     <>
@@ -76,7 +104,25 @@ export default function Event() {
               <button className={styles.action__btn}>KAUPA MIÐA</button>
               <div className={styles.bottom__btns}>
                 <button className={styles.share__btn}>SHARE</button>
-                <p>i</p>
+
+                {!fire.auth().currentUser&& 
+                  <Link href="/signup">
+                    <img src="/heart_empty.svg" alt="" />
+                  </Link>
+                }
+                
+                {fire.auth().currentUser&&
+                <>
+                {isInterested? 
+                <img src="/heart_fill.svg" alt="" />
+              : <img src="/heart_empty.svg" alt="" />
+            }
+                </>
+                }
+
+
+
+
               </div>
             </div>
           </div>

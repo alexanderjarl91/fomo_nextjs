@@ -1,26 +1,30 @@
 import React, { useContext, useEffect, useState } from "react";
 import fire from "../firebase";
 import { UsersContext } from "../context";
-import Navbar from "../components/Navbar";
 import { useRouter } from "next/router";
 import styles from "../styles/Signup.module.css";
 
+import Navbar from "../components/Navbar";
+import Menu from "../components/Menu";
 
 export default function signup({}) {
   const router = useRouter();
-  const { signInWithGoogle} =
-    useContext(UsersContext);
+  const { signInWithGoogle, showMenu, setShowMenu } = useContext(UsersContext);
 
-    //route restriction - if user is logged in, redirect to index
-    useEffect(() => {
-      if (fire.auth().currentUser) {
-        router.push('/')
-      }
-    }, [])
+  //route restriction - if user is logged in, redirect to index
+  useEffect(() => {
+    if (fire.auth().currentUser) {
+      router.push("/");
+    }
+  }, [fire.auth().currentUser]);
 
   return (
     <div>
+      {/* NAVBAR & MENU */}
       <Navbar />
+      {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
+
+      {/* PAGE CONTENT */}
       <div className={styles.signup__container}>
         <h1>Sign in</h1>
         <p>Sign in with one click to discover more events and features!</p>
@@ -41,8 +45,6 @@ export default function signup({}) {
         </button>
 
         <p>no registration required</p>
-
-
       </div>
     </div>
   );

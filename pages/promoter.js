@@ -1,16 +1,21 @@
 import React, { useEffect, useContext } from "react";
-import Navbar from "../components/Navbar";
 import styles from "../styles/Promoter.module.css";
 import fire from "../firebase";
 import { useRouter } from "next/router";
 import { UsersContext } from "../context";
-export default function promoter() {
-  const { user, userData } = useContext(UsersContext);
-  console.log(`userData`, userData);
 
+//importing components
+import Navbar from "../components/Navbar";
+import Menu from "../components/Menu";
+
+export default function promoter() {
+  //context data
+  const { userData, showMenu, setShowMenu } = useContext(UsersContext);
+
+  //router initialized
   const router = useRouter();
 
-  // ROUTE RESTRICTION
+  // route restriction
   useEffect(() => {
     //if no user found, redirect to home
     if (!fire.auth().currentUser) {
@@ -42,8 +47,11 @@ export default function promoter() {
 
   return (
     <div>
+      {/* NAVBAR & MENU */}
       <Navbar />
+      {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
 
+      {/* PAGE CONTENT */}
       <div className={styles.content}>
         <h1>Promote your own events</h1>
         <p>

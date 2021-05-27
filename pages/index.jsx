@@ -13,7 +13,8 @@ import Buttons from '../components/Buttons'
 import Filter from "../components/Filter";
 
 export default function Home() {
-  const { showMenu, setShowMenu, showFilter, setShowFilter } = useContext(UsersContext);
+  //context data
+  const { showMenu, setShowMenu, showFilter} = useContext(UsersContext);
 
 
   // GET USERS POSITION ON MOUNT (maybe handled in context?)
@@ -37,6 +38,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.png" />
       </Head>
 
+      {/* NAVBAR & MENU */}
       {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
       <Navbar showMenu={showMenu} setShowMenu={setShowMenu} />
       
@@ -46,6 +48,7 @@ export default function Home() {
       {/* BUTTONS */}
       <Buttons />
 
+      {/* FILTER */}
       {showFilter&& <Filter/>}
       
 

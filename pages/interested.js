@@ -1,10 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
-import Navbar from "../components/Navbar";
 import fire from "../firebase";
 import styles from "../styles/Interested.module.css";
 import { UsersContext, DataContext } from "../context";
+
+//components
+import Navbar from "../components/Navbar";
+import Menu from "../components/Menu";
+
 export default function interested() {
-  const { userData } = useContext(UsersContext);
+  //context data
+  const { userData, showMenu, setShowMenu } = useContext(UsersContext);
+
+  //states
   const [cards, setCards] = useState([]);
 
   //get users interested array and set to cards state
@@ -36,7 +43,11 @@ export default function interested() {
   };
   return (
     <div className={styles.interested__container}>
+      {/* NAVBAR & MENU */}
       <Navbar />
+      {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
+
+      {/* PAGE CONTENT */}
       <div className={styles.cards}>
         <h3>interested</h3>
         {cards ? (

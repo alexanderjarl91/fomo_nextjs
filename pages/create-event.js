@@ -6,7 +6,12 @@ import fire from "../firebase";
 import styles from "../styles/CreateEvent.module.css";
 import { v4 as uuidv4 } from "uuid";
 
+//components
+import Menu from "../components/Menu";
+
 export default function createEvent() {
+  //context data
+  const { showMenu, setShowMenu } = useContext(userContext);
   const router = useRouter();
   const [event, setEvent] = useState({});
 
@@ -56,7 +61,11 @@ export default function createEvent() {
 
   return (
     <div className={styles.createEvent__container}>
+      {/* NAVBAR & MENU */}
       <Navbar />
+      {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
+
+      {/* PAGE CONTENT */}
       <div>
         <h2>Create Event</h2>
         <h3>Event details</h3>

@@ -55,8 +55,8 @@
   padding: 10px 38px;
   border-radius: 10px;
   font-weight: 600;
-
   margin: 0 auto;
+  cursor: pointer;
 }
 
 /* MENU FOOTER */
@@ -138,6 +138,7 @@
   width: 100%;
   padding-left: 50px;
   cursor: pointer;
+  transition: 0.2s ease-in-out;
 }
 
 .menu__nav > li:hover {
@@ -165,4 +166,9 @@
   width: 100px;
   margin: 0 auto;
   margin-top: 6px;
+  cursor: pointer;
+  transition: 0.1s ease-in;
+}
+.menu__nav > button:hover {
+  transform: scale(1.02);
 }

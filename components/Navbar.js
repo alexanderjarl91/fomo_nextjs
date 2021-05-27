@@ -34,13 +34,17 @@ export default function Navbar() {
 
   return (
     <>
-      {showMenu ? <Menu /> : null}
+      {/* {showMenu ? <Menu /> : null} */}
       <div className={styles.navbar__container}>
-        {router.query.event? 
-          <img src="/back_arrow2.svg" alt="" onClick={() => {
-            router.back()
-          }} />
-          : 
+        {router.query.event ? (
+          <img
+            src="/back_arrow2.svg"
+            alt=""
+            onClick={() => {
+              router.back();
+            }}
+          />
+        ) : (
           <img
             onClick={() => {
               setShowMenu(!showMenu);
@@ -48,8 +52,7 @@ export default function Navbar() {
             src="/hamburger.svg"
             alt=""
           />
-          
-        }
+        )}
         <img
           onClick={() => {
             router.push("/");
