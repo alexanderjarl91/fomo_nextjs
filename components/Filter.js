@@ -10,9 +10,11 @@ export default function Filter() {
     }
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-            <h1>FILTER</h1>
-            <p onClick={handleFilter}>x</p>
+            <div className={styles.filter}>
+                <div className={styles.header}>
+                <h1>FILTER</h1>
+                <p onClick={handleFilter}>x</p>
+                </div>
             </div>
         </div>
     )

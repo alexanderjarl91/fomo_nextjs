@@ -1,4 +1,36 @@
+/* animate menu in */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    top: 1000px;
+  }
+  100% {
+    top: 250px;
+  }
+}
+
 .container {
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  bottom: 0;
+
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+}
+
+.filter {
+  animation-name: slideUp;
+  animation-duration: 1s;
   position: absolute;
   bottom: 0;
   margin-top: 10rem;
@@ -7,7 +39,7 @@
   width: 100vw;
   max-width: 500px;
   margin: 0 auto;
-  background-color: #170505;
+  background-color: #161618;
   z-index: 99;
 }
 

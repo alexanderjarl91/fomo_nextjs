@@ -35,3 +35,11 @@
   border-radius: 70px;
   border: 1px solid #f5bbbb;
 }
+
+.event__button:hover {
+  transform: scale(1.03);
+}
+
+.interested__button:hover {
+  transform: scale(1.03);
+}
