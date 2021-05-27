@@ -16,7 +16,7 @@ const Menu = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
 
     <OutsideClickHandler
       onOutsideClick={() => {
