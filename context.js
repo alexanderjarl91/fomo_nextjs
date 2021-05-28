@@ -156,6 +156,7 @@ export const UsersProvider = ({ children }) => {
 
 export const DataContext = React.createContext();
 export const DataProvider = ({ children }) => {
+  const [cardsDisplayed, setCardsDisplayed] = useState([]);
   const [cards, setCards] = useState([]);
   const [activeCardIndex, setActiveCardIndex] = useState();
 

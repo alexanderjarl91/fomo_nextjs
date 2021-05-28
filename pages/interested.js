@@ -17,8 +17,6 @@ export default function interested() {
   //get users interested array and set to cards state
   useEffect(() => {
     if (!userData) return;
-    console.log("test1");
-    console.log(userData, "userdata");
     setCards(getInterestedEvents());
   }, [userData]);
 
@@ -31,21 +29,18 @@ export default function interested() {
     userData.interested?.forEach(async (item) => {
       const eventsRef = fire.firestore().collection("events");
       const snapshot = await eventsRef.where("eventId", "==", item).get();
-
       snapshot.forEach((doc) => {
-        // let tempCards = [...cards, doc.data()]
         tempCards.push(doc.data());
-        // console.log(tempCards,'tempCards')
       });
     });
-
     return tempCards;
   };
+
   return (
     <div className={styles.interested__container}>
       {/* NAVBAR & MENU */}
-      <Navbar />
       {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
+      <Navbar />
 
       {/* PAGE CONTENT */}
       <div className={styles.cards}>

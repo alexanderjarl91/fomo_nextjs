@@ -5,6 +5,7 @@
   min-width: 300px;
   max-width: 85%;
   height: 100vh;
+  max-height: 100vh;
   margin-top: 2rem;
   overflow: hidden;
 }
@@ -26,6 +27,8 @@
 
 .header__info > div {
   display: flex;
+  font-size: 20px;
+  font-weight: 200;
   gap: 10px;
 }
 
