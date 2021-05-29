@@ -55,3 +55,83 @@
 .header > h1 {
   margin-right: 5rem;
 }
+
+.filter__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.what__container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.what__headline {
+  display: flex;
+  align-items: baseline;
+}
+
+.what__container > div > h3 {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 35px;
+  margin-right: 4px;
+}
+
+.what__container > div > p {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 19px;
+  /* identical to box height */
+
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.what__buttonContainer {
+  display: grid;
+  margin-top: 8px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+  font-size: 18px;
+  line-height: 28px;
+
+  color: #ffffff;
+}
+
+.what__buttonContainer > li {
+  border: 1px solid white;
+  border-radius: 20px;
+}
+
+.what__buttonContainer > li:active {
+  border: none;
+  background-color: green;
+}
+
+.line {
+  height: 1px;
+  width: 300px;
+  color: gray;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin: 0 auto;
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+
+.save__btn {
+  background: #de6a7c;
+  border-radius: 20px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 28px;
+  width: 140px;
+  height: 40px;
+  color: #ffffff;
+  margin: 0 auto;
+  margin-top: 1rem;
+}

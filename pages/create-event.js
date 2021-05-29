@@ -11,17 +11,20 @@ import Menu from "../components/Menu";
 
 export default function createEvent() {
   //context data
-  const { showMenu, setShowMenu } = useContext(userContext);
+  const { showMenu, setShowMenu } = useContext(UsersContext);
   const router = useRouter();
   const [event, setEvent] = useState({});
+  const [categories, setCategories] = useState([])
 
-  const currentDate = new Date();
 
   const postEvent = () => {
     //add userId to event
     const tempEvent = event;
+    tempEvent.categories = categories
     tempEvent.uid = fire.auth().currentUser.uid;
     tempEvent.eventId = uuidv4();
+    tempEvent.status = "pending";
+
     setEvent(tempEvent);
     // post event to firestore events collection
     fire
@@ -59,11 +62,34 @@ export default function createEvent() {
     userRef.update({ events: tempEvents });
   };
 
+
+  // SET CATEGORIES
+  const addCategory = (category) => {
+    const tempCategories = categories
+    if (!categories.includes(category)) {
+      tempCategories.push(category)
+      setCategories(tempCategories)
+      return
+    } 
+
+    if (categories.includes(category)) {
+      const newArray = tempCategories.filter(e => e !== category)
+      setCategories(newArray)
+      return
+    }
+
+  }
+
+  useEffect(()=>{
+    console.log(categories)
+  },[categories])
+
+
   return (
     <div className={styles.createEvent__container}>
       {/* NAVBAR & MENU */}
-      <Navbar />
       {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
+      <Navbar />
 
       {/* PAGE CONTENT */}
       <div>
@@ -151,7 +177,7 @@ export default function createEvent() {
             type="number"
             name=""
             id=""
-            placeholder="Where is your event? (if it applies)"
+            placeholder="How much to enter? (if it applies)"
             onChange={(e) => {
               const tempEvent = event;
               tempEvent.price = e.target.value;
@@ -168,15 +194,38 @@ export default function createEvent() {
           <textarea
             type="text"
             cols="5"
-            placeholder="What should your action button say?"
+            placeholder="Describe your event in 300 characters or less"
             onChange={(e) => {
               const tempEvent = event;
-              tempEvent.actionButton = e.target.value;
+              tempEvent.description = e.target.value;
               setEvent(tempEvent);
             }}
           />
         </div>
 
+        <div>
+          <label htmlFor="">Category (select atleast 1 and 2 at most)</label>
+          <div className={styles.what__buttonContainer}>
+            <li onClick={()=> {
+              addCategory('music')
+            }}>music</li>
+            <li onClick={()=> {
+              addCategory('nightlife')
+            }}>nightlife</li>
+            <li onClick={()=> {
+              addCategory('art')
+            }}>art</li>
+            <li onClick={()=> {
+              addCategory('sports')
+            }}>sports</li>
+            <li onClick={()=> {
+              addCategory('food')
+            }}>food</li>
+            <li onClick={()=> {
+              addCategory('other')
+            }}>other</li>
+      </div>
+      </div>
         <div>
           <label htmlFor="">Action button text</label>
           <input

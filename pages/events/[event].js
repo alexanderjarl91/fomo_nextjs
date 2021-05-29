@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
-import Link from 'next/link'
+import Link from "next/link";
 import fire from "../../firebase";
 import styles from "../../styles/Event.module.css";
 import { UsersContext, DataContext } from "../../context";
-
 
 //components
 import Navbar from "../../components/Navbar";
 
 export default function Event() {
   //context data
-  const {userData} = useContext(UsersContext)
+  const { userData } = useContext(UsersContext);
 
   //initialize router
   const router = useRouter();
@@ -28,7 +27,7 @@ export default function Event() {
   useEffect(() => {
     console.log(`event`, event);
   }, [event]);
-  
+
   // get clicked event data
   const matchEventWithQuery = async () => {
     const eventsRef = fire.firestore().collection("events");
@@ -36,24 +35,49 @@ export default function Event() {
     const foundEvent = await queryRef.get();
     foundEvent.forEach((doc) => setEvent(doc.data()));
   };
-  
-  
+
   const checkIfUserIsInterested = () => {
     //check if users interested array includes the eventId from query, set boolean state accordingly
-    setIsInterested(userData.interested.includes(router.query.event))
-  }
+    setIsInterested(userData.interested.includes(router.query.event));
+  };
 
   useEffect(() => {
-    if (!userData) return
-    checkIfUserIsInterested()
-  }, [userData])
+    if (!userData) return;
+    checkIfUserIsInterested();
+  }, [userData]);
 
   useEffect(() => {
-    console.log('is user interested in this event?', isInterested)
-  }, [isInterested])
-
+    console.log("is user interested in this event?", isInterested);
+  }, [isInterested]);
 
   // BUILD THE SET AS INTERESTED/REMOVE FROM INTERESTED FUNCTION
+  const saveToInterested = async () => {
+    const currentEventId = router.query.event;
+    // get current users interested array
+    const userRef = await fire
+      .firestore()
+      .collection("users")
+      .doc(fire.auth().currentUser.email);
+    const doc = await userRef.get();
+    // // create a temp array and fill it with firestore data
+    let tempInterested = [];
+    if (!doc.exists) return;
+    if (doc.data().interested) {
+      tempInterested = doc.data().interested;
+    }
+
+    // if user is already interested in this event, remove it
+    if (tempInterested.includes(currentEventId)) {
+      const newTemp = tempInterested.filter((e) => e !== currentEventId);
+      userRef.update({ interested: newTemp });
+
+      return;
+    }
+    // push current eventId to temporary interested array
+    tempInterested.push(currentEventId);
+    // save new interested array to firestore
+    userRef.update({ interested: tempInterested });
+  };
 
   return (
     <>
@@ -93,39 +117,53 @@ export default function Event() {
                 </div>
                 <div>
                   <img src="/time_icon.svg" alt="" />
-                  <p>19:15</p>
+                  <p>{event.time}</p>
                 </div>
               </div>
 
               <p className={styles.description}>{event.description}</p>
 
               <div className={styles.footer__btns}>
+                <a
+                  className={styles.action__btn}
+                  href={`${event.url}`}
+                  target="_blank"
+                >
+                  KAUPA MIÐA
+                </a>
+                <div className={styles.bottom__btns}>
+                  <button className={styles.share__btn}>SHARE</button>
 
-              <button className={styles.action__btn}>KAUPA MIÐA</button>
-              <div className={styles.bottom__btns}>
-                <button className={styles.share__btn}>SHARE</button>
+                  {!fire.auth().currentUser && (
+                    <Link href="/signup">
+                      <img src="/heart_empty.svg" alt="" />
+                    </Link>
+                  )}
 
-                {!fire.auth().currentUser&& 
-                  <Link href="/signup">
-                    <img src="/heart_empty.svg" alt="" />
-                  </Link>
-                }
-                
-                {fire.auth().currentUser&&
-                <>
-                {isInterested? 
-                <img src="/heart_fill.svg" alt="" />
-              : <img src="/heart_empty.svg" alt="" />
-            }
-                </>
-                }
-
-
-
-
+                  {fire.auth().currentUser && (
+                    <>
+                      {isInterested ? (
+                        <img
+                          src="/heart_fill.svg"
+                          alt=""
+                          onClick={() => {
+                            saveToInterested();
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src="/heart_empty.svg"
+                          alt=""
+                          onClick={() => {
+                            saveToInterested();
+                          }}
+                        />
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
           )}
         </div>
       )}

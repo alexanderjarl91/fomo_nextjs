@@ -1,6 +1,6 @@
 .createEvent__container {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
   overflow: initial;
 }
 
@@ -59,4 +59,20 @@
   padding: 10px 38px;
   border-radius: 10px;
   font-weight: 600;
+}
+
+.what__buttonContainer {
+  display: grid;
+  margin-top: 8px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+  font-size: 18px;
+  line-height: 28px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.what__buttonContainer > li {
+  border: 1px solid white;
+  border-radius: 20px;
 }
