@@ -4,14 +4,15 @@ import fire from "../firebase";
 import { useRouter } from "next/router";
 import { UsersContext } from "../context";
 import OutsideClickHandler from "react-outside-click-handler";
+import {Animated} from "react-animated-css";
 
-import Fade from "./Fade";
 
 const Menu = () => {
   const { userData, showMenu, setShowMenu } = useContext(UsersContext);
   const router = useRouter();
 
-const [show , setShow] = useState(showMenu)
+  const [show, setShow] = useState(showMenu)
+  
   // Route to X parameter function
   const routeTo = (route) => {
     router.push(`/${route}`);
@@ -22,18 +23,10 @@ const [show , setShow] = useState(showMenu)
     <div className={styles.container}>
       <OutsideClickHandler
         onOutsideClick={() => {
-          // const menu = document.querySelector("#menu");
-          // console.log(menu);
-          // // menu.style.animationDirection = "reverse";
-          // // menu.style.animationPlayState = "running";
-          // // menu.style.animationDuration = "2s";
-          // menu.style.animationName = { styles };
-          // console.log(menu);
           setShow(!show);
         }}
       >
-        <Fade show={show}>
-
+        <Animated animationIn="bounceInLeft" animationOut="fadeOut" isVisible={show} animationInDuration={500} animationOutDuration={500}>
         <div className={styles.menu}>
           {fire.auth().currentUser ? (
             <>
@@ -159,7 +152,7 @@ const [show , setShow] = useState(showMenu)
             <p className={styles.copyright}>Pippen ehf © 2021</p>
           </div>
         </div>
-        </Fade>
+        </Animated>
       </OutsideClickHandler>
     </div>
   );
