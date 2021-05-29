@@ -39,8 +39,8 @@ export default function Home() {
       </Head>
 
       {/* NAVBAR & MENU */}
-      {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
       <Navbar showMenu={showMenu} setShowMenu={setShowMenu} />
+
       
       {/* EVENT CARDS */}
       <EventCards />

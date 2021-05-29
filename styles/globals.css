@@ -35,3 +35,42 @@ input,
 li {
   all: unset;
 }
+
+/* @keyframes fadeIn {
+  0% {
+      left: -300px;
+      top: 0px;
+    }
+    100% {
+      left: 0px;
+      top: 0px;
+    }
+}
+
+@keyframes fadeOut {
+  0% {
+      left: -300px;
+      top: 0px;
+    }
+   100% {
+      left: 0px;
+      top: 0px;
+    }
+} */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

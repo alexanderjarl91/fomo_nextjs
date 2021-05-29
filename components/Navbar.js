@@ -34,7 +34,9 @@ export default function Navbar() {
 
   return (
     <>
-      {/* {showMenu ? <Menu /> : null} */}
+      {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
+      {/* {<Menu showMenu={showMenu} setShowMenu={setShowMenu} /> } */}
+
       <div className={styles.navbar__container}>
         {router.query.event ? (
           <img

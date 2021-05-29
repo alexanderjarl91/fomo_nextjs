@@ -1,0 +1,21 @@
+@keyframes fadeIn {
+    0% {
+        left: -300px;
+        top: 0px;
+      }
+      100% {
+        left: 0px;
+        top: 0px;
+      }
+  }
+  
+  @keyframes fadeOut {
+    0% {
+        left: -300px;
+        top: 0px;
+      }
+     100% {
+        left: 0px;
+        top: 0px;
+      }
+  }

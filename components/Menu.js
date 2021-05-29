@@ -5,10 +5,13 @@ import { useRouter } from "next/router";
 import { UsersContext } from "../context";
 import OutsideClickHandler from "react-outside-click-handler";
 
+import Fade from "./Fade";
+
 const Menu = () => {
   const { userData, showMenu, setShowMenu } = useContext(UsersContext);
   const router = useRouter();
 
+const [show , setShow] = useState(showMenu)
   // Route to X parameter function
   const routeTo = (route) => {
     router.push(`/${route}`);
@@ -17,140 +20,148 @@ const Menu = () => {
 
   return (
     <div className={styles.container}>
-
-    <OutsideClickHandler
-      onOutsideClick={() => {
-        setShowMenu(false);
-      }}
+      <OutsideClickHandler
+        onOutsideClick={() => {
+          // const menu = document.querySelector("#menu");
+          // console.log(menu);
+          // // menu.style.animationDirection = "reverse";
+          // // menu.style.animationPlayState = "running";
+          // // menu.style.animationDuration = "2s";
+          // menu.style.animationName = { styles };
+          // console.log(menu);
+          setShow(!show);
+        }}
       >
-      <div className={styles.menu}>
-        {fire.auth().currentUser ? (
-          <>
-            <div className={styles.menu__profile}>
-              <img
-                className={styles.menu__avatar}
-                src={fire.auth().currentUser.photoURL}
-                alt=""
+        <Fade show={show}>
+
+        <div className={styles.menu}>
+          {fire.auth().currentUser ? (
+            <>
+              <div className={styles.menu__profile}>
+                <img
+                  className={styles.menu__avatar}
+                  src={fire.auth().currentUser.photoURL}
+                  alt=""
                 />
-              <h1>{fire.auth().currentUser.displayName}</h1>
-              <p>festival lover</p>
-            </div>
+                <h1>{fire.auth().currentUser.displayName}</h1>
+                <p>festival lover</p>
+              </div>
 
-            <div className={styles.menu__nav}>
-              <li
-                onClick={() => {
-                  routeTo("");
-                }}
+              <div className={styles.menu__nav}>
+                <li
+                  onClick={() => {
+                    routeTo("");
+                  }}
                 >
-                <img src="/menu_icons/events.svg" alt="" />
-                <p>Events</p>
-              </li>
-              <li
-                onClick={() => {
-                  routeTo("interested");
-                }}
+                  <img src="/menu_icons/events.svg" alt="" />
+                  <p>Events</p>
+                </li>
+                <li
+                  onClick={() => {
+                    routeTo("interested");
+                  }}
                 >
-                <img src="/menu_icons/interested.svg" alt="" />
-                <p>Interested</p>
-              </li>
-              <li
-                onClick={() => {
-                  routeTo("profile");
-                }}
+                  <img src="/menu_icons/interested.svg" alt="" />
+                  <p>Interested</p>
+                </li>
+                <li
+                  onClick={() => {
+                    routeTo("profile");
+                  }}
                 >
-                <img src="/menu_icons/user.svg" alt="" />
-                <p>My profile</p>
-              </li>
+                  <img src="/menu_icons/user.svg" alt="" />
+                  <p>My profile</p>
+                </li>
 
-              {userData && userData.promoter ? (
-                <>
-                  <li
-                    onClick={() => {
-                      routeTo("my-events");
-                    }}
+                {userData && userData.promoter ? (
+                  <>
+                    <li
+                      onClick={() => {
+                        routeTo("my-events");
+                      }}
                     >
-                    <img src="/menu_icons/events.svg" alt="" />
-                    <p>My events</p>
-                  </li>
-                  <button
+                      <img src="/menu_icons/events.svg" alt="" />
+                      <p>My events</p>
+                    </li>
+                    <button
+                      onClick={() => {
+                        router.push("/create-event");
+                        setShowMenu(false);
+                      }}
+                    >
+                      Create event
+                    </button>
+                  </>
+                ) : null}
+              </div>
+            </>
+          ) : (
+            // NOT LOGGED IN
+            <div className={styles.loggedOut__container}>
+              <img
+                onClick={() => {
+                  setShowMenu(!showMenu);
+                }}
+                src="/fomo_logo.svg"
+                alt=""
+              />
+              <p>
+                Sign up to see more events and use all of the fomo features or
+                promote your own event!
+              </p>
+              <button
+                onClick={() => {
+                  routeTo("signup");
+                }}
+              >
+                Sign up
+              </button>
+              <p>
+                {" "}
+                or{" "}
+                <strong>
+                  <button>sign in</button>
+                </strong>{" "}
+                with an existing Google account
+              </p>
+            </div>
+          )}
+
+          {/* FOOTER  */}
+          <div className={styles.footer}>
+            <div className={styles.footer__line}></div>
+            <ul>
+              {!userData || (userData && !userData.promoter) ? (
+                <li>
+                  <p
+                    style={{ cursor: "pointer" }}
                     onClick={() => {
-                      router.push("/create-event");
+                      router.push("/promoter");
                       setShowMenu(false);
                     }}
-                    >
-                    Create event
-                  </button>
-                </>
-              ) : null}
-            </div>
-          </>
-        ) : (
-          // NOT LOGGED IN
-          <div className={styles.loggedOut__container}>
-            <img
-              onClick={() => {
-                setShowMenu(!showMenu);
-              }}
-              src="/fomo_logo.svg"
-              alt=""
-              />
-            <p>
-              Sign up to see more events and use all of the fomo features or
-              promote your own event!
-            </p>
-            <button
-              onClick={() => {
-                routeTo("signup");
-              }}
-              >
-              Sign up
-            </button>
-            <p>
-              {" "}
-              or{" "}
-              <strong>
-                <button>sign in</button>
-              </strong>{" "}
-              with an existing Google account
-            </p>
-          </div>
-        )}
-
-        {/* FOOTER  */}
-        <div className={styles.footer}>
-          <div className={styles.footer__line}></div>
-          <ul>
-            {!userData || (userData && !userData.promoter) ? (
-              <li>
-                <p
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    router.push("/promoter");
-                    setShowMenu(false);
-                  }}
                   >
-                  <strong>Become a promoter</strong>
-                </p>
+                    <strong>Become a promoter</strong>
+                  </p>
+                </li>
+              ) : null}
+              <li>
+                <a href="">About us</a>
               </li>
-            ) : null}
-            <li>
-              <a href="">About us</a>
-            </li>
-            <li>
-              <a href="">Contact us</a>
-            </li>
-          </ul>
+              <li>
+                <a href="">Contact us</a>
+              </li>
+            </ul>
 
-          <div className={styles.footer__socialIcons}>
-            <img src="/facebook.svg" alt="" />
-            <img src="/instagram.svg" alt="" />
-          </div>
-          <p className={styles.copyright}>Pippen ehf © 2021</p>
-        </div>
-      </div>
-    </OutsideClickHandler>
+            <div className={styles.footer__socialIcons}>
+              <img src="/facebook.svg" alt="" />
+              <img src="/instagram.svg" alt="" />
             </div>
+            <p className={styles.copyright}>Pippen ehf © 2021</p>
+          </div>
+        </div>
+        </Fade>
+      </OutsideClickHandler>
+    </div>
   );
 };
 export default Menu;
-// export default onClickOutside(Menu, clickOutsideConfig);
