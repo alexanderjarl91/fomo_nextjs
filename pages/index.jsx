@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useContext } from "react";
 
-import Head from 'next/head'
-import styles from '../styles/Index.module.css'
+import Head from "next/head";
+import styles from "../styles/Index.module.css";
 
 import { UsersContext, DataContext } from "../context";
 
 //components
-import Navbar from '../components/Navbar'
-import Menu from '../components/Menu'
-import EventCards from '../components/EventCards'
-import Buttons from '../components/Buttons'
+import Navbar from "../components/Navbar";
+import Menu from "../components/Menu";
+import EventCards from "../components/EventCards";
+import Buttons from "../components/Buttons";
 import Filter from "../components/Filter";
+import Sidebar from "react-sidebar";
 
 export default function Home() {
   //context data
-  const { showMenu, setShowMenu, showFilter} = useContext(UsersContext);
-
+  const { showMenu, setShowMenu, showFilter } = useContext(UsersContext);
 
   // GET USERS POSITION ON MOUNT (maybe handled in context?)
   useEffect(() => {
@@ -25,10 +25,19 @@ export default function Home() {
     } else {
       console.log("Not Available");
     }
-    navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position)
-    }, (err) => console.log('err:', err), {maximumAge:60000, timeout:5000, enableHighAccuracy:true})
-  }, [])
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log(position);
+      },
+      (err) => console.log("err:", err),
+      { maximumAge: 60000, timeout: 5000, enableHighAccuracy: true }
+    );
+  }, []);
+
+  const [sidebarOpen, setSidebarOpen] = useState(showMenu);
+  const onSetSidebarOpen = () => {
+    setSidebarOpen(true);
+  };
 
   return (
     <div className={styles.container}>
@@ -39,21 +48,31 @@ export default function Home() {
       </Head>
 
       {/* NAVBAR & MENU */}
-      {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
-      <Navbar showMenu={showMenu} setShowMenu={setShowMenu} />
-      
-      {/* EVENT CARDS */}
-      <EventCards />
+      {
+        <Sidebar
+          sidebar={<Menu showMenu={showMenu} setShowMenu={setShowMenu} />}
+          open={showMenu}
+          onSetOpen={(e) => setShowMenu(true)}
+          transitions={true}
+          styles={{
+            sidebar: {
+              transition: "transform 0.75s ease-out",
+              WebkitTransition: "-webkit-transform 0.75s ease-out",
+            },
+          }}
+        >
+          <Navbar showMenu={showMenu} setShowMenu={setShowMenu} />
 
-      {/* BUTTONS */}
-      <Buttons />
+          {/* EVENT CARDS */}
+          <EventCards />
 
-      {/* FILTER */}
-      {showFilter&& <Filter/>}
-      
+          {/* BUTTONS */}
+          <Buttons />
 
-
-
+          {/* FILTER */}
+          {showFilter && <Filter />}
+        </Sidebar>
+      }
     </div>
-  )
+  );
 }

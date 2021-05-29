@@ -15,10 +15,11 @@ const Menu = () => {
     setShowMenu(!showMenu);
   };
 
+
   return (
     <div className={styles.container}>
 
-    <OutsideClickHandler
+<OutsideClickHandler
       onOutsideClick={() => {
         setShowMenu(false);
       }}
@@ -148,7 +149,7 @@ const Menu = () => {
           <p className={styles.copyright}>Pippen ehf © 2021</p>
         </div>
       </div>
-    </OutsideClickHandler>
+      </OutsideClickHandler>
             </div>
   );
 };
