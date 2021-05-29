@@ -21,8 +21,8 @@ export default function signup({}) {
   return (
     <div>
       {/* NAVBAR & MENU */}
-      <Navbar />
       {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
+      <Navbar />
 
       {/* PAGE CONTENT */}
       <div className={styles.signup__container}>

@@ -16,7 +16,6 @@ export default function Home() {
   //context data
   const { showMenu, setShowMenu, showFilter} = useContext(UsersContext);
 
-
   // GET USERS POSITION ON MOUNT (maybe handled in context?)
   useEffect(() => {
     //check if location is allowed

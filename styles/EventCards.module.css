@@ -25,9 +25,9 @@
   border-radius: 16px;
   background-size: cover;
   background-position: center;
-  border: 1px solid #f5bbbb;
+  /* border: 1px solid #f5bbbb; */
   box-sizing: border-box;
-  box-shadow: 6px 7px 23px -8px rgba(245, 187, 187, 0.01);
+  /* box-shadow: 6px 7px 23px -8px rgba(245, 187, 187, 0.01); */
 }
 
 /* .card:hover > .card__front {

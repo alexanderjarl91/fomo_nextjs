@@ -17,8 +17,8 @@ export default function profile() {
   return (
     <div className={styles.profile__container}>
       {/* NAVBAR & MENU */}
-      <Navbar />
       {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
+      <Navbar />
 
       {/* PAGE CONTENT */}
       {fire.auth().currentUser ? (
