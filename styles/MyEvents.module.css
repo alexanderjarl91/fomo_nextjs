@@ -1,0 +1,65 @@
+.event__container {
+  background-color: white;
+  padding: 20px;
+  color: #161618;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 1rem;
+  border-radius: 12px;
+}
+
+.event__container > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 0px 10px 0px;
+}
+
+.event__container > h1 {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 100%;
+  margin-bottom: 4px;
+  margin-top: 4px;
+}
+
+.pending {
+  background: #d8dc25;
+  padding: 4px 12px;
+  min-width: 80px;
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  border-radius: 7px;
+}
+
+.active {
+  background: #45dd94;
+  padding: 4px 12px;
+  min-width: 80px;
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  border-radius: 7px;
+}
+
+.passed {
+  background: #e91414;
+  padding: 4px 12px;
+  min-width: 80px;
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  border-radius: 7px;
+}
+
+.line {
+  height: 4px;
+  width: 100%;
+  opacity: 0.1;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  color: black;
+  background-color: black;
+}

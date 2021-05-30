@@ -3,19 +3,11 @@
   height: 100vh;
   background: rgba(0, 0, 0, 0.8);
   z-index: 100;
-  position: absolute;
-}
 
-/* animate menu in */
-@keyframes example {
-  0% {
-    left: -300px;
-    top: 0px;
-  }
-  100% {
-    left: 0px;
-    top: 0px;
-  }
+  position: absolute;
+
+
+  /* background: #de6a7c; */
 }
 
 .menu {
@@ -29,9 +21,11 @@
   font-family: Saira Condensed;
   font-size: 18px;
   line-height: 29px;
-  animation-name: example;
-  animation-duration: 0.5s;
+  left:0px;
 }
+
+
+
 
 .copyright {
   position: absolute;

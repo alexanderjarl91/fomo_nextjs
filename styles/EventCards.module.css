@@ -30,14 +30,6 @@
   /* box-shadow: 6px 7px 23px -8px rgba(245, 187, 187, 0.01); */
 }
 
-/* .card:hover > .card__front {
-  transform: rotateY(180deg);
-}
-
-.card:hover > .card__back {
-  transform: rotateY(0);
-} */
-
 /* CARD DATA */
 .card__front > h3 {
   position: absolute;
@@ -179,4 +171,13 @@
   align-content: center;
   margin: 0 auto;
   margin-top: 1rem;
+}
+
+.gradient {
+  position: absolute;
+  bottom: 0;
+  height: 300px;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0), #000000 120%);
+  border-radius: 0px 0px 16px 16px;
 }

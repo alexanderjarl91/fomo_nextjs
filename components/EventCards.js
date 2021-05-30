@@ -47,9 +47,10 @@ function EventCards() {
               <div
                 className={styles.card__front}
                 style={{
-                  backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(${card.image})`,
+                  backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
                 }}
               >
+                <div className={styles.gradient}></div>
                 <h3>{card.title}</h3>
                 <div className={styles.location__container}>
                   <img src="/location_pin.svg" alt="" />
@@ -58,43 +59,6 @@ function EventCards() {
                 <div className={styles.date__container}>
                   <img src="/date.svg" alt="" />
                   <p>{card.date}</p>
-                </div>
-              </div>
-
-              {/* BACKSIDE */}
-              <div
-                className={styles.card__back}
-                style={{
-                  backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) ), url(${card.image})`,
-                }}
-              >
-                <div className={styles.backside__content}>
-                  <div className={styles.backside__header}>
-                    <p>{card.promoter}</p>
-                    <h3>{card.title}</h3>
-                    <div className={styles.header__info}>
-                      <div>
-                        <img src="/location_pin.svg" alt="" />
-                        <p>{card.location}</p>
-                      </div>
-                      <div>
-                        <img src="/date.svg" alt="" />
-                        <p>{card.date}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <p>{card.description}</p>
-                  <div className={styles.backside__footer}>
-                    <div>
-                      <button>share</button>
-                      {card && card.price > 0 ? (
-                        <h2>{card.price}</h2>
-                      ) : (
-                        <h3></h3>
-                      )}
-                    </div>
-                    <button>{card.actionButton}</button>
-                  </div>
                 </div>
               </div>
             </div>
