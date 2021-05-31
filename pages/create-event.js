@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
+import Head from "next/head";
 import { UsersContext } from "../context";
 import { useRouter } from "next/router";
 import fire from "../firebase";
@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 
 //components
 import Menu from "../components/Menu";
+import PlacesInput from "../components/PlacesInput";
 
 export default function createEvent() {
   //context data
@@ -15,6 +16,11 @@ export default function createEvent() {
   const router = useRouter();
   const [event, setEvent] = useState({});
   const [categories, setCategories] = useState([]);
+  const [address, setAddress] = useState("");
+  const [coordinates, setCoordinates] = useState({
+    lat: null,
+    lng: null,
+  });
 
   const postEvent = () => {
     //add userId to event
@@ -23,6 +29,9 @@ export default function createEvent() {
     tempEvent.uid = fire.auth().currentUser.uid;
     tempEvent.eventId = uuidv4();
     tempEvent.status = "pending";
+    event.location = {}
+    event.location.name = address
+    event.location.coordinates = coordinates
 
     setEvent(tempEvent);
     // post event to firestore events collection
@@ -124,7 +133,7 @@ export default function createEvent() {
           />
         </div>
 
-        <div>
+        {/* <div>
           <label htmlFor="">Location</label>
           <input
             type="text"
@@ -137,7 +146,19 @@ export default function createEvent() {
               setEvent(tempEvent);
             }}
           />
-        </div>
+        </div> */}
+        
+          <div>
+          <label htmlFor="">Location</label>
+          </div>
+            
+          <PlacesInput
+            address={address}
+            setAddress={setAddress}
+            coordinates={coordinates}
+            setCoordinates={setCoordinates}
+          />
+        
 
         <div>
           <label htmlFor="">Date</label>

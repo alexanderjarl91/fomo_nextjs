@@ -24,6 +24,9 @@ export default function Layout({ children }) {
           transition: "transform 0.75s ease-out",
           WebkitTransition: "-webkit-transform 0.75s ease-out",
         },
+        overlay: {
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+        },
       }}
     >
       <Navbar showMenu={showMenu} setShowMenu={setShowMenu} />

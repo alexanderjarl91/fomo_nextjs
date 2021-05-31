@@ -4,8 +4,8 @@
   margin: 0 auto;
   min-width: 300px;
   max-width: 85%;
-  height: 100vh;
-  max-height: 100vh;
+  height: 80vh;
+  max-height: 80vh;
   margin-top: 2rem;
   overflow: hidden;
 }

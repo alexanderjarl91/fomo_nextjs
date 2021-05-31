@@ -102,7 +102,7 @@ export default function Event() {
                 </div>
                 <div>
                   <img src="/location_pin.svg" alt="" />
-                  <p>{event.location}</p>
+                  <p>{event.location.name}</p>
                 </div>
               </div>
               {/* TITLE */}

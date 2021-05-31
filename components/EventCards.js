@@ -54,7 +54,7 @@ function EventCards() {
                 <h3>{card.title}</h3>
                 <div className={styles.location__container}>
                   <img src="/location_pin.svg" alt="" />
-                  <p>{card.location}</p>
+                  <p>{card.location.name}</p>
                 </div>
                 <div className={styles.date__container}>
                   <img src="/date.svg" alt="" />

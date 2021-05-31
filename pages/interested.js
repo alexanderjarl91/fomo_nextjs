@@ -89,10 +89,12 @@ export default function interested() {
                   <div className={styles.closed__content}>
                     <h1>{card.title}</h1>
                     <div className={styles.info__container}>
-                      <div>
-                        <img src="/location_pin.svg" alt="" />
-                        <p>{card.location}</p>
-                      </div>
+                      {/* {card.location.name && (
+                        <div>
+                          <img src="/location_pin.svg" alt="" />
+                          <p>{card.location.name}</p>
+                        </div>
+                      )} */}
                       <div>
                         <img src="/date.svg" alt="" />
                         <p>{card.date}</p>
