@@ -37,7 +37,7 @@
   left: 20px;
   font-weight: 600;
   font-size: 28px;
-  line-height: 45px;
+  line-height: 35px;
   max-width: 260px;
 }
 
@@ -62,90 +62,6 @@
 
 .date__container > img {
   margin-right: 5px;
-}
-
-/* BACKSIDE */
-
-.card__back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 600px;
-  max-width: 80vw;
-  height: 58vh;
-  border-radius: 16px;
-  background-size: cover;
-  background-position: center;
-  box-sizing: border-box;
-  box-shadow: 6.3963px 7.46235px 23.5384px -8.5284px rgba(245, 187, 187, 0.18);
-  transform: rotateY(180deg);
-}
-
-.backside__content {
-  margin: 2rem auto;
-  text-align: left;
-  max-width: 280px;
-}
-
-.backside__header {
-  text-align: center;
-  margin-bottom: 1rem;
-  margin: 0 auto;
-}
-.backside__header > h3 {
-  font-size: 24px;
-}
-
-.backside__header > p {
-  font-size: 16px;
-  line-height: 12px;
-}
-
-.header__info {
-  display: flex;
-  justify-content: space-between;
-  max-width: 250px;
-  margin: 0 auto;
-  margin-bottom: 1rem;
-}
-
-.header__info > div {
-  display: flex;
-}
-
-.backside__footer {
-  position: absolute;
-  width: 280px;
-  bottom: 30px;
-  text-align: center;
-}
-
-.backside__footer > div {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 2rem;
-}
-
-.backside__footer > div > button {
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 5px 10px;
-  color: white;
-  background-color: rgba(255, 255, 255, 0.1);
-  font-weight: 600;
-}
-
-.backside__footer > div > button:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
-.backside__footer > button {
-  background-color: #de6a7c;
-  padding: 8px;
-  border-radius: 10px;
-  font-weight: 600;
-  width: 200px;
-  margin: 0 auto;
-  color: white;
 }
 
 .swipe {

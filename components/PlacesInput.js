@@ -26,6 +26,7 @@ export default function places({
 
   return (
     <>
+    <label htmlFor="">Location</label>
       <PlacesAutocomplete
         value={address}
         onChange={setAddress}

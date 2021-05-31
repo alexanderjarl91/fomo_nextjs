@@ -74,7 +74,7 @@ export default function interested() {
     <div className={styles.interested__container}>
       {/* PAGE CONTENT */}
       <div className={styles.cards}>
-        <h3>interested</h3>
+        <h3>Interested</h3>
         {cards ? (
           <>
             {cards.map((card) => (
@@ -86,19 +86,11 @@ export default function interested() {
                     background: `linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url(${card.image})`,
                   }}
                 >
-                  <div className={styles.closed__content}>
+                  <div className={styles.info__container}>
                     <h1>{card.title}</h1>
-                    <div className={styles.info__container}>
-                      {/* {card.location.name && (
-                        <div>
-                          <img src="/location_pin.svg" alt="" />
-                          <p>{card.location.name}</p>
-                        </div>
-                      )} */}
-                      <div>
-                        <img src="/date.svg" alt="" />
-                        <p>{card.date}</p>
-                      </div>
+                    <div style={{ display: "flex" }}>
+                      <img src="/date.svg" alt="" />
+                      <p>{card.date}</p>
                     </div>
                   </div>
                 </div>

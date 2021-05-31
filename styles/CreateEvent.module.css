@@ -1,7 +1,17 @@
 .createEvent__container {
-  /* display: flex;
-  flex-direction: column; */
   overflow: initial;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 1rem;
+}
+
+.createEvent__container > h2 {
+  margin-right: 3rem;
+}
+
+.headline {
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .createEvent__container > p {
@@ -11,7 +21,7 @@
 
 .event__form {
   width: 80%;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -63,7 +73,7 @@
 
 .what__buttonContainer {
   display: grid;
-  margin-top: 8px;
+  margin-top: 18px;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
   font-size: 18px;
@@ -75,4 +85,11 @@
 .what__buttonContainer > li {
   border: 1px solid white;
   border-radius: 20px;
+  cursor: pointer;
+  padding: 4px 0px;
+}
+
+.active {
+  background: rgba(245, 187, 187, 0.8);
+  border: unset;
 }

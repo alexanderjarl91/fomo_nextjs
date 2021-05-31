@@ -29,9 +29,9 @@ export default function createEvent() {
     tempEvent.uid = fire.auth().currentUser.uid;
     tempEvent.eventId = uuidv4();
     tempEvent.status = "pending";
-    event.location = {}
-    event.location.name = address
-    event.location.coordinates = coordinates
+    event.location = {};
+    event.location.name = address;
+    event.location.coordinates = coordinates;
 
     setEvent(tempEvent);
     // post event to firestore events collection
@@ -85,22 +85,26 @@ export default function createEvent() {
       return;
     }
   };
-
-  useEffect(() => {
-    console.log(categories);
-  }, [categories]);
+  
+  //toggle active class to change style & run addCategory function
+  const handleSelect = (element, category) => {
+     element.classList.toggle(styles.active)
+      addCategory(category)
+  }
 
   return (
     <div className={styles.createEvent__container}>
       {/* PAGE CONTENT */}
-      <div>
-        <h2>Create Event</h2>
+      <h2>Create Event</h2>
+      <div className={styles.headline}>
+
         <h3>Event details</h3>
         <p>
-          Lets build your ad, fill in the details below for a preview of your
+          Lets build your event card, fill in the details below for a preview of your
           event.
         </p>
       </div>
+      
 
       <div className={styles.event__form}>
         <div>
@@ -147,18 +151,16 @@ export default function createEvent() {
             }}
           />
         </div> */}
-        
-          <div>
-          <label htmlFor="">Location</label>
-          </div>
-            
-          <PlacesInput
-            address={address}
-            setAddress={setAddress}
-            coordinates={coordinates}
-            setCoordinates={setCoordinates}
+
+        <div>
+
+        <PlacesInput
+          address={address}
+          setAddress={setAddress}
+          coordinates={coordinates}
+          setCoordinates={setCoordinates}
           />
-        
+          </div>
 
         <div>
           <label htmlFor="">Date</label>
@@ -220,43 +222,44 @@ export default function createEvent() {
           <label htmlFor="">Category (select atleast 1 and 2 at most)</label>
           <div className={styles.what__buttonContainer}>
             <li
-              onClick={() => {
-                addCategory("music");
+              onClick={(e) => {
+                // addCategory("music");
+                handleSelect(e.target, "music")
               }}
             >
               music
             </li>
             <li
-              onClick={() => {
-                addCategory("nightlife");
+              onClick={(e) => {
+                handleSelect(e.target, "nightlife")
               }}
             >
               nightlife
             </li>
             <li
-              onClick={() => {
-                addCategory("art");
+              onClick={(e) => {
+                handleSelect(e.target, "art")
               }}
             >
               art
             </li>
             <li
-              onClick={() => {
-                addCategory("sports");
+              onClick={(e) => {
+                handleSelect(e.target, "sports")
               }}
             >
               sports
             </li>
             <li
-              onClick={() => {
-                addCategory("food");
+              onClick={(e) => {
+                handleSelect(e.target, "food")
               }}
             >
               food
             </li>
             <li
-              onClick={() => {
-                addCategory("other");
+              onClick={(e) => {
+                handleSelect(e.target, "other")
               }}
             >
               other

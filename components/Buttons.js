@@ -50,7 +50,9 @@ export default function Buttons() {
             saveToInterested();
           }}
           className={styles.interested__button}
-        ></div>
+        >
+          <img src="/buttons/heart_btn.svg" alt="" />
+        </div>
       ) : (
         <div
           onClick={() => {

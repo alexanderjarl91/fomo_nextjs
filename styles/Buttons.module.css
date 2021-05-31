@@ -27,6 +27,7 @@
 }
 
 .interested__button {
+  display: flex;
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -34,6 +35,9 @@
   width: 70px;
   border-radius: 70px;
   border: 1px solid #f5bbbb;
+}
+.interested__button > img {
+  width: 26px;
 }
 
 .event__button:hover {
