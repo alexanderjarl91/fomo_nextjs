@@ -34,7 +34,6 @@ export default function Navbar() {
 
   return (
     <>
-
       <div className={styles.navbar__container}>
         {router.query.event ? (
           <img
@@ -51,6 +50,7 @@ export default function Navbar() {
             }}
             src="/hamburger.svg"
             alt=""
+            className={styles.hamburger}
           />
         )}
         <img

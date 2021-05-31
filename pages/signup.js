@@ -20,10 +20,6 @@ export default function signup({}) {
 
   return (
     <div>
-      {/* NAVBAR & MENU */}
-      {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
-      <Navbar />
-
       {/* PAGE CONTENT */}
       <div className={styles.signup__container}>
         <h1>Sign in</h1>

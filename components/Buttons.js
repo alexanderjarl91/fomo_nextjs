@@ -3,10 +3,13 @@ import React, { useContext } from "react";
 import styles from "../styles/Buttons.module.css";
 import { DataContext, UsersContext } from "../context";
 import fire from "../firebase";
+import { useRouter } from "next/router";
+
 export default function Buttons() {
   const { cards, activeCardIndex } = useContext(DataContext);
   const { setShowFilter, showFilter } = useContext(UsersContext);
 
+  const router = useRouter();
   // show filter
   const handleShowFilter = () => {
     setShowFilter(!showFilter);
@@ -35,15 +38,28 @@ export default function Buttons() {
 
   return (
     <div className={styles.swipeButtons}>
+      {/* BACK BUTTON */}
       <div className={styles.event__button}>
         <img src="/back_arrow.svg" alt="" />
       </div>
-      <div
-        onClick={() => {
-          saveToInterested();
-        }}
-        className={styles.interested__button}
-      ></div>
+
+      {/* INTERESTED BUTTON */}
+      {fire.auth().currentUser ? (
+        <div
+          onClick={() => {
+            saveToInterested();
+          }}
+          className={styles.interested__button}
+        ></div>
+      ) : (
+        <div
+          onClick={() => {
+            router.push("/signup");
+          }}
+          className={styles.interested__button}
+        ></div>
+      )}
+
       <div onClick={handleShowFilter} className={styles.event__button}>
         <img src="/filter_icon.svg" alt="" />
       </div>

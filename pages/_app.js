@@ -17,6 +17,7 @@ function MyApp({ Component, pageProps }) {
           />
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2WN37oJn1RxGfx5ltyGDGZZ7gzGaGFM8&libraries=places"></script>
         </Head>
+
         <Layout>
           <Component {...pageProps} />
         </Layout>

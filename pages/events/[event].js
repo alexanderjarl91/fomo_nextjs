@@ -24,10 +24,6 @@ export default function Event() {
     matchEventWithQuery();
   }, [router.query]);
 
-  useEffect(() => {
-    console.log(`event`, event);
-  }, [event]);
-
   // get clicked event data
   const matchEventWithQuery = async () => {
     const eventsRef = fire.firestore().collection("events");
@@ -36,19 +32,28 @@ export default function Event() {
     foundEvent.forEach((doc) => setEvent(doc.data()));
   };
 
+  //check if users interested array includes the eventId from query, set boolean state accordingly
   const checkIfUserIsInterested = () => {
-    //check if users interested array includes the eventId from query, set boolean state accordingly
     setIsInterested(userData.interested.includes(router.query.event));
   };
-
+  //if userdata exists, run check functions. do this every time userData changes.
   useEffect(() => {
     if (!userData) return;
     checkIfUserIsInterested();
   }, [userData]);
 
+  //convert date from dd/mm/yy to string
+  const convertDate = () => {
+    const date = new Date(event.date);
+    const tempEvent = event;
+    tempEvent.date = date.toDateString();
+    setEvent(tempEvent);
+  };
+
   useEffect(() => {
-    console.log("is user interested in this event?", isInterested);
-  }, [isInterested]);
+    if (!event) return;
+    convertDate();
+  }, [event]);
 
   // BUILD THE SET AS INTERESTED/REMOVE FROM INTERESTED FUNCTION
   const saveToInterested = async () => {
