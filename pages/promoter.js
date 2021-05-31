@@ -47,10 +47,6 @@ export default function promoter() {
 
   return (
     <div>
-      {/* NAVBAR & MENU */}
-      {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
-      <Navbar />
-
       {/* PAGE CONTENT */}
       <div className={styles.content}>
         <h1>Promote your own events</h1>

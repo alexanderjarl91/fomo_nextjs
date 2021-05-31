@@ -14,13 +14,12 @@ export default function createEvent() {
   const { showMenu, setShowMenu } = useContext(UsersContext);
   const router = useRouter();
   const [event, setEvent] = useState({});
-  const [categories, setCategories] = useState([])
-
+  const [categories, setCategories] = useState([]);
 
   const postEvent = () => {
     //add userId to event
     const tempEvent = event;
-    tempEvent.categories = categories
+    tempEvent.categories = categories;
     tempEvent.uid = fire.auth().currentUser.uid;
     tempEvent.eventId = uuidv4();
     tempEvent.status = "pending";
@@ -62,35 +61,28 @@ export default function createEvent() {
     userRef.update({ events: tempEvents });
   };
 
-
   // SET CATEGORIES
   const addCategory = (category) => {
-    const tempCategories = categories
+    const tempCategories = categories;
     if (!categories.includes(category)) {
-      tempCategories.push(category)
-      setCategories(tempCategories)
-      return
-    } 
-
-    if (categories.includes(category)) {
-      const newArray = tempCategories.filter(e => e !== category)
-      setCategories(newArray)
-      return
+      tempCategories.push(category);
+      setCategories(tempCategories);
+      return;
     }
 
-  }
+    if (categories.includes(category)) {
+      const newArray = tempCategories.filter((e) => e !== category);
+      setCategories(newArray);
+      return;
+    }
+  };
 
-  useEffect(()=>{
-    console.log(categories)
-  },[categories])
-
+  useEffect(() => {
+    console.log(categories);
+  }, [categories]);
 
   return (
     <div className={styles.createEvent__container}>
-      {/* NAVBAR & MENU */}
-      {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
-      <Navbar />
-
       {/* PAGE CONTENT */}
       <div>
         <h2>Create Event</h2>
@@ -206,26 +198,50 @@ export default function createEvent() {
         <div>
           <label htmlFor="">Category (select atleast 1 and 2 at most)</label>
           <div className={styles.what__buttonContainer}>
-            <li onClick={()=> {
-              addCategory('music')
-            }}>music</li>
-            <li onClick={()=> {
-              addCategory('nightlife')
-            }}>nightlife</li>
-            <li onClick={()=> {
-              addCategory('art')
-            }}>art</li>
-            <li onClick={()=> {
-              addCategory('sports')
-            }}>sports</li>
-            <li onClick={()=> {
-              addCategory('food')
-            }}>food</li>
-            <li onClick={()=> {
-              addCategory('other')
-            }}>other</li>
-      </div>
-      </div>
+            <li
+              onClick={() => {
+                addCategory("music");
+              }}
+            >
+              music
+            </li>
+            <li
+              onClick={() => {
+                addCategory("nightlife");
+              }}
+            >
+              nightlife
+            </li>
+            <li
+              onClick={() => {
+                addCategory("art");
+              }}
+            >
+              art
+            </li>
+            <li
+              onClick={() => {
+                addCategory("sports");
+              }}
+            >
+              sports
+            </li>
+            <li
+              onClick={() => {
+                addCategory("food");
+              }}
+            >
+              food
+            </li>
+            <li
+              onClick={() => {
+                addCategory("other");
+              }}
+            >
+              other
+            </li>
+          </div>
+        </div>
         <div>
           <label htmlFor="">Action button text</label>
           <input

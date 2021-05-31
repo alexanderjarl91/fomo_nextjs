@@ -66,12 +66,12 @@ export default function interested() {
   //   console.log(cards, "cards");
   // }, [cards]);
 
+  useEffect(() => {
+    console.log("showMenu state:", showMenu);
+  }, [showMenu]);
+
   return (
     <div className={styles.interested__container}>
-      {/* NAVBAR & MENU */}
-      {showMenu ? <Menu showMenu={showMenu} setShowMenu={setShowMenu} /> : null}
-      <Navbar />
-
       {/* PAGE CONTENT */}
       <div className={styles.cards}>
         <h3>interested</h3>

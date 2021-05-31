@@ -4,15 +4,11 @@ import fire from "../firebase";
 import { useRouter } from "next/router";
 import { UsersContext } from "../context";
 import OutsideClickHandler from "react-outside-click-handler";
-import {Animated} from "react-animated-css";
-
 
 const Menu = () => {
   const { userData, showMenu, setShowMenu } = useContext(UsersContext);
   const router = useRouter();
 
-  const [show, setShow] = useState(showMenu)
-  
   // Route to X parameter function
   const routeTo = (route) => {
     router.push(`/${route}`);
@@ -23,10 +19,9 @@ const Menu = () => {
     <div className={styles.container}>
       <OutsideClickHandler
         onOutsideClick={() => {
-          setShow(!show);
+          setShowMenu(false);
         }}
       >
-        <Animated animationIn="bounceInLeft" animationOut="fadeOut" isVisible={show} animationInDuration={500} animationOutDuration={500}>
         <div className={styles.menu}>
           {fire.auth().currentUser ? (
             <>
@@ -152,9 +147,9 @@ const Menu = () => {
             <p className={styles.copyright}>Pippen ehf © 2021</p>
           </div>
         </div>
-        </Animated>
       </OutsideClickHandler>
     </div>
   );
 };
 export default Menu;
+// export default onClickOutside(Menu, clickOutsideConfig);

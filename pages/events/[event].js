@@ -93,7 +93,6 @@ export default function Event() {
             backgroundRepeat: "no-repeat",
           }}
         >
-          <Navbar />
           {event && (
             <div className={styles.content}>
               {/* TOP INFO */}
