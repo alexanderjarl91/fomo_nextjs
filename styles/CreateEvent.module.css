@@ -1,5 +1,6 @@
 .createEvent__container {
   overflow: initial;
+  width: 80%;
   max-width: 600px;
   margin: 0 auto;
   margin-top: 1rem;
@@ -11,6 +12,8 @@
 
 .headline {
   text-align: center;
+  max-width: 300px;
+  margin: 0 auto;
   margin-top: 1rem;
 }
 
@@ -20,7 +23,6 @@
 }
 
 .event__form {
-  width: 80%;
   max-width: 600px;
   margin: 0 auto;
 }

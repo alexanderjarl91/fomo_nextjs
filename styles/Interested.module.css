@@ -18,7 +18,8 @@
   background-repeat: no-repeat;
 
   min-height: 80px;
-  width: 320px;
+  min-width: 320px;
+  max-width: 600px;
   border-radius: 10px;
   margin: 0 auto;
 }

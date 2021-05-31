@@ -3,13 +3,16 @@
   flex-direction: column;
   margin: 0 auto;
   min-width: 300px;
-  max-width: 85%;
+  max-width: 600px;
   height: 80vh;
   max-height: 80vh;
-  margin-top: 2rem;
+  padding: 5rem;
   overflow: hidden;
 }
 
+.container {
+  height: 100vh;
+}
 .content > h1 {
   font-family: Saira Condensed;
   font-style: normal;
