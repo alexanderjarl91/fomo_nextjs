@@ -1,13 +1,14 @@
 .content {
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
   min-width: 300px;
   max-width: 600px;
   height: 80vh;
   max-height: 80vh;
-  padding: 5rem;
+  padding: 3rem;
+  margin: 0 auto;
   overflow: hidden;
+  padding-top: 6rem;
 }
 
 .container {
@@ -18,7 +19,7 @@
   font-style: normal;
   font-weight: 600;
   font-size: 30.2843px;
-  line-height: 48px;
+  line-height: 38px;
 
   color: #f8d2d2;
 }
@@ -44,6 +45,10 @@
 
 .footer__btns {
   display: flex;
+  position: absolute;
+  left: 50%;
+  margin-left: -116px;
+  bottom: 4rem;
   flex-direction: column;
   margin-top: 1rem;
 }

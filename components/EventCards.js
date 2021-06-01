@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
-import TinderCard from "react-tinder-card";
+// import TinderCard from "react-tinder-card";
+import TinderCard from "../components/TinderCard";
 import styles from "../styles/EventCards.module.css";
 
 import { DataContext } from "../context";

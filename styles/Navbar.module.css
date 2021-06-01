@@ -5,13 +5,11 @@
   position: absolute;
   color: white;
   padding-top: 2rem;
-
-  width: 50%;
-  min-width: 300px;
+  width: 80vw;
+  max-width: 600px;
+  /* max-width: 80vw; */
   left: 50%;
-  margin-left: -25%;
-
-  /* margin: 0 auto; */
+  transform: translateX(-50%);
 }
 .navbar__container > img {
   cursor: pointer;
