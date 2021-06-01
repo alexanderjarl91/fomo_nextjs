@@ -159,6 +159,7 @@ export const DataProvider = ({ children }) => {
   const [cardsDisplayed, setCardsDisplayed] = useState([]);
   const [cards, setCards] = useState([]);
   const [activeCardIndex, setActiveCardIndex] = useState();
+  const [userLocation, setUserLocation] = useState();
 
   // callback to log the active cards index
   useEffect(() => {
@@ -194,7 +195,14 @@ export const DataProvider = ({ children }) => {
 
   return (
     <DataContext.Provider
-      value={{ cards, setCards, activeCardIndex, setActiveCardIndex }}
+      value={{
+        cards,
+        setCards,
+        activeCardIndex,
+        setActiveCardIndex,
+        userLocation,
+        setUserLocation,
+      }}
     >
       {children}
     </DataContext.Provider>

@@ -11,11 +11,12 @@ import Menu from "../components/Menu";
 import EventCards from "../components/EventCards";
 import Buttons from "../components/Buttons";
 import Filter from "../components/Filter";
-import Sidebar from "react-sidebar";
+
 
 export default function Home() {
   //context data
-  const { showMenu, setShowMenu, showFilter } = useContext(UsersContext);
+  const { showFilter} = useContext(UsersContext);
+  const { userLocation, setUserLocation } = useContext(DataContext);
 
   // GET USERS POSITION ON MOUNT (maybe handled in context?)
   useEffect(() => {
@@ -28,10 +29,12 @@ export default function Home() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         console.log(position);
+        setUserLocation(position.coords)
       },
       (err) => console.log("err:", err),
       { maximumAge: 60000, timeout: 5000, enableHighAccuracy: true }
     );
+
   }, []);
 
 
@@ -49,7 +52,7 @@ export default function Home() {
       <Buttons />
 
       {/* FILTER */}
-      {showFilter && <Filter />}
+      {showFilter && <Filter  />}
        
       
     </div>
