@@ -85,26 +85,24 @@ export default function createEvent() {
       return;
     }
   };
-  
+
   //toggle active class to change style & run addCategory function
   const handleSelect = (element, category) => {
-     element.classList.toggle(styles.active)
-      addCategory(category)
-  }
+    element.classList.toggle(styles.active);
+    addCategory(category);
+  };
 
   return (
     <div className={styles.createEvent__container}>
       {/* PAGE CONTENT */}
       <h2>Create Event</h2>
       <div className={styles.headline}>
-
         <h3>Event details</h3>
         <p>
-          Lets build your event card, fill in the details below for a preview of your
-          event.
+          Lets build your event card, fill in the details below for a preview of
+          your event.
         </p>
       </div>
-      
 
       <div className={styles.event__form}>
         <div>
@@ -137,30 +135,14 @@ export default function createEvent() {
           />
         </div>
 
-        {/* <div>
-          <label htmlFor="">Location</label>
-          <input
-            type="text"
-            name=""
-            id=""
-            placeholder="Where is your event?"
-            onChange={(e) => {
-              const tempEvent = event;
-              tempEvent.location = e.target.value;
-              setEvent(tempEvent);
-            }}
-          />
-        </div> */}
-
         <div>
-
-        <PlacesInput
-          address={address}
-          setAddress={setAddress}
-          coordinates={coordinates}
-          setCoordinates={setCoordinates}
+          <PlacesInput
+            address={address}
+            setAddress={setAddress}
+            coordinates={coordinates}
+            setCoordinates={setCoordinates}
           />
-          </div>
+        </div>
 
         <div>
           <label htmlFor="">Date</label>
@@ -224,42 +206,42 @@ export default function createEvent() {
             <li
               onClick={(e) => {
                 // addCategory("music");
-                handleSelect(e.target, "music")
+                handleSelect(e.target, "music");
               }}
             >
               music
             </li>
             <li
               onClick={(e) => {
-                handleSelect(e.target, "nightlife")
+                handleSelect(e.target, "nightlife");
               }}
             >
               nightlife
             </li>
             <li
               onClick={(e) => {
-                handleSelect(e.target, "art")
+                handleSelect(e.target, "art");
               }}
             >
               art
             </li>
             <li
               onClick={(e) => {
-                handleSelect(e.target, "sports")
+                handleSelect(e.target, "sports");
               }}
             >
               sports
             </li>
             <li
               onClick={(e) => {
-                handleSelect(e.target, "food")
+                handleSelect(e.target, "food");
               }}
             >
               food
             </li>
             <li
               onClick={(e) => {
-                handleSelect(e.target, "other")
+                handleSelect(e.target, "other");
               }}
             >
               other
