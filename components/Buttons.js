@@ -30,6 +30,8 @@ export default function Buttons() {
     if (doc.data().interested) {
       tempInterested = doc.data().interested;
     }
+    // cancel if item is already
+    if (tempInterested.includes(activeCard.eventId)) return;
     // push activeCards eventId to temporary interested array
     tempInterested.push(activeCard.eventId);
     // save new interested array to firestore

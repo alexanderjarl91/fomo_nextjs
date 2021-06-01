@@ -6,6 +6,11 @@
   margin: 0 auto;
   margin-top: 1rem;
 }
+@media only screen and (min-width: 600px) {
+  .swipeButtons {
+    margin-top: 8rem;
+  }
+}
 
 .swipeButtons > img > {
   max-width: 50px;

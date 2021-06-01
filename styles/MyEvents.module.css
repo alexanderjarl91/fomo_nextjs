@@ -1,3 +1,6 @@
+.container {
+  margin-top: 6rem;
+}
 .event__container {
   background-color: white;
   padding: 20px;
@@ -25,7 +28,7 @@
 }
 
 .pending {
-  background: #d8dc25;
+  background: #dfe227;
   padding: 4px 12px;
   min-width: 80px;
   text-align: center;

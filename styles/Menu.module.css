@@ -89,13 +89,12 @@
 }
 
 .footer__socialIcons > img {
-  padding: 0px 8px;
+  margin-right: 8px;
 }
 
 .copyright {
   position: relative;
   bottom: 10px;
-  text-align: center;
 }
 
 /* LOGGED IN */

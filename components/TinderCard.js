@@ -146,6 +146,7 @@ const TinderCard = React.forwardRef(
       flickOnSwipe = true,
       children,
       onSwipe,
+      onClick,
       onCardLeftScreen,
       className,
       preventSwipe = [],
@@ -231,6 +232,23 @@ const TinderCard = React.forwardRef(
       let lastLocation = { x: 0, y: 0, time: new Date().getTime() };
       let mouseIsClicked = false;
 
+      const checkMoveEnd = () => {
+        // get absolute number of last location
+        const absX = Math.abs(lastLocation.x);
+        const absY = Math.abs(lastLocation.y);
+
+        //check card has moved more than 5px on x or y axis
+        if (absX < 3 && absY < 3) {
+          //if an onClick function has been passed, run it
+          if (onClick) {
+            onClick();
+          }
+          //else if card has moved > 5 px, handle swipe release
+        } else {
+          handleSwipeReleased(element.current, speed);
+        }
+      };
+
       element.current.addEventListener("touchstart", (ev) => {
         // ev.preventDefault()
         console.log("touchstart");
@@ -278,17 +296,14 @@ const TinderCard = React.forwardRef(
       });
 
       element.current.addEventListener("touchend", (ev) => {
-        // ev.preventDefault()
-        console.log("touchend happened");
-        handleSwipeReleased(element.current, speed);
+        checkMoveEnd();
       });
 
       element.current.addEventListener("mouseup", (ev) => {
         if (mouseIsClicked) {
-          // ev.preventDefault()
-          console.log("mouseup happened");
           mouseIsClicked = false;
-          handleSwipeReleased(element.current, speed);
+
+          checkMoveEnd();
         }
       });
 

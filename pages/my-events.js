@@ -9,7 +9,7 @@ export default function myEvents() {
   // context data
   const { userData, showMenu, setShowMenu } = useContext(UsersContext);
 
-  const [events, setEvents] = useState([])
+  const [events, setEvents] = useState([]);
 
   const getEvents = async () => {
     if (!fire.auth().currentUser) return;
@@ -24,62 +24,57 @@ export default function myEvents() {
 
     // FIND MATCHING EVENT ID IN EVENTS COLLECTION
     let tempCards = [];
-     myEventIds.forEach(async (id) => {
-       const eventsRef = await fire.firestore().collection("events");
-       const snapshot = await eventsRef.where("eventId", "==", id).get();
-       snapshot.forEach((doc) => {
+    myEventIds.forEach(async (id) => {
+      const eventsRef = await fire.firestore().collection("events");
+      const snapshot = await eventsRef.where("eventId", "==", id).get();
+      snapshot.forEach((doc) => {
         tempCards = [...tempCards, doc.data()];
-       });
-       setEvents(tempCards);
-     });
+      });
+      setEvents(tempCards);
+    });
   };
 
-
-
-  useEffect(()=>{
-    if (!fire.auth().currentUser) return
-      getEvents()
-  }, [userData])
-
-
-
+  useEffect(() => {
+    if (!fire.auth().currentUser) return;
+    getEvents();
+  }, [userData]);
 
   return (
-    <div>
-      <Navbar />
-      <div>
-        <h2 onClick={()=> {
-          console.log(events)
-        }}>Your events</h2>
-        <h3>Total events: x</h3>
-        
-        {events.map((event) => (
-            <div className={styles.event__container} key={event.eventId}>
-              <div>
-                <p>Event</p>
-                <p>duration: x days</p>
-              </div>
+    <div className={styles.container}>
+      <h2
+        onClick={() => {
+          console.log(events);
+        }}
+      >
+        Your events
+      </h2>
+      <h3>Total events: x</h3>
 
-              <h1>{event.title}</h1>
-              <p>Live from x. may until x. may</p>
-              <p># of interested: XX</p>
-              <hr className={styles.line} />
-              <div>
-                <p>2990 ISK</p>
-                {event.status == "pending" && <span className={styles.pending}>PENDING</span>}
-                {event.status == "active" && <span className={styles.active}>ACTIVE</span>}
-                {event.status == "passed" && <span className={styles.passed}>PASSED</span>}
-              </div>
+      {events.map((event) => (
+        <div className={styles.event__container} key={event.eventId}>
+          <div>
+            <p>Event</p>
+            <p>duration: x days</p>
+          </div>
 
-
-            </div>
-
-        ))}
-
-
-
-
-      </div>
+          <h1>{event.title}</h1>
+          <p>Live from x. may until x. may</p>
+          <p># of interested: XX</p>
+          <hr className={styles.line} />
+          <div>
+            <p>2990 ISK</p>
+            {event.status == "pending" && (
+              <span className={styles.pending}>PENDING</span>
+            )}
+            {event.status == "active" && (
+              <span className={styles.active}>ACTIVE</span>
+            )}
+            {event.status == "passed" && (
+              <span className={styles.passed}>PASSED</span>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

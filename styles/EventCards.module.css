@@ -30,6 +30,12 @@
   /* box-shadow: 6px 7px 23px -8px rgba(245, 187, 187, 0.01); */
 }
 
+@media only screen and (min-width: 600px) {
+  .card__front {
+    height: 70vh;
+  }
+}
+
 /* CARD DATA */
 .card__front > h3 {
   position: absolute;
