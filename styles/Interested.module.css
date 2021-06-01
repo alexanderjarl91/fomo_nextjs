@@ -1,7 +1,6 @@
 .cards {
   display: flex;
   flex-direction: column;
-  gap: 5px;
   margin-top: 6rem;
 }
 
@@ -16,12 +15,13 @@
   min-height: 130px;
   max-width: 600px;
   background: rgba(255, 255, 255, 0.06);
+  margin: 1px 0px;
 }
 
 .card__content {
   display: flex;
   margin: 0 auto;
-  min-width: 80%;
+  min-width: 90%;
 }
 
 .card__content > img {
@@ -40,7 +40,8 @@
 
 .info > h1 {
   font-size: 24px;
-  margin-bottom: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 .info > p {
   padding: 1px;
