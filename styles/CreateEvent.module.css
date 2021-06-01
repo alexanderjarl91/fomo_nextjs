@@ -3,7 +3,7 @@
   width: 80%;
   max-width: 600px;
   margin: 0 auto;
-  margin-top: 1rem;
+  margin-top: 6rem;
 }
 
 .createEvent__container > h2 {
@@ -85,7 +85,7 @@
 }
 
 .what__buttonContainer > li {
-  border: 1px solid white;
+  /* border: 1px solid white; */
   border-radius: 20px;
   cursor: pointer;
   padding: 4px 0px;
@@ -93,5 +93,4 @@
 
 .active {
   background: rgba(245, 187, 187, 0.8);
-  border: unset;
 }

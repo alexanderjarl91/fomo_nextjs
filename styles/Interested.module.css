@@ -1,13 +1,10 @@
 .cards {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-top: 2rem;
+  gap: 5px;
+  margin-top: 6rem;
 }
 
-.cards > h3 {
-  margin-left: 2rem;
-}
 .card {
   display: flex;
   flex-direction: column;
@@ -16,20 +13,35 @@
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
-
-  min-height: 80px;
-  min-width: 320px;
+  min-height: 130px;
   max-width: 600px;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.card__content {
+  display: flex;
   margin: 0 auto;
+  min-width: 80%;
 }
 
-.info__container {
-  justify-content: space-evenly;
-
-  padding: 20px;
+.card__content > img {
+  width: 100px;
+  height: 100px;
+  border-radius: 4px;
 }
 
-.info__container > div > img {
-  margin-right: 5px;
+.info {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 19px;
+  margin-left: 1rem;
+  padding: 1px;
+}
+
+.info > h1 {
+  font-size: 24px;
+  margin-bottom: 18px;
+}
+.info > p {
+  padding: 1px;
 }

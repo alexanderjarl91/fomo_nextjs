@@ -101,10 +101,6 @@ export default function Event() {
           {event && (
             <div className={styles.content}>
               {/* TITLE */}
-              <h1>{event.title}</h1>
-
-              <p className={styles.description}>{event.description}</p>
-
               {/* TOP INFO */}
               <div className={styles.header__info}>
                 <div>
@@ -115,7 +111,8 @@ export default function Event() {
                   <p>{event.location.name}</p>
                 </div>
               </div>
-
+              {/* TITLE */}
+              <h1>{event.title}</h1>
               {/* BELOW TITLE INFO */}
               <div className={styles.header__info}>
                 <div>
@@ -127,6 +124,8 @@ export default function Event() {
                   <p>{event.time}</p>
                 </div>
               </div>
+
+              <p className={styles.description}>{event.description}</p>
 
               <div className={styles.footer__btns}>
                 <a

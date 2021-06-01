@@ -79,21 +79,21 @@ export default function interested() {
           <>
             {cards.map((card) => (
               <Link href={`events/${card.eventId}`}>
-                <div
-                  className={styles.card}
-                  key={card.eventId}
-                  style={{
-                    background: `linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url(${card.image})`,
-                  }}
-                >
-                  <div className={styles.info__container}>
-                    <h1>{card.title}</h1>
-                    <div style={{ display: "flex" }}>
-                      <img src="/date.svg" alt="" />
-                      <p>{card.date}</p>
+                  <div className={styles.card}>
+
+                    <div className={styles.card__content}>
+                      <img src={card.image} alt="" />
+                      <div className={styles.info}>
+                        <h1>{card.title}</h1>
+                        <p>21:30pm</p>
+                        <p>Thursday, Jan. 9</p>
+                        <p>Harpan, Reykjavík</p>
+                      </div>
+
                     </div>
+
+
                   </div>
-                </div>
               </Link>
             ))}
           </>
