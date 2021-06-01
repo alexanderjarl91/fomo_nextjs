@@ -1,13 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useState ,useEffect} from "react";
 import { DataContext, UsersContext } from "../context";
 import styles from "../styles/Filter.module.css";
 
 export default function Filter() {
-  const { setShowFilter, showFilter } = useContext(UsersContext);
+  const { setShowFilter, showFilter ,c} = useContext(UsersContext);
+const {categoryFlags,setCatgeoryFlag,categoryFlag} = useContext(DataContext);
+
 
   const handleFilter = () => {
     setShowFilter(!showFilter);
   };
+
+  const handleCategoryFlag = (flag) => {
+    setCatgeoryFlag(flag)
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.filter}>
@@ -24,12 +31,11 @@ export default function Filter() {
             </div>
 
             <div className={styles.what__buttonContainer}>
-              <li>music</li>
-              <li>nightlife</li>
-              <li>art</li>
-              <li>sports</li>
-              <li>food</li>
-              <li>other</li>
+              {categoryFlags.map((flag, i) => (
+                <li key={i} onClick={() => handleCategoryFlag(flag)}>
+                  {flag}
+                </li>
+              ))}
             </div>
           </div>
 

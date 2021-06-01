@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { Router, useRouter } from "next/router";
 import fire, {
   google_provider,
@@ -136,6 +136,7 @@ export const UsersProvider = ({ children }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
 
+
   return (
     <UsersContext.Provider
       value={{
@@ -147,6 +148,7 @@ export const UsersProvider = ({ children }) => {
         setShowMenu,
         showFilter,
         setShowFilter,
+   
       }}
     >
       {children}
@@ -173,6 +175,7 @@ export const DataProvider = ({ children }) => {
       let tempCards = [];
       await snapshot.forEach((doc) => {
         tempCards = [...tempCards, doc.data()];
+        // console.log("🚀 ~ file: context.js ~ line 176 ~ awaitsnapshot.forEach ~ doc.data()", doc.data().categories)
       });
       // set cards
       shuffleArray(tempCards);
@@ -191,10 +194,28 @@ export const DataProvider = ({ children }) => {
       array[j] = temp;
     }
   };
+  const [categoryFlags, setCategoryFlags] = useState([
+    "music",
+    "nightlife",
+    "art",
+    "sports",
+    "food",
+    "other",
+  ]);
+  const [categoryFlag, setCatgeoryFlag] = useState("");
+  const [filteredEventsCategory,setFilteredEvetsCategory] = useState()
+  useEffect(() => {
+    setFilteredEvetsCategory(cards.filter(card => card.categories?.includes(categoryFlag)))
+  }, [categoryFlag])
+  
+  useEffect(() => {
+    console.log("🚀 ~ file: context.js ~ line 214 ~ useEffect ~ filteredEvents", filteredEventsCategory)
 
+  }, [filteredEventsCategory])
   return (
     <DataContext.Provider
-      value={{ cards, setCards, activeCardIndex, setActiveCardIndex }}
+      value={{ cards, setCards, activeCardIndex, setActiveCardIndex ,     categoryFlags,
+        setCatgeoryFlag,categoryFlag}}
     >
       {children}
     </DataContext.Provider>
