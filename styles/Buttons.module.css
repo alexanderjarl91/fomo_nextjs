@@ -22,7 +22,13 @@
   height: 66px;
   width: 66px;
   border-radius: 56px;
-  background: rgba(245, 187, 187, 0.1);
+  box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  background: linear-gradient(
+    206.9deg,
+    rgba(245, 187, 187, 0.1) -0.95%,
+    rgba(0, 0, 0, 0.085) 151.29%
+  );
 }
 
 .event__button > img {
@@ -38,16 +44,26 @@
   height: 80px;
   width: 80px;
   border-radius: 70px;
-  background: rgba(245, 187, 187, 0.1);
+  background: linear-gradient(
+    206.9deg,
+    rgba(245, 187, 187, 0.1) -0.95%,
+    rgba(0, 0, 0, 0.085) 151.29%
+  );
+  box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 .interested__button > img {
   width: 26px;
 }
 
-.event__button:hover {
-  transform: scale(1.03);
+.event__button:active {
+  transform: scale(0.96);
+  transform: translateY(2px);
+  box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.05);
 }
 
-.interested__button:hover {
-  transform: scale(1.03);
+.interested__button:active {
+  transform: scale(0.96);
+  transform: translateY(2px);
+  box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.05);
 }

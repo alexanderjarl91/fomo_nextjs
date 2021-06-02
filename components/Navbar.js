@@ -37,7 +37,7 @@ export default function Navbar() {
       <div className={styles.navbar__container}>
         {router.query.event ? (
           <img
-            src="/back_arrow2.svg"
+            src="/back_arrow.svg"
             alt=""
             onClick={() => {
               router.back();
