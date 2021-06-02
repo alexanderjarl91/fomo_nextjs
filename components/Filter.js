@@ -3,7 +3,9 @@ import { DataContext, UsersContext } from "../context";
 import styles from "../styles/Filter.module.css";
 
 export default function Filter() {
-  const { setShowFilter, showFilter } = useContext(UsersContext);
+const { setShowFilter, showFilter } = useContext(UsersContext);
+const {categoryFlags, setCategoryFlag, categoryFlag} = useContext(DataContext);
+
 
   const handleFilter = () => {
     setShowFilter(!showFilter);
@@ -11,41 +13,44 @@ export default function Filter() {
 
   // DISTANCE STUFF
 
-  function distance(lat1, lon1, lat2, lon2, unit) {
-    if (lat1 == lat2 && lon1 == lon2) {
-      return 0;
-    } else {
-      var radlat1 = (Math.PI * lat1) / 180;
-      var radlat2 = (Math.PI * lat2) / 180;
-      var theta = lon1 - lon2;
-      var radtheta = (Math.PI * theta) / 180;
-      var dist =
-        Math.sin(radlat1) * Math.sin(radlat2) +
-        Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-      if (dist > 1) {
-        dist = 1;
-      }
-      dist = Math.acos(dist);
-      dist = (dist * 180) / Math.PI;
-      dist = dist * 60 * 1.1515;
-      if (unit == "K") {
-        dist = dist * 1.609344;
-      }
-      if (unit == "N") {
-        dist = dist * 0.8684;
-      }
+  // function distance(lat1, lon1, lat2, lon2, unit) {
+  //   if (lat1 == lat2 && lon1 == lon2) {
+  //     return 0;
+  //   } else {
+  //     var radlat1 = (Math.PI * lat1) / 180;
+  //     var radlat2 = (Math.PI * lat2) / 180;
+  //     var theta = lon1 - lon2;
+  //     var radtheta = (Math.PI * theta) / 180;
+  //     var dist =
+  //       Math.sin(radlat1) * Math.sin(radlat2) +
+  //       Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+  //     if (dist > 1) {
+  //       dist = 1;
+  //     }
+  //     dist = Math.acos(dist);
+  //     dist = (dist * 180) / Math.PI;
+  //     dist = dist * 60 * 1.1515;
+  //     if (unit == "K") {
+  //       dist = dist * 1.609344;
+  //     }
+  //     if (unit == "N") {
+  //       dist = dist * 0.8684;
+  //     }
 
-      console.log("distance is:", dist);
-      return dist;
-    }
-  }
+  //     console.log("distance is:", dist);
+  //     return dist;
+  //   }
+  // }
 
-  const { userLocation, setUserLocation } = useContext(DataContext);
+  // const { userLocation, setUserLocation } = useContext(DataContext);
 
-  useEffect(() => {
-    distance(userLocation.latitude, userLocation.longitude, 64.1427936, -21.9125927, "K");
-  }, [userLocation])
+  // useEffect(() => {
+  //   distance(userLocation.latitude, userLocation.longitude, 64.1427936, -21.9125927, "K");
+  // }, [userLocation])
 
+  const handleCategoryFlag = (flag) => {
+    setCategoryFlag(flag)
+  };
 
   return (
     <div className={styles.container}>
@@ -63,12 +68,11 @@ export default function Filter() {
             </div>
 
             <div className={styles.what__buttonContainer}>
-              <li>music</li>
-              <li>nightlife</li>
-              <li>art</li>
-              <li>sports</li>
-              <li>food</li>
-              <li>other</li>
+              {categoryFlags?.map((flag, i) => (
+                <li key={i} onClick={() => handleCategoryFlag(flag)}>
+                  {flag}
+                </li>
+              ))}
             </div>
           </div>
 

@@ -16,7 +16,8 @@ import Filter from "../components/Filter";
 export default function Home() {
   //context data
   const { showFilter} = useContext(UsersContext);
-  const { userLocation, setUserLocation } = useContext(DataContext);
+  const { userLocation, setUserLocation} = useContext(DataContext);
+
 
   // GET USERS POSITION ON MOUNT (maybe handled in context?)
   useEffect(() => {

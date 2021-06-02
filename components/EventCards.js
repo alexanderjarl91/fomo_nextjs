@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 
 function EventCards() {
   const router = useRouter();
-  const { activeCardIndex, setActiveCardIndex, cards } =
+  const { activeCardIndex, setActiveCardIndex, cards, filteredEventsCategory } =
     useContext(DataContext);
 
   //when card is swiped, set active card index to the next one
@@ -34,7 +34,7 @@ function EventCards() {
             </button>
           </div>
         ) : null}
-        {cards.map((card, index) => (
+        {filteredEventsCategory?.map((card, index) => (
           <TinderCard
             className={`test ${styles.swipe}`}
             key={card.title}
