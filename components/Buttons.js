@@ -42,7 +42,7 @@ export default function Buttons() {
     <div className={styles.swipeButtons}>
       {/* BACK BUTTON */}
       <div className={styles.event__button}>
-        <img src="/back_arrow.svg" alt="" />
+        <img src="/back_arrow2.svg" alt="" />
       </div>
 
       {/* INTERESTED BUTTON */}

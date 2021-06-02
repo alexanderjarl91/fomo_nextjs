@@ -21,6 +21,8 @@ export default function places({
   coordinates,
   setCoordinates,
 }) {
+
+  // get address & coordinates and set to state once place has been selected
   const handleSelect = async (value) => {
     const result = await geocodeByAddress(value);
     const latlng = await getLatLng(result[0]);
@@ -28,19 +30,13 @@ export default function places({
     setCoordinates(latlng);
   };
 
-  useEffect(() => {
-    console.log("address is now:", address);
-  }, [address]);
-
+// define results for input search
   const searchOptions = {
     types: ["establishment"],
     componentRestrictions: { country: "is" },
   };
 
-  const mapOptions = {
-    disableDefaultUI: true
-  }
-
+  // MAP 
   const MyMapComponent = withScriptjs(
     withGoogleMap((props) => (
       <GoogleMap
@@ -52,6 +48,10 @@ export default function places({
       </GoogleMap>
     ))
   );
+
+  const mapOptions = {
+    disableDefaultUI: true
+  }
 
   return (
     <>

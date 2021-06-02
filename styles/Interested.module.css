@@ -4,6 +4,16 @@
   margin-top: 6rem;
 }
 
+.cards > h3 {
+  font-family: Saira Condensed;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+  line-height: 35px;
+}
+
 .card {
   display: flex;
   flex-direction: column;
@@ -12,7 +22,7 @@
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  min-height: 130px;
+  min-height: 100px;
   max-width: 600px;
   background: rgba(255, 255, 255, 0.06);
   margin: 0 auto;
@@ -26,24 +36,28 @@
 }
 
 .card__content > img {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 4px;
 }
 
 .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   font-weight: 300;
   font-size: 14px;
   line-height: 19px;
   margin-left: 1rem;
   padding: 1px;
+  height: 80px;
 }
 
 .info > h1 {
-  font-size: 24px;
+  font-size: 20px;
+  max-width: 230px;
+
   font-weight: 600;
-  margin-bottom: 12px;
 }
 .info > p {
-  padding: 1px;
 }
