@@ -52,6 +52,14 @@ const {categoryFlags, setCategoryFlag, categoryFlag} = useContext(DataContext);
     setCategoryFlag(flag)
   };
 
+    //toggle active class to change style & run addCategory function
+    const handleSelect = (element, category) => {
+      element.classList.toggle(styles.active);
+    };
+
+
+
+
   return (
     <div className={styles.container}>
       <div className={styles.filter}>
@@ -60,6 +68,7 @@ const {categoryFlags, setCategoryFlag, categoryFlag} = useContext(DataContext);
           <p onClick={handleFilter}>x</p>
         </div>
         <div className={styles.filter__content}>
+          
           {/* WHAT? */}
           <div className={styles.what__container}>
             <div className={styles.what__headline}>
@@ -69,14 +78,18 @@ const {categoryFlags, setCategoryFlag, categoryFlag} = useContext(DataContext);
 
             <div className={styles.what__buttonContainer}>
               {categoryFlags?.map((flag, i) => (
-                <li key={i} onClick={() => handleCategoryFlag(flag)}>
+                <li key={i} onClick={(e) => {
+                  handleCategoryFlag(flag) 
+                  handleSelect(e.target)
+                    }
+                  }>
                   {flag}
                 </li>
               ))}
             </div>
           </div>
-
           <span className={styles.line}></span>
+
 
           {/* WHEN? */}
           <div className={styles.what__container}>
@@ -100,13 +113,8 @@ const {categoryFlags, setCategoryFlag, categoryFlag} = useContext(DataContext);
               <h3>when?</h3>
               <p>deselect all to show all</p>
             </div>
-
-            <div>
-              <span></span>
-            </div>
           </div>
-
-          <button className={styles.save__btn}>SAVE</button>
+          <p className={styles.tinyText}>showing x events happening today within 10km</p>
         </div>
       </div>
     </div>
