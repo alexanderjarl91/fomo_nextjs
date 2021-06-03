@@ -6,7 +6,7 @@
   color: white;
   padding-top: 2rem;
   width: 80vw;
-  max-width: 600px;
+  max-width: 400px;
   /* max-width: 80vw; */
   left: 50%;
   transform: translateX(-50%);
@@ -24,4 +24,17 @@
 .hamburger {
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+@media (min-width: 1200px) {
+  .navbar__container {
+    justify-content: center;
+    margin-left: 150px;
+  }
+  .hamburger {
+    display: none;
+  }
+  .avatar {
+    display: none;
+  }
 }

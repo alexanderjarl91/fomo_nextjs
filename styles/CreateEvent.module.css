@@ -5,6 +5,12 @@
   margin: 0 auto;
   margin-top: 6rem;
 }
+/* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
+@media (min-width: 1200px) {
+  .createEvent__container {
+    margin-left: 480px;
+  }
+}
 
 .createEvent__container > h2 {
   margin-right: 3rem;

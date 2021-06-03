@@ -21,7 +21,6 @@ export default function places({
   coordinates,
   setCoordinates,
 }) {
-
   // get address & coordinates and set to state once place has been selected
   const handleSelect = async (value) => {
     const result = await geocodeByAddress(value);
@@ -30,13 +29,13 @@ export default function places({
     setCoordinates(latlng);
   };
 
-// define results for input search
+  // define results for input search
   const searchOptions = {
     types: ["establishment"],
     componentRestrictions: { country: "is" },
   };
 
-  // MAP 
+  // MAP
   const MyMapComponent = withScriptjs(
     withGoogleMap((props) => (
       <GoogleMap
@@ -50,22 +49,21 @@ export default function places({
   );
 
   const mapOptions = {
-    disableDefaultUI: true
-  }
+    disableDefaultUI: true,
+  };
 
   return (
     <>
       <label htmlFor="">Location</label>
 
       <div className={styles.map__container}>
-                
         <MyMapComponent
           isMarkerShown
-          googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2WN37oJn1RxGfx5ltyGDGZZ7gzGaGFM8&v=3.exp&libraries=geometry,drawing,places"
+          googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSj1uHZTVH_tK-ql-1gMeY698tQplNQZ0&v=3.exp&libraries=geometry,drawing,places"
           loadingElement={<div style={{ height: `50%` }} />}
           containerElement={<div style={{ height: `200px` }} />}
           mapElement={<div style={{ height: `100%` }} />}
-          />
+        />
       </div>
       <PlacesAutocomplete
         value={address}
@@ -83,7 +81,7 @@ export default function places({
             />
             <div className={styles.autocomplete_dropdown}>
               {loading && <div>Loading...</div>}
-              {suggestions.map((suggestion) => {
+              {suggestions.map((suggestion, i) => {
                 const className = suggestion.active
                   ? `${styles.suggestion_item_active}`
                   : `${styles.suggestion_item}`;
@@ -98,6 +96,7 @@ export default function places({
                     };
                 return (
                   <div
+                    key={i}
                     {...getSuggestionItemProps(suggestion, {
                       className,
                       style,
@@ -111,7 +110,6 @@ export default function places({
           </div>
         )}
       </PlacesAutocomplete>
-
     </>
   );
 }

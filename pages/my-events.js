@@ -41,13 +41,7 @@ export default function myEvents() {
 
   return (
     <div className={styles.container}>
-      <h2
-        onClick={() => {
-          console.log(events);
-        }}
-      >
-        Your events
-      </h2>
+      <h2>Your events</h2>
       <h3>Total events: x</h3>
 
       {events.map((event) => (

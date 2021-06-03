@@ -1,6 +1,6 @@
 .container {
   /* position: absolute; */
-  width: 100vw;
+  width: 280px;
   height: 100vh;
 
   z-index: 100;
@@ -165,4 +165,18 @@
 }
 .menu__nav > button:hover {
   transform: scale(1.02);
+}
+
+/* DOCKED */
+
+.docked__menu {
+  display: none;
+  transition: 0.1s ease-in;
+}
+
+@media (min-width: 1200px) {
+  .docked__menu {
+    display: flex;
+    position: fixed;
+  }
 }
