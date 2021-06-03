@@ -75,13 +75,13 @@ export default function places({
           <div key={suggestions.description}>
             <input
               {...getInputProps({
-                placeholder: "Search Places ...",
+                placeholder: "Search venues ...",
                 className: `${styles.location_search_input}`,
               })}
             />
             <div className={styles.autocomplete_dropdown}>
               {loading && <div>Loading...</div>}
-              {suggestions.map((suggestion, i) => {
+              {suggestions.map((suggestion) => {
                 const className = suggestion.active
                   ? `${styles.suggestion_item_active}`
                   : `${styles.suggestion_item}`;
@@ -96,7 +96,6 @@ export default function places({
                     };
                 return (
                   <div
-                    key={i}
                     {...getSuggestionItemProps(suggestion, {
                       className,
                       style,

@@ -1,6 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { DataContext, UsersContext } from "../context";
 import styles from "../styles/Filter.module.css";
+
+
 
 export default function Filter() {
 const { setShowFilter, showFilter } = useContext(UsersContext);
@@ -65,10 +67,9 @@ const {categoryFlags, setCategoryFlag, categoryFlag} = useContext(DataContext);
       <div className={styles.filter}>
         <div className={styles.header}>
           <h1>FILTER</h1>
-          <p onClick={handleFilter}>x</p>
+          <img onClick={handleFilter} src={"/close_filter.svg"} alt="" />
         </div>
         <div className={styles.filter__content}>
-          
           {/* WHAT? */}
           <div className={styles.what__container}>
             <div className={styles.what__headline}>
@@ -113,7 +114,11 @@ const {categoryFlags, setCategoryFlag, categoryFlag} = useContext(DataContext);
               <h3>when?</h3>
               <p>deselect all to show all</p>
             </div>
-          </div>
+            
+            
+
+
+            </div>
           <p className={styles.tinyText}>showing x events happening today within 10km</p>
         </div>
       </div>
