@@ -1,5 +1,4 @@
 // credit MIT
-
 import React from "react";
 import sleep from "p-sleep";
 

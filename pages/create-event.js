@@ -17,6 +17,7 @@ export default function createEvent() {
   const [event, setEvent] = useState({});
   const [categories, setCategories] = useState([]);
   const [address, setAddress] = useState("");
+  const [currentInput, setCurrentInput] = useState("");
   const [coordinates, setCoordinates] = useState({
     lat: null,
     lng: null,
@@ -141,6 +142,8 @@ export default function createEvent() {
             setAddress={setAddress}
             coordinates={coordinates}
             setCoordinates={setCoordinates}
+            setCurrentInput={setCurrentInput}
+            currentInput={currentInput}
           />
         </div>
 

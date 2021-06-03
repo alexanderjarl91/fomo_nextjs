@@ -1,14 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
 import { DataContext, UsersContext } from "../context";
 import styles from "../styles/Filter.module.css";
-import Slider, { Range } from 'rc-slider';
-import 'rc-slider/assets/index.css';
-
+import Slider, { Range } from "rc-slider";
+import "rc-slider/assets/index.css";
 
 export default function Filter() {
-const { setShowFilter, showFilter } = useContext(UsersContext);
-const {categoryFlags, setCategoryFlag, categoryFlag} = useContext(DataContext);
-const [maxKm, setMaxKm] = useState(50)
+  const { setShowFilter, showFilter } = useContext(UsersContext);
+  const { categoryItems, setActiveCategories, activeCategories } =
+    useContext(DataContext);
+  const [maxKm, setMaxKm] = useState(50);
 
   const handleFilter = () => {
     setShowFilter(!showFilter);
@@ -51,19 +51,20 @@ const [maxKm, setMaxKm] = useState(50)
   //   distance(userLocation.latitude, userLocation.longitude, 64.1427936, -21.9125927, "K");
   // }, [userLocation])
 
-  const handleCategoryFlag = (flag) => {
-    setCategoryFlag(flag)
+  const handleActiveCategories = (flag) => {
+    //push flag to activeCategories
+    // setCategoryItem(flag);
+    setActiveCategories(flag);
   };
 
-    //toggle active class to change style & run addCategory function
-    const handleSelect = (element, category) => {
-      element.classList.toggle(styles.active);
-    };
+  //toggle active class to change style & run addCategory function
+  const handleSelect = (element, category) => {
+    element.classList.toggle(styles.active);
+  };
 
-const log = (value) => {
-  setMaxKm(value)
-}
-
+  const log = (value) => {
+    setMaxKm(value);
+  };
 
   return (
     <div className={styles.container}>
@@ -81,12 +82,14 @@ const log = (value) => {
             </div>
 
             <div className={styles.what__buttonContainer}>
-              {categoryFlags?.map((flag, i) => (
-                <li key={i} onClick={(e) => {
-                  handleCategoryFlag(flag) 
-                  handleSelect(e.target)
-                    }
-                  }>
+              {categoryItems?.map((flag, i) => (
+                <li
+                  key={i}
+                  onClick={(e) => {
+                    handleActiveCategories(flag);
+                    handleSelect(e.target);
+                  }}
+                >
                   {flag}
                 </li>
               ))}
@@ -115,12 +118,21 @@ const log = (value) => {
             <div className={styles.what__headline}>
               <h3>when?</h3>
               <p>deselect all to show all</p>
-            <h2>within {maxKm}km</h2>
+              <h2>within {maxKm}km</h2>
             </div>
-            <Slider className={styles.slider} defaultValue={50} min={5} max={100} step={5} onChange={log} />
-            </div>
-            
-          <p className={styles.tinyText}>showing x events happening today within 10km</p>
+            <Slider
+              className={styles.slider}
+              defaultValue={50}
+              min={5}
+              max={100}
+              step={5}
+              onChange={log}
+            />
+          </div>
+
+          <p className={styles.tinyText}>
+            showing x events happening today within 10km
+          </p>
         </div>
       </div>
     </div>

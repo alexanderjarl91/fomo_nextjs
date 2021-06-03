@@ -12,7 +12,7 @@ const Menu = () => {
   // Route to X parameter function
   const routeTo = (route) => {
     router.push(`/${route}`);
-    setShowMenu(!showMenu);
+    setShowMenu(false);
   };
 
   return (

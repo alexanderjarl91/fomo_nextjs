@@ -193,7 +193,9 @@ export const DataProvider = ({ children }) => {
       array[j] = temp;
     }
   };
-  const [categoryFlags, setCategoryFlags] = useState([
+
+  // FILTER
+  const [categoryItems, setCategoryItems] = useState([
     "music",
     "nightlife",
     "art",
@@ -202,23 +204,32 @@ export const DataProvider = ({ children }) => {
     "other",
   ]);
 
-  const [categoryFlag, setCategoryFlag] = useState("");
-  const [filteredEventsCategory, setFilteredEventsCategory] = useState();
+  //STEP 1. query database for all events where event.date > current date
+
+  //STEP 2. filter only active categories
+  const [activeCategories, setActiveCategories] = useState(""); //array of categories active
+
+  //STEP 3. filter only active time
+
+  //STEP 4. filter only within radius
+
+  //state for final filtered array to be rendered
+  const [filteredEvents, setFilteredEvents] = useState();
 
   useEffect(() => {
-    setFilteredEventsCategory(
-      categoryFlag == ""
+    setFilteredEvents(
+      activeCategories == ""
         ? cards
-        : cards.filter((card) => card.categories?.includes(categoryFlag))
+        : cards.filter((card) => card.categories?.includes(activeCategories))
     );
-  }, [cards, categoryFlag]);
+  }, [cards, activeCategories]);
 
   useEffect(() => {
     console.log(
       "🚀 ~ file: context.js ~ line 214 ~ useEffect ~ filteredEvents",
-      filteredEventsCategory
+      filteredEvents
     );
-  }, [filteredEventsCategory]);
+  }, [filteredEvents]);
 
   return (
     <DataContext.Provider
@@ -229,10 +240,10 @@ export const DataProvider = ({ children }) => {
         setActiveCardIndex,
         userLocation,
         setUserLocation,
-        categoryFlags,
-        categoryFlag,
-        setCategoryFlag,
-        filteredEventsCategory,
+        categoryItems,
+        activeCategories,
+        setActiveCategories,
+        filteredEvents,
       }}
     >
       {children}
