@@ -132,3 +132,8 @@
 .active {
   background: rgba(245, 187, 187, 0.8);
 }
+
+.slider {
+  padding: 8px;
+  height: 10px;
+}

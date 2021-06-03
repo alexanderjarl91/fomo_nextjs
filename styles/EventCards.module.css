@@ -30,8 +30,8 @@
   background-position: center;
   box-sizing: border-box;
   box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.2);
-  /* max-height: 700px;
-  min-height: 400px; */
+
+  cursor: pointer;
 }
 
 @media (min-height: 800px) {

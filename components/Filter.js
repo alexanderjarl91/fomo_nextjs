@@ -1,13 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
 import { DataContext, UsersContext } from "../context";
 import styles from "../styles/Filter.module.css";
-
+import Slider, { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 
 export default function Filter() {
 const { setShowFilter, showFilter } = useContext(UsersContext);
 const {categoryFlags, setCategoryFlag, categoryFlag} = useContext(DataContext);
-
+const [maxKm, setMaxKm] = useState(50)
 
   const handleFilter = () => {
     setShowFilter(!showFilter);
@@ -59,7 +60,9 @@ const {categoryFlags, setCategoryFlag, categoryFlag} = useContext(DataContext);
       element.classList.toggle(styles.active);
     };
 
-
+const log = (value) => {
+  setMaxKm(value)
+}
 
 
   return (
@@ -91,7 +94,6 @@ const {categoryFlags, setCategoryFlag, categoryFlag} = useContext(DataContext);
           </div>
           <span className={styles.line}></span>
 
-
           {/* WHEN? */}
           <div className={styles.what__container}>
             <div className={styles.what__headline}>
@@ -113,12 +115,11 @@ const {categoryFlags, setCategoryFlag, categoryFlag} = useContext(DataContext);
             <div className={styles.what__headline}>
               <h3>when?</h3>
               <p>deselect all to show all</p>
+            <h2>within {maxKm}km</h2>
+            </div>
+            <Slider className={styles.slider} defaultValue={50} min={5} max={100} step={5} onChange={log} />
             </div>
             
-            
-
-
-            </div>
           <p className={styles.tinyText}>showing x events happening today within 10km</p>
         </div>
       </div>
