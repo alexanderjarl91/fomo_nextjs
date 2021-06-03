@@ -3,12 +3,11 @@
   flex-direction: column;
   min-width: 300px;
   max-width: 600px;
-  height: 80vh;
-  max-height: 80vh;
   padding: 3rem;
   margin: 0 auto;
-  overflow: hidden;
   padding-top: 6rem;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .container {
@@ -20,27 +19,44 @@
   font-weight: 600;
   font-size: 30.2843px;
   line-height: 38px;
-
   color: #f8d2d2;
 }
 
 .header__info {
   display: flex;
   justify-content: space-between;
+  margin-top: 8px;
+  width: 100%;
 }
 
 .header__info > div {
   display: flex;
+  justify-content: center;
+  align-items: center;
+
   font-size: 16px;
-  font-weight: 200;
-  gap: 10px;
+  font-weight: 400;
+  background: rgba(111, 111, 111, 0.5);
+  border-radius: 3.12644px;
+  height: 30px;
+  width: 55%;
+}
+
+.header__info > div:first-child {
+  width: 20%;
+}
+.header__info > div:last-child {
+  width: 20%;
 }
 .header__info > div > img {
-  margin-right: 5px;
+  height: 20px;
+  margin-right: 6px;
 }
 
 .description {
+  color: white;
   margin-top: 1rem;
+  margin-bottom: 1rem;
   font-size: 18px;
   line-height: 25px;
   height: 40%;
@@ -49,12 +65,9 @@
 
 .footer__btns {
   display: flex;
-  position: absolute;
-  left: 50%;
-  margin-left: -116px;
-  bottom: 4rem;
   flex-direction: column;
   margin-top: 1rem;
+  width: 100%;
 }
 
 .action__btn {
@@ -63,7 +76,7 @@
   padding: 8px 0px;
   border-radius: 10px;
   font-weight: 600;
-  width: 232px;
+  width: 100%;
   margin: 0 auto;
   color: white;
   line-height: 25px;
@@ -75,7 +88,7 @@
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
-  width: 232px;
+  width: 100%;
   margin-top: 1rem;
 }
 
@@ -86,4 +99,16 @@
   box-sizing: border-box;
   border-radius: 13px;
   padding: 5px 15px;
+}
+
+.share__btn:active {
+  transform: scale(0.96);
+  transform: translateY(2px);
+  box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.heart_btn:active {
+  transform: scale(0.96);
+  transform: translateY(2px);
+  box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.05);
 }

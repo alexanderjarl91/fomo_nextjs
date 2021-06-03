@@ -4,13 +4,8 @@
   justify-content: space-around;
   max-width: 300px;
   margin: 0 auto;
+  margin-top: 12px;
 }
-@media only screen and (min-width: 600px) {
-  .swipeButtons {
-    margin-top: 10rem;
-  }
-}
-
 .swipeButtons > img > {
   max-width: 50px;
 }
@@ -19,21 +14,21 @@
   text-align: center;
   align-items: center;
   justify-content: center;
-  height: 66px;
-  width: 66px;
+  height: 60px;
+  width: 60px;
   border-radius: 56px;
   box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   background: linear-gradient(
-    206.9deg,
-    rgba(245, 187, 187, 0.1) -0.95%,
-    rgba(0, 0, 0, 0.085) 151.29%
+    215.27deg,
+    rgba(245, 187, 187, 0.1) -70.83%,
+    rgba(0, 0, 0, 0.085) 244.44%
   );
 }
 
 .event__button > img {
   width: 20px;
-  margin-top: 23px;
+  margin-top: 20px;
 }
 
 .interested__button {
@@ -41,13 +36,13 @@
   text-align: center;
   align-items: center;
   justify-content: center;
-  height: 80px;
-  width: 80px;
+  height: 75px;
+  width: 75px;
   border-radius: 70px;
   background: linear-gradient(
-    206.9deg,
-    rgba(245, 187, 187, 0.1) -0.95%,
-    rgba(0, 0, 0, 0.085) 151.29%
+    215.27deg,
+    rgba(245, 187, 187, 0.1) -70.83%,
+    rgba(0, 0, 0, 0.085) 244.44%
   );
   box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.2);
   cursor: pointer;

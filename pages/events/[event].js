@@ -7,6 +7,7 @@ import { UsersContext, DataContext } from "../../context";
 
 //components
 import Navbar from "../../components/Navbar";
+import EventMap from "../../components/EventMap";
 
 export default function Event() {
   //context data
@@ -18,11 +19,17 @@ export default function Event() {
   //states
   const [event, setEvent] = useState();
   const [isInterested, setIsInterested] = useState();
-
+  const [coordinates, setCoordinates] = useState();
   // get the data when component mounts
   useEffect(() => {
     matchEventWithQuery();
   }, [router.query]);
+
+  useEffect(() => {
+    if (event) {
+      setCoordinates(event.location.coordinates);
+    }
+  }, [event]);
 
   // get clicked event data
   const matchEventWithQuery = async () => {
@@ -101,31 +108,27 @@ export default function Event() {
           {event && (
             <div className={styles.content}>
               {/* TITLE */}
+              <h1>{event.title}</h1>
+
               {/* TOP INFO */}
               <div className={styles.header__info}>
                 <div>
-                  <p>{event.promoter}</p>
+                  {/* <img src="/location_pin.svg" alt="" /> */}
+                  <p>{event.categories[0]}</p>
                 </div>
                 <div>
-                  <img src="/location_pin.svg" alt="" />
-                  <p>{event.location.name}</p>
-                </div>
-              </div>
-              {/* TITLE */}
-              <h1>{event.title}</h1>
-              {/* BELOW TITLE INFO */}
-              <div className={styles.header__info}>
-                <div>
-                  <img src="/date.svg" alt="" />
+                  {/* <img src="/date.svg" alt="" /> */}
                   <p>{event.date}</p>
                 </div>
                 <div>
-                  <img src="/time_icon.svg" alt="" />
+                  {/* <img src="/time_icon.svg" alt="" /> */}
                   <p>{event.time}</p>
                 </div>
               </div>
 
               <p className={styles.description}>{event.description}</p>
+
+              <EventMap coordinates={coordinates} />
 
               <div className={styles.footer__btns}>
                 <a
@@ -148,6 +151,7 @@ export default function Event() {
                     <>
                       {isInterested ? (
                         <img
+                          className={styles.heart_btn}
                           src="/heart_fill.svg"
                           alt=""
                           onClick={() => {
@@ -156,6 +160,7 @@ export default function Event() {
                         />
                       ) : (
                         <img
+                          className={styles.heart_btn}
                           src="/heart_empty.svg"
                           alt=""
                           onClick={() => {

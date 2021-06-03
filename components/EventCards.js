@@ -5,6 +5,7 @@ import styles from "../styles/EventCards.module.css";
 
 import { DataContext } from "../context";
 import { useRouter } from "next/router";
+import Buttons from "./Buttons";
 
 function EventCards() {
   const router = useRouter();
@@ -22,7 +23,7 @@ function EventCards() {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.cards__container}>
         {activeCardIndex < 0 ? (
           <div className={styles.noCards__container}>
@@ -65,6 +66,7 @@ function EventCards() {
           </TinderCard>
         ))}
       </div>
+      <Buttons />
     </div>
   );
 }

@@ -2,7 +2,10 @@
   display: flex;
   justify-content: center;
   margin-top: 6rem;
+  /* height: 60vh; */
   height: 60vh;
+  align-self: center;
+  align-items: center;
 }
 
 .card {
@@ -20,20 +23,15 @@
 .card__front {
   position: relative;
   width: 80vw;
-  max-width: 600px;
+  max-width: 400px;
   height: 58vh;
   border-radius: 16px;
   background-size: cover;
   background-position: center;
-  /* border: 1px solid #f5bbbb; */
   box-sizing: border-box;
-  /* box-shadow: 6px 7px 23px -8px rgba(245, 187, 187, 0.01); */
-}
-
-@media only screen and (min-width: 600px) {
-  .card__front {
-    height: 70vh;
-  }
+  box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.2);
+  max-height: 700px;
+  min-height: 400px;
 }
 
 /* CARD DATA */
@@ -75,7 +73,7 @@
 }
 
 .noCards__container {
-  margin-top: 10rem;
+  margin-top: 2rem;
   max-width: 220px;
   justify-content: center;
   text-align: center;
@@ -93,6 +91,7 @@
   align-content: center;
   margin: 0 auto;
   margin-top: 1rem;
+  box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.2);
 }
 
 .gradient {
