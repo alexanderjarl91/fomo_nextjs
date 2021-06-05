@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 // import TinderCard from "react-tinder-card";
 import TinderCard from "../components/TinderCard";
 import styles from "../styles/EventCards.module.css";
-
+import fire from "../firebase";
 import { DataContext } from "../context";
 import { useRouter } from "next/router";
 import Buttons from "./Buttons";
@@ -16,7 +16,6 @@ function EventCards() {
   const handleSwipe = (dir, index) => {
     setActiveCardIndex(index - 1);
   };
-
   //go to event dynamic page
   const goToEvent = (cardIndex) => {
     router.push(`/events/${cards[cardIndex].eventId}`);
@@ -35,6 +34,9 @@ function EventCards() {
             </button>
           </div>
         ) : null}
+        {/* {fire.auth().currentUser? <p>user logged in</p> : <p>user logged out</p> } */}
+        
+        {/* RENDER CARDS */}
         {filteredEvents?.map((card, index) => (
           <TinderCard
             className={`test ${styles.swipe}`}
@@ -44,7 +46,6 @@ function EventCards() {
             onClick={() => goToEvent(index)}
           >
             <div className={styles.card}>
-              {/* FRONTSIDE */}
               <div
                 className={styles.card__front}
                 style={{

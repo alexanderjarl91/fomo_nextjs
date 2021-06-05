@@ -201,10 +201,12 @@ export const DataProvider = ({ children }) => {
       array[j] = temp;
     }
   };
+
+  // FILTER
   //state for final filtered array to be rendered
   const [filteredEvents, setFilteredEvents] = useState();
 
-  // FILTER
+  //defining all categories & time settings
   const [categoryItems, setCategoryItems] = useState([
     "music",
     "nightlife",
@@ -213,29 +215,42 @@ export const DataProvider = ({ children }) => {
     "food",
     "other",
   ]);
+  const [dateFilters, setDateFilters] = useState([
+    "today",
+    "tomorrow",
+    "this week",
+    "this month",
+  ]);
+
   const [todayDate, setTodayDate] = useState(new Date());
   const [activeDates, setActiveDates] = useState("");
   const [dateFilter, setDateFilter] = useState("");
 
-  const [dateFilters, setDateFilters] = useState([
-    "Today",
-    "Tomorrow",
-    "This Week",
-    "This Month",
-  ]);
-
   //STEP 1. query database for all events where event.date > current date
+  // these are all events that are active (date hasnt passed yet)
+  const [activeEvents, setActiveEvents] = useState([]);
+  const getActiveEvents = async () => {
+    const today = new Date().toISOString();
+    const eventsRef = fire.firestore().collection("events");
+    const queryRef = eventsRef.where("date", ">", `${today}`);
+    const foundEvents = await queryRef.get();
 
-  const [futureEvents, setFutureEvents] = useState();
+    let tempEvents = activeEvents;
+    foundEvents.forEach((doc) => (tempEvents = [...tempEvents, doc.data()]));
+    setActiveEvents(tempEvents);
+  };
 
   useEffect(() => {
-    setFutureEvents(
-      filteredEvents?.filter((item) => isFuture(new Date(item.date)))
-    );
-  }, [filteredEvents]);
+    getActiveEvents();
+  }, []);
+
+  useEffect(() => {
+    console.log(activeEvents);
+  }, [activeEvents]);
 
   //STEP 2. filter only active categories
-  const [activeCategories, setActiveCategories] = useState(""); //array of categories active
+  //in other words: out of all active events show only those that match the users category filter
+  const [activeCategories, setActiveCategories] = useState("");
 
   //STEP 3. filter only active time
 
@@ -249,42 +264,32 @@ export const DataProvider = ({ children }) => {
     );
 
     switch (dateFilter) {
-      case "Today":
+      case "today":
         setFilteredEvents(
           filteredEvents.filter((item) => isToday(new Date(item.date)))
         );
-        console.log(
-          "🚀 ~ file: context.js ~ line 247 ~ useEffect ~ filteredEvents.filter((item) => isToday(new Date(item.date)))",
-          filteredEvents.filter((item) => isToday(new Date(item.date)))
-        );
+        console.log("showing todays events");
         break;
-      case "Tomorrow":
+      case "tomorrow":
         setFilteredEvents(
           filteredEvents.filter((item) => isTomorrow(new Date(item.date)))
         );
+        console.log("showing events tomorrow");
         break;
-      case "This Week":
+      case "this week":
         setFilteredEvents(
           filteredEvents.filter((item) => isThisWeek(new Date(item.date)))
         );
         break;
-      case "This Month":
+      case "this month":
         setFilteredEvents(
           filteredEvents.filter((item) => isThisMonth(new Date(item.date)))
         );
         break;
-
       default:
         break;
     }
   }, [cards, activeCategories, dateFilter]);
-
-  useEffect(() => {
-    // console.log(
-    //   "🚀 ~ file: context.js ~ line 214 ~ useEffect ~ filteredEvents",
-    //   filteredEvents
-    // );
-  }, [filteredEvents]);
 
   return (
     <DataContext.Provider
@@ -302,7 +307,6 @@ export const DataProvider = ({ children }) => {
         dateFilters,
         dateFilter,
         setDateFilter,
-        futureEvents,
       }}
     >
       {children}

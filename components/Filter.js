@@ -13,7 +13,6 @@ export default function Filter() {
     dateFilters,
     dateFilter,
     setDateFilter,
-    futureEvents
   } = useContext(DataContext);
   const [maxKm, setMaxKm] = useState(50);
 
@@ -58,18 +57,17 @@ export default function Filter() {
   //   distance(userLocation.latitude, userLocation.longitude, 64.1427936, -21.9125927, "K");
   // }, [userLocation])
 
+  //push category to activeCategories
   const handleActiveCategories = (flag) => {
-    //push flag to activeCategories
-    // setCategoryItem(flag);
     setActiveCategories(flag);
   };
+
+  //push date to active dates
   const handleActiveDates = (flag) => {
-    //push flag to activeCategories
-    // setCategoryItem(flag);
     setDateFilter(flag);
   };
-  //toggle active class to change style & run addCategory function
-  const handleSelect = (element, category) => {
+  //toggle active class on buttons
+  const handleSelect = (element) => {
     element.classList.toggle(styles.active);
   };
 
@@ -129,7 +127,6 @@ export default function Filter() {
                   </li>
                 );
               })}
-           
             </div>
           </div>
           <span className={styles.line}></span>

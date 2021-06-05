@@ -53,7 +53,7 @@ export default function Buttons() {
           }}
           className={styles.interested__button}
         >
-          <img src="/buttons/heart_btn.svg" alt="" />
+          <img src="/interested.svg" alt="" />
         </div>
       ) : (
         <div
