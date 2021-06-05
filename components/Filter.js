@@ -6,8 +6,15 @@ import "rc-slider/assets/index.css";
 
 export default function Filter() {
   const { setShowFilter, showFilter } = useContext(UsersContext);
-  const { categoryItems, setActiveCategories, activeCategories } =
-    useContext(DataContext);
+  const {
+    categoryItems,
+    setActiveCategories,
+    activeCategories,
+    dateFilters,
+    dateFilter,
+    setDateFilter,
+    futureEvents
+  } = useContext(DataContext);
   const [maxKm, setMaxKm] = useState(50);
 
   const handleFilter = () => {
@@ -56,7 +63,11 @@ export default function Filter() {
     // setCategoryItem(flag);
     setActiveCategories(flag);
   };
-
+  const handleActiveDates = (flag) => {
+    //push flag to activeCategories
+    // setCategoryItem(flag);
+    setDateFilter(flag);
+  };
   //toggle active class to change style & run addCategory function
   const handleSelect = (element, category) => {
     element.classList.toggle(styles.active);
@@ -105,10 +116,20 @@ export default function Filter() {
             </div>
 
             <div className={styles.what__buttonContainer}>
-              <li>today</li>
-              <li>tomorrow</li>
-              <li>this week</li>
-              <li>this month</li>
+              {dateFilters.map((dateF, i) => {
+                return (
+                  <li
+                    key={i}
+                    onClick={(e) => {
+                      handleActiveDates(dateF);
+                      handleSelect(e.target);
+                    }}
+                  >
+                    {dateF}
+                  </li>
+                );
+              })}
+           
             </div>
           </div>
           <span className={styles.line}></span>

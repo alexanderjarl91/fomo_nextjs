@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Router, useRouter } from "next/router";
+import {
+  isFuture,
+  format,
+  isToday,
+  isThisWeek,
+  isThisMonth,
+  isTomorrow,
+} from "date-fns";
 import fire, {
   google_provider,
   getAuth,
@@ -193,6 +201,8 @@ export const DataProvider = ({ children }) => {
       array[j] = temp;
     }
   };
+  //state for final filtered array to be rendered
+  const [filteredEvents, setFilteredEvents] = useState();
 
   // FILTER
   const [categoryItems, setCategoryItems] = useState([
@@ -203,8 +213,26 @@ export const DataProvider = ({ children }) => {
     "food",
     "other",
   ]);
+  const [todayDate, setTodayDate] = useState(new Date());
+  const [activeDates, setActiveDates] = useState("");
+  const [dateFilter, setDateFilter] = useState("");
+
+  const [dateFilters, setDateFilters] = useState([
+    "Today",
+    "Tomorrow",
+    "This Week",
+    "This Month",
+  ]);
 
   //STEP 1. query database for all events where event.date > current date
+
+  const [futureEvents, setFutureEvents] = useState();
+
+  useEffect(() => {
+    setFutureEvents(
+      filteredEvents?.filter((item) => isFuture(new Date(item.date)))
+    );
+  }, [filteredEvents]);
 
   //STEP 2. filter only active categories
   const [activeCategories, setActiveCategories] = useState(""); //array of categories active
@@ -213,22 +241,49 @@ export const DataProvider = ({ children }) => {
 
   //STEP 4. filter only within radius
 
-  //state for final filtered array to be rendered
-  const [filteredEvents, setFilteredEvents] = useState();
-
   useEffect(() => {
     setFilteredEvents(
       activeCategories == ""
         ? cards
         : cards.filter((card) => card.categories?.includes(activeCategories))
     );
-  }, [cards, activeCategories]);
+
+    switch (dateFilter) {
+      case "Today":
+        setFilteredEvents(
+          filteredEvents.filter((item) => isToday(new Date(item.date)))
+        );
+        console.log(
+          "🚀 ~ file: context.js ~ line 247 ~ useEffect ~ filteredEvents.filter((item) => isToday(new Date(item.date)))",
+          filteredEvents.filter((item) => isToday(new Date(item.date)))
+        );
+        break;
+      case "Tomorrow":
+        setFilteredEvents(
+          filteredEvents.filter((item) => isTomorrow(new Date(item.date)))
+        );
+        break;
+      case "This Week":
+        setFilteredEvents(
+          filteredEvents.filter((item) => isThisWeek(new Date(item.date)))
+        );
+        break;
+      case "This Month":
+        setFilteredEvents(
+          filteredEvents.filter((item) => isThisMonth(new Date(item.date)))
+        );
+        break;
+
+      default:
+        break;
+    }
+  }, [cards, activeCategories, dateFilter]);
 
   useEffect(() => {
-    console.log(
-      "🚀 ~ file: context.js ~ line 214 ~ useEffect ~ filteredEvents",
-      filteredEvents
-    );
+    // console.log(
+    //   "🚀 ~ file: context.js ~ line 214 ~ useEffect ~ filteredEvents",
+    //   filteredEvents
+    // );
   }, [filteredEvents]);
 
   return (
@@ -244,6 +299,10 @@ export const DataProvider = ({ children }) => {
         activeCategories,
         setActiveCategories,
         filteredEvents,
+        dateFilters,
+        dateFilter,
+        setDateFilter,
+        futureEvents,
       }}
     >
       {children}
