@@ -13,8 +13,10 @@ export default function Filter() {
     dateFilters,
     dateFilter,
     setDateFilter,
+    filteredEvents,
+    filteredEventsByDate,
   } = useContext(DataContext);
-  const [maxKm, setMaxKm] = useState(50);
+  const [maxDistance, setMaxDistance] = useState(50);
 
   const handleFilter = () => {
     setShowFilter(!showFilter);
@@ -45,17 +47,20 @@ export default function Filter() {
   //     if (unit == "N") {
   //       dist = dist * 0.8684;
   //     }
-
   //     console.log("distance is:", dist);
   //     return dist;
   //   }
   // }
-
   // const { userLocation, setUserLocation } = useContext(DataContext);
-
   // useEffect(() => {
-  //   distance(userLocation.latitude, userLocation.longitude, 64.1427936, -21.9125927, "K");
-  // }, [userLocation])
+  //   distance(
+  //     userLocation.latitude,
+  //     userLocation.longitude,
+  //     64.1427936,
+  //     -21.9125927,
+  //     "K"
+  //   );
+  // }, [userLocation]);
 
   //push category to activeCategories
   const handleActiveCategories = (flag) => {
@@ -64,15 +69,20 @@ export default function Filter() {
 
   //push date to active dates
   const handleActiveDates = (flag) => {
-    setDateFilter(flag);
+    //if flag is already in array, remove it and set to state
+    if (dateFilter.includes(flag)) {
+      setDateFilter(dateFilter.filter((item) => item != flag));
+      return;
+    }
+    setDateFilter((prev) => [...prev, flag]);
   };
   //toggle active class on buttons
   const handleSelect = (element) => {
     element.classList.toggle(styles.active);
   };
 
-  const log = (value) => {
-    setMaxKm(value);
+  const handleMaxDistance = (value) => {
+    setMaxDistance(value);
   };
 
   return (
@@ -112,7 +122,6 @@ export default function Filter() {
               <h3>when?</h3>
               <p>deselect all to show all</p>
             </div>
-
             <div className={styles.what__buttonContainer}>
               {dateFilters.map((dateF, i) => {
                 return (
@@ -136,7 +145,7 @@ export default function Filter() {
             <div className={styles.what__headline}>
               <h3>when?</h3>
               <p>deselect all to show all</p>
-              <h2>within {maxKm}km</h2>
+              <h2>within {maxDistance}km</h2>
             </div>
             <Slider
               className={styles.slider}
@@ -144,7 +153,7 @@ export default function Filter() {
               min={5}
               max={100}
               step={5}
-              onChange={log}
+              onChange={handleMaxDistance}
             />
           </div>
 

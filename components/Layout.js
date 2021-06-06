@@ -9,10 +9,6 @@ export default function Layout({ children }) {
   //context data
   const { showMenu, setShowMenu, showFilter } = useContext(UsersContext);
 
-  useEffect(() => {
-    console.log("showMenu state:", showMenu);
-  }, [showMenu]);
-
   return (
     <div>
       <Sidebar

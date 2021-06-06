@@ -3,10 +3,13 @@ import { Router, useRouter } from "next/router";
 import {
   isFuture,
   format,
+  isPast,
   isToday,
+  isBefore,
   isThisWeek,
   isThisMonth,
   isTomorrow,
+  endOfYesterday,
 } from "date-fns";
 import fire, {
   google_provider,
@@ -201,12 +204,10 @@ export const DataProvider = ({ children }) => {
       array[j] = temp;
     }
   };
-
-  // FILTER
   //state for final filtered array to be rendered
   const [filteredEvents, setFilteredEvents] = useState();
 
-  //defining all categories & time settings
+  // FILTER
   const [categoryItems, setCategoryItems] = useState([
     "music",
     "nightlife",
@@ -215,80 +216,72 @@ export const DataProvider = ({ children }) => {
     "food",
     "other",
   ]);
-  const [dateFilters, setDateFilters] = useState([
-    "today",
-    "tomorrow",
-    "this week",
-    "this month",
-  ]);
-
   const [todayDate, setTodayDate] = useState(new Date());
   const [activeDates, setActiveDates] = useState("");
-  const [dateFilter, setDateFilter] = useState("");
+  const [dateFilter, setDateFilter] = useState([]);
+
+  const [dateFilters, setDateFilters] = useState([
+    "Today",
+    "Tomorrow",
+    "This Week",
+    "This Month",
+  ]);
 
   //STEP 1. query database for all events where event.date > current date
-  // these are all events that are active (date hasnt passed yet)
-  const [activeEvents, setActiveEvents] = useState([]);
-  const getActiveEvents = async () => {
-    const today = new Date().toISOString();
-    const eventsRef = fire.firestore().collection("events");
-    const queryRef = eventsRef.where("date", ">", `${today}`);
-    const foundEvents = await queryRef.get();
-    let tempEvents = activeEvents;
-    foundEvents.forEach((doc) => (tempEvents = [...tempEvents, doc.data()]));
-    setActiveEvents(tempEvents);
-  };
+  const [futureEvents, setFutureEvents] = useState();
 
   useEffect(() => {
-    getActiveEvents();
-  }, []);
-
-  useEffect(() => {
-    console.log(activeEvents);
-  }, [activeEvents]);
+    // show only events that are not before the end of yesterday
+    setFutureEvents(
+      cards?.filter((item) => !isBefore(new Date(item.date), endOfYesterday))
+    );
+  }, [cards]);
 
   //STEP 2. filter only active categories
-  //in other words: out of all active events show only those that match the users category filter
-  const [activeCategories, setActiveCategories] = useState("");
-
-  //STEP 3. filter only active time
-
-  //STEP 4. filter only within radius
+  const [activeCategories, setActiveCategories] = useState(""); //array of categories active
 
   useEffect(() => {
-    setFilteredEvents(
-      activeCategories == ""
-        ? cards
-        : cards.filter((card) => card.categories?.includes(activeCategories))
-    );
+    let tempdates = [];
+    //object with events filtered by time
+    const datefilterobj = {
+      Today: futureEvents?.filter((item) => isToday(new Date(item.date))),
+      Tomorrow: futureEvents?.filter((item) => isTomorrow(new Date(item.date))),
+      "This Week": futureEvents?.filter((item) =>
+        isThisWeek(new Date(item.date))
+      ),
+      "This Month": futureEvents?.filter((item) =>
+        isThisMonth(new Date(item.date))
+      ),
+    };
 
-    switch (dateFilter) {
-      case "today":
-        setFilteredEvents(
-          filteredEvents.filter((item) => isToday(new Date(item.date)))
-        );
-        console.log("showing todays events");
-        break;
-      case "tomorrow":
-        setFilteredEvents(
-          filteredEvents.filter((item) => isTomorrow(new Date(item.date)))
-        );
-        console.log("showing events tomorrow");
-        break;
-      case "this week":
-        setFilteredEvents(
-          filteredEvents.filter((item) => isThisWeek(new Date(item.date)))
-        );
-        break;
-      case "this month":
-        setFilteredEvents(
-          filteredEvents.filter((item) => isThisMonth(new Date(item.date)))
-        );
-        break;
-      default:
-        break;
+    //compare current dateFilter values to datefilterobj
+    dateFilter.map((filter, i) => {
+      //getting object entries as an array and then mapping
+      Object.entries(datefilterobj).map((key, i) => {
+        //each key returns an array = ["key", [value]]
+        if (key[0] == filter) {
+          tempdates = [...tempdates, ...key[1]];
+        }
+      });
+    });
+    //temp rendered events
+    let eventsFiltered = futureEvents;
+
+    //if there is an active category filter, set filteredEvents to activeCategories
+    if (activeCategories != "") {
+      eventsFiltered = futureEvents.filter((event) =>
+        event.categories?.includes(activeCategories)
+      );
+      //if user has filtered with date, set eventsFiltered
+    } else if (tempdates.length > 0) {
+      eventsFiltered = tempdates;
     }
-  }, [cards, activeCategories, dateFilter]);
+    setFilteredEvents(eventsFiltered);
+  }, [futureEvents, activeCategories, dateFilter]);
+
+  useEffect(() => {
+    console.log("currently rendering:", filteredEvents);
+  }, [filteredEvents]);
 
   return (
     <DataContext.Provider
@@ -306,6 +299,7 @@ export const DataProvider = ({ children }) => {
         dateFilters,
         dateFilter,
         setDateFilter,
+        futureEvents,
       }}
     >
       {children}
