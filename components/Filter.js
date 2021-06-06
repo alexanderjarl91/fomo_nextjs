@@ -13,6 +13,8 @@ export default function Filter() {
     dateFilters,
     dateFilter,
     setDateFilter,
+    filteredEvents,
+    filteredEventsByDate
   } = useContext(DataContext);
   const [maxKm, setMaxKm] = useState(50);
 
@@ -64,7 +66,7 @@ export default function Filter() {
 
   //push date to active dates
   const handleActiveDates = (flag) => {
-    setDateFilter(flag);
+    setDateFilter(prev => [...prev, flag]);
   };
   //toggle active class on buttons
   const handleSelect = (element) => {

@@ -215,7 +215,7 @@ export const DataProvider = ({ children }) => {
   ]);
   const [todayDate, setTodayDate] = useState(new Date());
   const [activeDates, setActiveDates] = useState("");
-  const [dateFilter, setDateFilter] = useState("");
+  const [dateFilter, setDateFilter] = useState([]);
 
   const [dateFilters, setDateFilters] = useState([
     "Today",
@@ -242,57 +242,32 @@ export const DataProvider = ({ children }) => {
   //STEP 4. filter only within radius
 
   useEffect(() => {
-    setFilteredEvents(
-      activeCategories == ""
-        ? cards
-        : cards.filter((card) => card.categories?.includes(activeCategories))
-    );
+    let tempdates = [];
+    const datefilterobj = {
+      Today: cards?.filter((item) => isToday(new Date(item.date))),
+      Tomorrow: cards?.filter((item) => isTomorrow(new Date(item.date))),
+      "This Week": cards?.filter((item) => isThisWeek(new Date(item.date))),
+      "This Month": cards?.filter((item) => isThisMonth(new Date(item.date))),
+    };
 
-    const filteredEventsByDate = [];
-    console.log(filteredEvents,'filllllll')
-    switch (dateFilter) {
-      case "Today":
-        filteredEventsByDate.push( [
-          ...filteredEventsByDate,
-          filteredEvents.filter((item) => isToday(new Date(item.date))),
-        ]);
-        setFilteredEvents(filteredEventsByDate)
-        break;
-      case "Tomorrow":
-        filteredEventsByDate.push( [
-          ...filteredEventsByDate,
-          filteredEvents.filter((item) => isTomorrow(new Date(item.date))),
-        ]);
-        setFilteredEvents(filteredEventsByDate)
-        break;
-      case "This Week":
-        filteredEventsByDate.push( [
-          ...filteredEventsByDate,
-          filteredEvents.filter((item) => isThisWeek(new Date(item.date))),
-        ]);
-        setFilteredEvents(filteredEventsByDate)
-        break;
-      case "This Month":
-        filteredEventsByDate.push( [
-          ...filteredEventsByDate,
-          filteredEvents.filter((item) => isThisMonth(new Date(item.date))),
-        ]);
-        setFilteredEvents(filteredEventsByDate)
-        break;
+    dateFilter.map((filter, i) => {
+      Object.entries(datefilterobj).map((key, i) => {
+        if (key[0] == filter) {
+          tempdates = [...tempdates, ...key[1]];
+        }
+      });
+    });
 
-      default:
-        break;
+    let eventsFiltered = cards;
+    if (activeCategories != "") {
+      eventsFiltered = cards.filter((card) =>
+        card.categories?.includes(activeCategories)
+      );
+    } else if (tempdates.length > 0) {
+      eventsFiltered = tempdates;
     }
-  
-    console.log(filteredEventsByDate)
+    setFilteredEvents(eventsFiltered);
   }, [cards, activeCategories, dateFilter]);
-
-  useEffect(() => {
-    // console.log(
-    //   "🚀 ~ file: context.js ~ line 214 ~ useEffect ~ filteredEvents",
-    //   filteredEvents
-    // );
-  }, [filteredEvents]);
 
   return (
     <DataContext.Provider
