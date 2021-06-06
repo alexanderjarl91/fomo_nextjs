@@ -201,12 +201,10 @@ export const DataProvider = ({ children }) => {
       array[j] = temp;
     }
   };
-
-  // FILTER
   //state for final filtered array to be rendered
   const [filteredEvents, setFilteredEvents] = useState();
 
-  //defining all categories & time settings
+  // FILTER
   const [categoryItems, setCategoryItems] = useState([
     "music",
     "nightlife",
@@ -215,42 +213,29 @@ export const DataProvider = ({ children }) => {
     "food",
     "other",
   ]);
-  const [dateFilters, setDateFilters] = useState([
-    "today",
-    "tomorrow",
-    "this week",
-    "this month",
-  ]);
-
   const [todayDate, setTodayDate] = useState(new Date());
   const [activeDates, setActiveDates] = useState("");
   const [dateFilter, setDateFilter] = useState("");
 
+  const [dateFilters, setDateFilters] = useState([
+    "Today",
+    "Tomorrow",
+    "This Week",
+    "This Month",
+  ]);
+
   //STEP 1. query database for all events where event.date > current date
-  // these are all events that are active (date hasnt passed yet)
-  const [activeEvents, setActiveEvents] = useState([]);
-  const getActiveEvents = async () => {
-    const today = new Date().toISOString();
-    const eventsRef = fire.firestore().collection("events");
-    const queryRef = eventsRef.where("date", ">", `${today}`);
-    const foundEvents = await queryRef.get();
 
-    let tempEvents = activeEvents;
-    foundEvents.forEach((doc) => (tempEvents = [...tempEvents, doc.data()]));
-    setActiveEvents(tempEvents);
-  };
+  const [futureEvents, setFutureEvents] = useState();
 
   useEffect(() => {
-    getActiveEvents();
-  }, []);
-
-  useEffect(() => {
-    console.log(activeEvents);
-  }, [activeEvents]);
+    setFutureEvents(
+      filteredEvents?.filter((item) => isFuture(new Date(item.date)))
+    );
+  }, [filteredEvents]);
 
   //STEP 2. filter only active categories
-  //in other words: out of all active events show only those that match the users category filter
-  const [activeCategories, setActiveCategories] = useState("");
+  const [activeCategories, setActiveCategories] = useState(""); //array of categories active
 
   //STEP 3. filter only active time
 
@@ -263,33 +248,51 @@ export const DataProvider = ({ children }) => {
         : cards.filter((card) => card.categories?.includes(activeCategories))
     );
 
+    const filteredEventsByDate = [];
+    console.log(filteredEvents,'filllllll')
     switch (dateFilter) {
-      case "today":
-        setFilteredEvents(
-          filteredEvents.filter((item) => isToday(new Date(item.date)))
-        );
-        console.log("showing todays events");
+      case "Today":
+        filteredEventsByDate.push( [
+          ...filteredEventsByDate,
+          filteredEvents.filter((item) => isToday(new Date(item.date))),
+        ]);
+        setFilteredEvents(filteredEventsByDate)
         break;
-      case "tomorrow":
-        setFilteredEvents(
-          filteredEvents.filter((item) => isTomorrow(new Date(item.date)))
-        );
-        console.log("showing events tomorrow");
+      case "Tomorrow":
+        filteredEventsByDate.push( [
+          ...filteredEventsByDate,
+          filteredEvents.filter((item) => isTomorrow(new Date(item.date))),
+        ]);
+        setFilteredEvents(filteredEventsByDate)
         break;
-      case "this week":
-        setFilteredEvents(
-          filteredEvents.filter((item) => isThisWeek(new Date(item.date)))
-        );
+      case "This Week":
+        filteredEventsByDate.push( [
+          ...filteredEventsByDate,
+          filteredEvents.filter((item) => isThisWeek(new Date(item.date))),
+        ]);
+        setFilteredEvents(filteredEventsByDate)
         break;
-      case "this month":
-        setFilteredEvents(
-          filteredEvents.filter((item) => isThisMonth(new Date(item.date)))
-        );
+      case "This Month":
+        filteredEventsByDate.push( [
+          ...filteredEventsByDate,
+          filteredEvents.filter((item) => isThisMonth(new Date(item.date))),
+        ]);
+        setFilteredEvents(filteredEventsByDate)
         break;
+
       default:
         break;
     }
+  
+    console.log(filteredEventsByDate)
   }, [cards, activeCategories, dateFilter]);
+
+  useEffect(() => {
+    // console.log(
+    //   "🚀 ~ file: context.js ~ line 214 ~ useEffect ~ filteredEvents",
+    //   filteredEvents
+    // );
+  }, [filteredEvents]);
 
   return (
     <DataContext.Provider
@@ -307,6 +310,7 @@ export const DataProvider = ({ children }) => {
         dateFilters,
         dateFilter,
         setDateFilter,
+        futureEvents,
       }}
     >
       {children}
