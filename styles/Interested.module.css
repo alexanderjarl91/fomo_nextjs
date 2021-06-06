@@ -65,7 +65,7 @@
 
 .info > h1 {
   font-size: 20px;
-  max-width: 230px;
+  /* max-width: 230px; */
 
   font-weight: 600;
 }

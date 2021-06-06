@@ -1,4 +1,6 @@
 .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   margin-top: 6rem;
 }
 
@@ -17,7 +19,7 @@
   background-color: white;
   padding: 20px;
   color: #161618;
-  width: 80%;
+  width: 400px;
   margin: 0 auto;
   margin-top: 1rem;
   border-radius: 12px;

@@ -61,12 +61,18 @@ export default function Buttons() {
             router.push("/signup");
           }}
           className={styles.interested__button}
-        ></div>
-      )}
-
-      <div onClick={handleShowFilter} className={styles.event__button}>
-        <img src="/filter_icon.svg" alt="" />
-      </div>
+          ></div>
+          )}
+        {fire.auth().currentUser ? 
+          <div onClick={handleShowFilter} className={styles.event__button}>
+            <img src="/filter_icon.svg" alt="" />
+          </div>
+        : <div onClick={()=> {
+          router.push("/signup");
+        }} className={styles.event__button}>
+            <img src="/filter_icon.svg" alt="" />
+          </div>
+        }
     </div>
   );
 }

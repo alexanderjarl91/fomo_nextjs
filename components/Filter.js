@@ -152,6 +152,7 @@ export default function Filter() {
             showing x events happening today within 10km
           </p>
         </div>
+        <button>clear filter</button>
       </div>
     </div>
   );

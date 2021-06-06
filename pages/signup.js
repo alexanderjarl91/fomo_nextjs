@@ -29,7 +29,7 @@ export default function signup({}) {
             signInWithGoogle();
           }}
         >
-          Sign in with Google <img src="/google_icon.svg" alt="" />
+          <img src="/google_icon.svg" alt="" /> Sign in with Google
         </button>
 
         <button
@@ -37,7 +37,7 @@ export default function signup({}) {
             // signInWithFacebook();
           }}
         >
-          Sign in with Facebook <img src="/facebook_icon.svg" alt="" />
+          <img src="/facebook_icon.svg" alt="" /> Sign in with Facebook
         </button>
 
         <p>no registration required</p>

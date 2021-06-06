@@ -13,7 +13,7 @@
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
 @media (min-width: 1200px) {
   .content {
-    margin-left: 480px;
+    margin-left: 560px;
   }
 }
 
@@ -66,7 +66,7 @@
   margin-bottom: 1rem;
   font-size: 18px;
   line-height: 25px;
-  height: 40%;
+  /* height: 40%; */
   font-weight: 200;
 }
 

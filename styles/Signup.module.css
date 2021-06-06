@@ -3,7 +3,14 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  margin-top: 3rem;
+  margin-top: 6rem;
+}
+
+/* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
+@media (min-width: 1200px) {
+  .signup__container {
+    margin-left: 280px;
+  }
 }
 
 .signup__container > h1 {
@@ -27,6 +34,7 @@
 }
 
 .signup__container > button {
+  display: flex;
   background: #ffffff;
   color: #24252a;
   font-style: normal;
@@ -46,4 +54,6 @@
 
 .signup__container > button > img {
   width: 20px;
+  height: auto;
+  margin-right: 5px;
 }

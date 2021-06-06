@@ -31,12 +31,14 @@
 .event__form {
   max-width: 600px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .event__form > div {
   display: flex;
   flex-direction: column;
   padding: 20px;
+  text-align: left;
 }
 
 .event__form > div > label {
@@ -68,15 +70,18 @@
   left: 40px;
   font-size: 18px;
   text-indent: 10px;
+  align-items: center;
 }
 
 .post__button {
   text-align: center;
-  margin: 0 auto;
   background-color: #de6a7c;
   padding: 10px 38px;
   border-radius: 10px;
   font-weight: 600;
+  width: 80%;
+  margin-top: 3rem;
+  margin-bottom: 8rem;
 }
 
 .what__buttonContainer {
@@ -91,7 +96,6 @@
 }
 
 .what__buttonContainer > li {
-  /* border: 1px solid white; */
   border-radius: 20px;
   cursor: pointer;
   padding: 4px 0px;

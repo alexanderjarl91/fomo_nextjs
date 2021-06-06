@@ -32,7 +32,11 @@ const Menu = () => {
                   alt=""
                 />
                 <h1>{fire.auth().currentUser.displayName}</h1>
-                <p>festival lover</p>
+                {userData?.promoter ? (
+                  <p>promoter</p>
+                ) : (
+                  <p>{fire.auth().currentUser.email}</p>
+                )}
               </div>
 
               <div className={styles.menu__nav}>

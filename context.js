@@ -234,7 +234,6 @@ export const DataProvider = ({ children }) => {
     const eventsRef = fire.firestore().collection("events");
     const queryRef = eventsRef.where("date", ">", `${today}`);
     const foundEvents = await queryRef.get();
-
     let tempEvents = activeEvents;
     foundEvents.forEach((doc) => (tempEvents = [...tempEvents, doc.data()]));
     setActiveEvents(tempEvents);

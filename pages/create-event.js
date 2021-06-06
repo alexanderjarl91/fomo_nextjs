@@ -294,20 +294,20 @@ export default function createEvent() {
             }}
           />
         </div>
+        <p>
+          {" "}
+          note: events are not published until they have been accepted by an
+          admin
+        </p>
+        <button
+          className={styles.post__button}
+          onClick={() => {
+            postEvent();
+          }}
+        >
+          POST EVENT
+        </button>
       </div>
-
-      <p>
-        {" "}
-        note: events are not published until they have been accepted by an admin
-      </p>
-      <button
-        className={styles.post__button}
-        onClick={() => {
-          postEvent();
-        }}
-      >
-        POST EVENT
-      </button>
     </div>
   );
 }
