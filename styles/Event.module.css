@@ -10,12 +10,12 @@
   overflow: hidden;
 }
 
-/* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
+/* MOVE INDEX TO MIDDLE IN DESKTOP vieW
 @media (min-width: 1200px) {
   .content {
-    margin-left: 560px;
+    margin-left: 280px;
   }
-}
+} */
 
 .container {
   height: 100vh;

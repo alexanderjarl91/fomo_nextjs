@@ -10,6 +10,9 @@ import {
   isThisMonth,
   isTomorrow,
   endOfYesterday,
+  isYesterday,
+  startOfYesterday,
+  isAfter,
 } from "date-fns";
 import fire, {
   google_provider,
@@ -17,6 +20,7 @@ import fire, {
   signInWithPopup,
   FacebookAuthProvider,
 } from "./firebase";
+import { te } from "date-fns/locale";
 
 export const UsersContext = React.createContext();
 export const UsersProvider = ({ children }) => {
@@ -167,15 +171,29 @@ export const UsersProvider = ({ children }) => {
 
 export const DataContext = React.createContext();
 export const DataProvider = ({ children }) => {
-  const [cardsDisplayed, setCardsDisplayed] = useState([]);
-  const [cards, setCards] = useState([]);
-  const [activeCardIndex, setActiveCardIndex] = useState();
-  const [userLocation, setUserLocation] = useState();
-
-  // callback to log the active cards index
-  useEffect(() => {
-    console.log("current active card index:", activeCardIndex);
-  }, [activeCardIndex]);
+  const [userLocation, setUserLocation] = useState(); //users current location
+  const [cards, setCards] = useState([]); // all cards
+  const [activeCardIndex, setActiveCardIndex] = useState(); //index of event thats shown
+  const [futureEvents, setFutureEvents] = useState(); // events that are today or later
+  const [filteredEvents, setFilteredEvents] = useState(); //events after filtering (rendered)
+  const [activeCategories, setActiveCategories] = useState([]); //array of categories active
+  const [dateFilter, setDateFilter] = useState([]); // array of date selections active
+  const [categoryItems, setCategoryItems] = useState([
+    //all category selections
+    "music",
+    "nightlife",
+    "art",
+    "sports",
+    "food",
+    "other",
+  ]);
+  const [dateFilters, setDateFilters] = useState([
+    // all date selections
+    "Today",
+    "Tomorrow",
+    "This Week",
+    "This Month",
+  ]);
 
   useEffect(() => {
     // fetch event data, shuffle them and set to state
@@ -204,46 +222,30 @@ export const DataProvider = ({ children }) => {
       array[j] = temp;
     }
   };
-  //state for final filtered array to be rendered
-  const [filteredEvents, setFilteredEvents] = useState();
 
-  // FILTER
-  const [categoryItems, setCategoryItems] = useState([
-    "music",
-    "nightlife",
-    "art",
-    "sports",
-    "food",
-    "other",
-  ]);
-  const [todayDate, setTodayDate] = useState(new Date());
-  const [activeDates, setActiveDates] = useState("");
-  const [dateFilter, setDateFilter] = useState([]);
+  // FILTERING
+  /////////////////////////////////////////////////////////////
 
-  const [dateFilters, setDateFilters] = useState([
-    "Today",
-    "Tomorrow",
-    "This Week",
-    "This Month",
-  ]);
+  // plans: build one object called filter that contains all filter options
+  // const filter = {
+  //         categories: ["music", "food"],
+  //         dates: ["today", "tomorrow", "this week"],
+  //         maxDistance: {miles: 20, kilometers: 32 }
+  //}
+  //
+  // and saving/loading from local storage
 
-  //STEP 1. query database for all events where event.date > current date
-  const [futureEvents, setFutureEvents] = useState();
-
+  //filter only events where event.date > current date
   useEffect(() => {
-    // show only events that are not before the end of yesterday
+    // show only events that are not before the end of yesterday (today and later)
     setFutureEvents(
       cards?.filter((item) => !isBefore(new Date(item.date), endOfYesterday))
     );
   }, [cards]);
 
-  //STEP 2. filter only active categories
-  const [activeCategories, setActiveCategories] = useState(""); //array of categories active
-
   useEffect(() => {
-    let tempdates = [];
-    //object with events filtered by time
-    const datefilterobj = {
+    //object with events categorized by date
+    const eventsCategorizedByDate = {
       Today: futureEvents?.filter((item) => isToday(new Date(item.date))),
       Tomorrow: futureEvents?.filter((item) => isTomorrow(new Date(item.date))),
       "This Week": futureEvents?.filter((item) =>
@@ -253,35 +255,65 @@ export const DataProvider = ({ children }) => {
         isThisMonth(new Date(item.date))
       ),
     };
+    //object with events categorized by categories
+    const eventsCategorizedByCategory = {
+      music: futureEvents?.filter((item) => item.categories.includes("music")),
+      sports: futureEvents?.filter((item) =>
+        item.categories.includes("sports")
+      ),
+      nightlife: futureEvents?.filter((item) =>
+        item.categories.includes("nightlife")
+      ),
+      food: futureEvents?.filter((item) => item.categories.includes("food")),
+      art: futureEvents?.filter((item) => item.categories.includes("art")),
+      other: futureEvents?.filter((item) => item.categories.includes("other")),
+    };
+
+    // console.log("categorized by events", eventsCategorizedByCategory);
 
     //compare current dateFilter values to datefilterobj
+    let tempDates = [];
     dateFilter.map((filter, i) => {
       //getting object entries as an array and then mapping
-      Object.entries(datefilterobj).map((key, i) => {
+      Object.entries(eventsCategorizedByDate).map((key, i) => {
         //each key returns an array = ["key", [value]]
         if (key[0] == filter) {
-          tempdates = [...tempdates, ...key[1]];
+          tempDates = [...tempDates, ...key[1]];
         }
       });
     });
+
+    //compare
+    let tempCategories = [];
+    activeCategories.map((category, i) => {
+      Object.entries(eventsCategorizedByCategory).map((key, i) => {
+        if (key[0] == category) {
+          tempCategories = [...tempCategories, ...key[1]];
+        }
+      });
+    });
+
+    const filtered = tempDates.concat(tempCategories);
+    +console.log("FILTERED", filtered);
+
     //temp rendered events
     let eventsFiltered = futureEvents;
 
     //if there is an active category filter, set filteredEvents to activeCategories
-    if (activeCategories != "") {
-      eventsFiltered = futureEvents.filter((event) =>
-        event.categories?.includes(activeCategories)
-      );
+    if (activeCategories.length > 0) {
+      eventsFiltered = tempCategories;
       //if user has filtered with date, set eventsFiltered
-    } else if (tempdates.length > 0) {
-      eventsFiltered = tempdates;
+    } else if (tempDates.length > 0) {
+      eventsFiltered = tempDates;
     }
     setFilteredEvents(eventsFiltered);
   }, [futureEvents, activeCategories, dateFilter]);
 
-  useEffect(() => {
-    console.log("currently rendering:", filteredEvents);
-  }, [filteredEvents]);
+  // useEffect(() => {
+  //   console.log("categories selected:", activeCategories);
+  //   console.log("dates selected:", dateFilter);
+  //   console.log("currently rendering events:", filteredEvents);
+  // }, [filteredEvents]);
 
   return (
     <DataContext.Provider
