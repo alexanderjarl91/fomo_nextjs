@@ -48,6 +48,7 @@
 
 .header {
   display: flex;
+  flex-direction: column;
   justify-content: flex-end;
   align-items: center;
   align-content: flex-start;
@@ -55,8 +56,19 @@
   margin: 0 auto;
   margin-top: 1rem;
 }
-.header > h1 {
-  margin-right: 5rem;
+
+.header > div {
+  display: flex;
+}
+
+.header > div > img {
+  margin-right: 8px;
+}
+
+.close_btn {
+  position: absolute;
+  right: 25px;
+  top: 30px;
 }
 
 .filter__content {

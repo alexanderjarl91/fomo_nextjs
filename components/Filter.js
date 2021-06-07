@@ -54,8 +54,12 @@ export default function Filter() {
     <div className={styles.container}>
       <div className={styles.filter}>
         <div className={styles.header}>
-          <h1>FILTER</h1>
-          <img onClick={handleFilter} src={"/close_filter.svg"} alt="" />
+          <div>
+            <img src="/filter_icon.svg" alt="" />
+            <h1>FILTER</h1>
+            <img className={styles.close_btn} onClick={handleFilter} src={"/close_filter.svg"} alt="" />
+          </div>
+          <p className={styles.tinyText}>find exactly what you're looking for</p>
         </div>
         <div className={styles.filter__content}>
           {/* WHAT? */}
