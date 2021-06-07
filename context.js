@@ -189,10 +189,10 @@ export const DataProvider = ({ children }) => {
   ]);
   const [dateFilters, setDateFilters] = useState([
     // all date selections
-    "Today",
-    "Tomorrow",
-    "This Week",
-    "This Month",
+    "today",
+    "tomorrow",
+    "this week",
+    "this month",
   ]);
 
   useEffect(() => {
@@ -246,12 +246,12 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     //object with events categorized by date
     const eventsCategorizedByDate = {
-      Today: futureEvents?.filter((item) => isToday(new Date(item.date))),
-      Tomorrow: futureEvents?.filter((item) => isTomorrow(new Date(item.date))),
-      "This Week": futureEvents?.filter((item) =>
+      today: futureEvents?.filter((item) => isToday(new Date(item.date))),
+      tomorrow: futureEvents?.filter((item) => isTomorrow(new Date(item.date))),
+      "this week": futureEvents?.filter((item) =>
         isThisWeek(new Date(item.date))
       ),
-      "This Month": futureEvents?.filter((item) =>
+      "this month": futureEvents?.filter((item) =>
         isThisMonth(new Date(item.date))
       ),
     };
@@ -268,8 +268,6 @@ export const DataProvider = ({ children }) => {
       art: futureEvents?.filter((item) => item.categories.includes("art")),
       other: futureEvents?.filter((item) => item.categories.includes("other")),
     };
-
-    // console.log("categorized by events", eventsCategorizedByCategory);
 
     //compare current dateFilter values to datefilterobj
     let tempDates = [];
@@ -293,8 +291,7 @@ export const DataProvider = ({ children }) => {
       });
     });
 
-    const filtered = tempDates.concat(tempCategories);
-    +console.log("FILTERED", filtered);
+    // FINAL STEP
 
     //temp rendered events
     let eventsFiltered = futureEvents;
