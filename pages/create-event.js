@@ -31,7 +31,7 @@ export default function createEvent() {
     tempEvent.eventId = uuidv4();
     tempEvent.status = "pending";
     event.location = {};
-    event.location.name = address;
+    event.location.name = address.split(",")[0]; //location name split at first comma
     event.location.coordinates = coordinates;
 
     setEvent(tempEvent);
