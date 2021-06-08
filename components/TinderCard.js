@@ -25,7 +25,7 @@ const pythagoras = (x, y) => {
 const animateOut = async (element, speed, easeIn = false) => {
   const startPos = getTranslate(element);
   const bodySize = getElementSize(document.body);
-  const diagonal = pythagoras(bodySize.x, bodySize.y);
+  const diagonal = pythagoras(bodySize.x * 5, bodySize.y * 5);
 
   const velocity = pythagoras(speed.x, speed.y);
   const time = diagonal / velocity;

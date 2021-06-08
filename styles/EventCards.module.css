@@ -108,3 +108,8 @@
   background: linear-gradient(180deg, rgba(0, 0, 0, 0), #000000 120%);
   border-radius: 0px 0px 16px 16px;
 }
+
+.animateOut {
+  transform: scale(0.6);
+  /* opacity: 0.5; */
+}

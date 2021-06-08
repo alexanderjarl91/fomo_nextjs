@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, createRef, useEffect } from "react";
 // import TinderCard from "react-tinder-card";
 import TinderCard from "../components/TinderCard";
 import styles from "../styles/EventCards.module.css";
@@ -6,11 +6,29 @@ import fire from "../firebase";
 import { DataContext } from "../context";
 import { useRouter } from "next/router";
 import Buttons from "./Buttons";
+import { set } from "date-fns";
+import cx from "../utils/cx";
 
 function EventCards() {
   const router = useRouter();
   const { activeCardIndex, setActiveCardIndex, cards, filteredEvents } =
     useContext(DataContext);
+
+  const [cardRefs, setCardRefs] = useState([]);
+  const [showAnimation, setShowAnimation] = useState(false);
+
+  //create an array of references for each event card whenever filteredEvents array updates
+  useEffect(() => {
+    if (!filteredEvents) return;
+    setCardRefs(filteredEvents?.map(() => createRef(null)));
+  }, [filteredEvents]);
+
+  //handle function when like button is clicked
+  const handleLike = () => {
+    console.log("current ref", cardRefs[activeCardIndex].current);
+    cardRefs[activeCardIndex].current.swipe("down");
+    setShowAnimation(!showAnimation);
+  };
 
   //when card is swiped, set active card index to the next one
   const handleSwipe = (dir, index) => {
@@ -53,13 +71,22 @@ function EventCards() {
               {/* RENDER CARDS */}
               {filteredEvents?.map((card, index) => (
                 <TinderCard
-                  className={`test ${styles.swipe}`}
+                  className={cx(
+                    { [styles.swipe]: true },
+                    { [styles.animateOut]: showAnimation }
+                  )}
                   key={card.title}
+                  ref={cardRefs[index]}
                   preventSwipe={["up", "down"]}
                   onSwipe={(dir) => handleSwipe(dir, index)}
                   onClick={() => goToEvent(index)}
                 >
-                  <div className={styles.card}>
+                  <div
+                    className={cx(
+                      { [styles.card]: true }
+                      // { [styles.redBorder]: showAnimation }
+                    )}
+                  >
                     <div
                       className={styles.card__front}
                       style={{
@@ -117,7 +144,7 @@ function EventCards() {
           </>
         )}
       </div>
-      <Buttons />
+      <Buttons handleLike={handleLike} />
     </div>
   );
 }

@@ -20,6 +20,12 @@
   line-height: 29px;
 }
 
+@media (min-width: 1200px) {
+  .menu {
+    width: 320px;
+  }
+}
+
 .copyright {
   position: absolute;
   bottom: 0;
@@ -149,22 +155,21 @@
 
 .menu__nav > button {
   display: flex;
+  justify-content: center;
+
   background-color: #de6a7c;
   padding: 8px 38px;
   border-radius: 10px;
   font-weight: 500;
-  justify-content: center;
-  text-align: center;
-  align-content: center;
   font-weight: 600;
   width: 100px;
   margin: 0 auto;
-  margin-top: 6px;
+  margin-top: 12px;
   cursor: pointer;
   transition: 0.1s ease-in;
 }
 .menu__nav > button:hover {
-  transform: scale(1.02);
+  transform: scale(0.98);
 }
 
 /* DOCKED */

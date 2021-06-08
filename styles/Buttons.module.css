@@ -62,3 +62,29 @@
   transform: translateY(2px);
   box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.05);
 }
+
+.heart__animation {
+  display: none;
+  position: absolute;
+  opacity: 0.8;
+  top: 200px;
+  width: 250px;
+}
+
+.is__animating {
+  display: block;
+  animation: animationFrames linear 1s;
+  animation-iteration-count: 1;
+  transform-origin: 50% 50%;
+}
+
+@keyframes animationFrames {
+  0% {
+    opacity: 0.8;
+    transform: translate(-0px, -26px) scaleX(1) scaleY(1);
+  }
+  99% {
+    opacity: 0;
+    transform: translate(-0px, 280px) scaleX(0.5) scaleY(0.5);
+  }
+}
