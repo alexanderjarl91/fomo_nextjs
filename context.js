@@ -195,6 +195,12 @@ export const DataProvider = ({ children }) => {
     "this month",
   ]);
 
+  const [filter, setFilter] = useState({
+    categories: ["music"],
+    activeDates: ["today"],
+    maxDistance: 5,
+  });
+
   useEffect(() => {
     // fetch event data, shuffle them and set to state
     const getCards = async () => {
@@ -270,47 +276,52 @@ export const DataProvider = ({ children }) => {
     };
 
     //compare current dateFilter values to datefilterobj
-    let tempDates = [];
+    let tempEvents = [];
     dateFilter.map((filter, i) => {
       //getting object entries as an array and then mapping
       Object.entries(eventsCategorizedByDate).map((key, i) => {
         //each key returns an array = ["key", [value]]
         if (key[0] == filter) {
-          tempDates = [...tempDates, ...key[1]];
+          tempEvents = [...tempEvents, ...key[1]];
         }
       });
     });
 
     //compare
-    let tempCategories = [];
+    // let tempCategories = [];
     activeCategories.map((category, i) => {
       Object.entries(eventsCategorizedByCategory).map((key, i) => {
         if (key[0] == category) {
-          tempCategories = [...tempCategories, ...key[1]];
+          tempEvents = [...tempEvents, ...key[1]];
         }
       });
     });
 
-    // FINAL STEP
-
-    //temp rendered events
     let eventsFiltered = futureEvents;
 
-    //if there is an active category filter, set filteredEvents to activeCategories
-    if (activeCategories.length > 0) {
-      eventsFiltered = tempCategories;
-      //if user has filtered with date, set eventsFiltered
-    } else if (tempDates.length > 0) {
-      eventsFiltered = tempDates;
+    if (tempEvents.length > 0) {
+      eventsFiltered = tempEvents;
     }
-    setFilteredEvents(eventsFiltered);
+
+    if (activeCategories.length > 0 && tempEvents.length == 0) {
+      console.log("this category includes no events");
+      eventsFiltered = [];
+    }
+
+    // FINAL STEP
+
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
+    const unique = eventsFiltered?.filter(onlyUnique);
+    setFilteredEvents(unique);
   }, [futureEvents, activeCategories, dateFilter]);
 
-  // useEffect(() => {
-  //   console.log("categories selected:", activeCategories);
-  //   console.log("dates selected:", dateFilter);
-  //   console.log("currently rendering events:", filteredEvents);
-  // }, [filteredEvents]);
+  useEffect(() => {
+    // console.log("categories selected:", activeCategories);
+    // console.log("dates selected:", dateFilter);
+    console.log("currently rendering events:", filteredEvents);
+  }, [filteredEvents]);
 
   return (
     <DataContext.Provider

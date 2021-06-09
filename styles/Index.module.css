@@ -1,3 +1,5 @@
+.index__container {
+}
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
 @media (min-width: 1200px) {
   .index__container {

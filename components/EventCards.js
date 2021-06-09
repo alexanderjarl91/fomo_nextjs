@@ -6,16 +6,59 @@ import fire from "../firebase";
 import { DataContext } from "../context";
 import { useRouter } from "next/router";
 import Buttons from "./Buttons";
-import { set } from "date-fns";
 import cx from "../utils/cx";
 
 function EventCards() {
   const router = useRouter();
   const { activeCardIndex, setActiveCardIndex, cards, filteredEvents } =
     useContext(DataContext);
-
   const [cardRefs, setCardRefs] = useState([]);
   const [showAnimation, setShowAnimation] = useState(false);
+
+  //handle function when like button is clicked
+  const handleLike = () => {
+    //throw card to the right
+    const activeCard = filteredEvents[activeCardIndex];
+    saveToInterested(activeCard);
+    // cardRefs[activeCardIndex].current.swipe("right");
+    setShowAnimation(!showAnimation);
+    setTimeout(() => {
+      setShowAnimation(false);
+    }, 500);
+  };
+
+  //handle swipe
+  const handleSwipe = async (dir, index) => {
+    console.log("from swipe function", activeCardIndex);
+    if (dir == "right") {
+      const activeCard = filteredEvents[index];
+      await saveToInterested(activeCard);
+    }
+    setActiveCardIndex(index - 1);
+  };
+
+  const saveToInterested = async (activeCard) => {
+    // get current users interested array
+    const userRef = await fire
+      .firestore()
+      .collection("users")
+      .doc(fire.auth().currentUser.email);
+    const doc = await userRef.get();
+    // create a temp array and fill it with firestore data
+    let tempInterested = [];
+    //if no doc was found, cancel function
+    if (!doc.exists) return;
+    //if doc had an interested array, save a temp version of it
+    if (doc.data().interested) {
+      tempInterested = doc.data().interested;
+    }
+    // // cancel if item is already
+    if (tempInterested.includes(activeCard.eventId)) return;
+    // push activeCards eventId to temporary interested array
+    tempInterested.push(activeCard.eventId);
+    // save new interested array to firestore
+    userRef.update({ interested: tempInterested });
+  };
 
   //create an array of references for each event card whenever filteredEvents array updates
   useEffect(() => {
@@ -23,17 +66,6 @@ function EventCards() {
     setCardRefs(filteredEvents?.map(() => createRef(null)));
   }, [filteredEvents]);
 
-  //handle function when like button is clicked
-  const handleLike = () => {
-    console.log("current ref", cardRefs[activeCardIndex].current);
-    cardRefs[activeCardIndex].current.swipe("down");
-    setShowAnimation(!showAnimation);
-  };
-
-  //when card is swiped, set active card index to the next one
-  const handleSwipe = (dir, index) => {
-    setActiveCardIndex(index - 1);
-  };
   //go to event dynamic page
   const goToEvent = (cardIndex) => {
     router.push(`/events/${cards[cardIndex].eventId}`);
@@ -93,6 +125,12 @@ function EventCards() {
                         backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
                       }}
                     >
+                      {showAnimation ? (
+                        <img
+                          className={styles.heart__animation}
+                          src="/heart_fill.svg"
+                        />
+                      ) : null}
                       <div className={styles.gradient}></div>
                       <h3>{card.title}</h3>
                       <div className={styles.location__container}>

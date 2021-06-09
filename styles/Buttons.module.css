@@ -64,10 +64,9 @@
 }
 
 .heart__animation {
-  display: none;
   position: absolute;
   opacity: 0.8;
-  top: 200px;
+  top: 150px;
   width: 250px;
 }
 
@@ -80,11 +79,11 @@
 
 @keyframes animationFrames {
   0% {
-    opacity: 0.8;
+    opacity: 0;
     transform: translate(-0px, -26px) scaleX(1) scaleY(1);
   }
-  99% {
-    opacity: 0;
+  100% {
+    opacity: 1;
     transform: translate(-0px, 280px) scaleX(0.5) scaleY(0.5);
   }
 }
