@@ -21,6 +21,7 @@ import fire, {
   FacebookAuthProvider,
 } from "./firebase";
 import { te } from "date-fns/locale";
+import _, { map } from "underscore";
 
 export const UsersContext = React.createContext();
 export const UsersProvider = ({ children }) => {
@@ -195,11 +196,11 @@ export const DataProvider = ({ children }) => {
     "this month",
   ]);
 
-  const [filter, setFilter] = useState({
-    categories: ["music"],
-    activeDates: ["today"],
-    maxDistance: 5,
-  });
+  // const [filter, setFilter] = useState({
+  //   categories: ["music"],
+  //   activeDates: ["today"],
+  //   maxDistance: 5,
+  // });
 
   useEffect(() => {
     // fetch event data, shuffle them and set to state
@@ -229,18 +230,6 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  // FILTERING
-  /////////////////////////////////////////////////////////////
-
-  // plans: build one object called filter that contains all filter options
-  // const filter = {
-  //         categories: ["music", "food"],
-  //         dates: ["today", "tomorrow", "this week"],
-  //         maxDistance: {miles: 20, kilometers: 32 }
-  //}
-  //
-  // and saving/loading from local storage
-
   //filter only events where event.date > current date
   useEffect(() => {
     // show only events that are not before the end of yesterday (today and later)
@@ -250,70 +239,123 @@ export const DataProvider = ({ children }) => {
   }, [cards]);
 
   useEffect(() => {
-    //object with events categorized by date
-    const eventsCategorizedByDate = {
-      today: futureEvents?.filter((item) => isToday(new Date(item.date))),
-      tomorrow: futureEvents?.filter((item) => isTomorrow(new Date(item.date))),
-      "this week": futureEvents?.filter((item) =>
-        isThisWeek(new Date(item.date))
-      ),
-      "this month": futureEvents?.filter((item) =>
-        isThisMonth(new Date(item.date))
-      ),
-    };
-    //object with events categorized by categories
-    const eventsCategorizedByCategory = {
-      music: futureEvents?.filter((item) => item.categories.includes("music")),
-      sports: futureEvents?.filter((item) =>
-        item.categories.includes("sports")
-      ),
-      nightlife: futureEvents?.filter((item) =>
-        item.categories.includes("nightlife")
-      ),
-      food: futureEvents?.filter((item) => item.categories.includes("food")),
-      art: futureEvents?.filter((item) => item.categories.includes("art")),
-      other: futureEvents?.filter((item) => item.categories.includes("other")),
-    };
-
-    //compare current dateFilter values to datefilterobj
     let tempEvents = [];
-    dateFilter.map((filter, i) => {
-      //getting object entries as an array and then mapping
-      Object.entries(eventsCategorizedByDate).map((key, i) => {
-        //each key returns an array = ["key", [value]]
-        if (key[0] == filter) {
-          tempEvents = [...tempEvents, ...key[1]];
+
+    const filter = [
+      {
+        dates: [
+          [
+            "today",
+            futureEvents?.filter((item) => isToday(new Date(item.date))),
+          ],
+          [
+            "tomorrow",
+            futureEvents?.filter((item) => isTomorrow(new Date(item.date))),
+          ],
+          [
+            "this week",
+            futureEvents?.filter((item) => isThisWeek(new Date(item.date))),
+          ],
+          [
+            "this month",
+            futureEvents?.filter((item) => isThisMonth(new Date(item.date))),
+          ],
+        ],
+      },
+      {
+        categories: [
+          [
+            "music",
+            futureEvents?.filter((item) => item.categories.includes("music")),
+          ],
+          [
+            "sports",
+            futureEvents?.filter((item) => item.categories.includes("sports")),
+          ],
+          [
+            "nightlife",
+            futureEvents?.filter((item) =>
+              item.categories.includes("nightlife")
+            ),
+          ],
+          [
+            "food",
+            futureEvents?.filter((item) => item.categories.includes("food")),
+          ],
+          [
+            "art",
+            futureEvents?.filter((item) => item.categories.includes("art")),
+          ],
+          [
+            "other",
+            futureEvents?.filter((item) => item.categories.includes("other")),
+          ],
+        ],
+      },
+    ];
+
+    // looping over filter object with all filter conditions
+    _.map(filter, (val, key) => {
+      // console.log("🚀 ~ file: context.js ~ line 295 ~ {_.map ~ val", val);
+      if (activeCategories.length > 0 && dateFilter.length > 0) {
+        console.log("both filters applied");
+        let tempdates = [];
+        let eventsMerged = []
+        if (key == 0) {
+          dateFilter.map((flag, i) => {
+            val["dates"].map((item) => {
+              if (item[0] == flag) {
+                tempdates = [...tempdates, ...item[1]];
+              }
+            });
+          });
+          activeCategories.map(categoryfilter => {
+            eventsMerged = [...eventsMerged,...tempdates.filter(dateEvent => dateEvent.categories.includes(categoryfilter))]
+          })
+          tempEvents = eventsMerged;
         }
-      });
-    });
 
-    //compare
-    // let tempCategories = [];
-    activeCategories.map((category, i) => {
-      Object.entries(eventsCategorizedByCategory).map((key, i) => {
-        if (key[0] == category) {
-          tempEvents = [...tempEvents, ...key[1]];
+      } else if (activeCategories.length > 0) {
+        console.log("category filters applied");
+        let tempCategories = [];
+        if (key == 1) {
+          console.log(val["categories"]);
+          activeCategories.map((flag, i) => {
+            val["categories"].map((item) => {
+              console.log(item);
+              if (item[0] == flag) {
+                tempCategories = [...tempCategories, ...item[1]];
+              }
+            });
+          });
+          tempEvents = tempCategories;
         }
-      });
+      }
+      //we have only date filter
+      else if (dateFilter.length > 0) {
+        console.log("dates filters applied");
+        let tempdates = [];
+        if (key == 0) {
+          dateFilter.map((flag, i) => {
+            val["dates"].map((item) => {
+              if (item[0] == flag) {
+                tempdates = [...tempdates, ...item[1]];
+              }
+            });
+          });
+          tempEvents = tempdates;
+        }
+      } else {
+        console.log("no filters applied");
+        tempEvents = futureEvents;
+      }
     });
-
-    let eventsFiltered = futureEvents;
-
-    if (tempEvents.length > 0) {
-      eventsFiltered = tempEvents;
-    }
-
-    if (activeCategories.length > 0 && tempEvents.length == 0) {
-      console.log("this category includes no events");
-      eventsFiltered = [];
-    }
-
-    // FINAL STEP
+    console.log("🚀 ~ tempEvents", tempEvents);
 
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
     }
-    const unique = eventsFiltered?.filter(onlyUnique);
+    const unique = tempEvents?.filter(onlyUnique);
     setFilteredEvents(unique);
   }, [futureEvents, activeCategories, dateFilter]);
 
