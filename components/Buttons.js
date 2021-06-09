@@ -32,7 +32,12 @@ export default function Buttons({ handleLike, showAnimation }) {
       </motion.div>
       <div className={styles.swipeButtons}>
         {/* BACK BUTTON */}
-        <div className={styles.event__button}>
+        <div
+          className={styles.event__button}
+          onClick={() => {
+            handleLike();
+          }}
+        >
           <img src="/back_arrow2.svg" alt="" />
         </div>
 

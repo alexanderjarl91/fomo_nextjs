@@ -18,6 +18,7 @@
   backface-visibility: hidden;
   width: 10rem;
   transition: transform 1s ease;
+  background-color: black;
 }
 
 .card__front {
@@ -72,6 +73,13 @@
 
 .date__container > img {
   margin-right: 5px;
+}
+
+.card__heart {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 30px;
 }
 
 .swipe {

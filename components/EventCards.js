@@ -3,7 +3,7 @@ import React, { useState, useContext, createRef, useEffect } from "react";
 import TinderCard from "../components/TinderCard";
 import styles from "../styles/EventCards.module.css";
 import fire from "../firebase";
-import { DataContext } from "../context";
+import { UsersContext, DataContext } from "../context";
 import { useRouter } from "next/router";
 import Buttons from "./Buttons";
 import cx from "../utils/cx";
@@ -13,6 +13,8 @@ function EventCards() {
   const router = useRouter();
   const { activeCardIndex, setActiveCardIndex, cards, filteredEvents } =
     useContext(DataContext);
+    const { userData} =
+    useContext(UsersContext);
   const [cardRefs, setCardRefs] = useState([]);
   const [showAnimation, setShowAnimation] = useState(false);
 
@@ -113,12 +115,7 @@ function EventCards() {
                   onSwipe={(dir) => handleSwipe(dir, index)}
                   onClick={() => goToEvent(index)}
                 >
-                  <div
-                    className={cx(
-                      { [styles.card]: true }
-                      // { [styles.redBorder]: showAnimation }
-                    )}
-                  >
+                  <div className={cx({ [styles.card]: true })}>
                     <div
                       className={styles.card__front}
                       style={{
@@ -135,6 +132,9 @@ function EventCards() {
                         <img src="/date.svg" alt="" />
                         <p>{card.date}</p>
                       </div>
+                      
+                      {userData?.interested.includes(card.eventId)? <img className={styles.card__heart} src="/heart_fill.svg" alt="" /> : null}
+                
                     </div>
                   </div>
                 </TinderCard>
