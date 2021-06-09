@@ -7,6 +7,8 @@ import { DataContext } from "../context";
 import { useRouter } from "next/router";
 import Buttons from "./Buttons";
 import cx from "../utils/cx";
+import { motion } from "framer-motion"
+
 
 function EventCards() {
   const router = useRouter();
@@ -18,18 +20,14 @@ function EventCards() {
   //handle function when like button is clicked
   const handleLike = () => {
     //throw card to the right
-    const activeCard = filteredEvents[activeCardIndex];
-    saveToInterested(activeCard);
-    // cardRefs[activeCardIndex].current.swipe("right");
-    setShowAnimation(!showAnimation);
-    setTimeout(() => {
-      setShowAnimation(false);
-    }, 500);
+    cardRefs[activeCardIndex].current.swipe("right");
+    setShowAnimation(!showAnimation)
+
   };
 
   //handle swipe
   const handleSwipe = async (dir, index) => {
-    console.log("from swipe function", activeCardIndex);
+    //save event if swiped right
     if (dir == "right") {
       const activeCard = filteredEvents[index];
       await saveToInterested(activeCard);
@@ -58,6 +56,7 @@ function EventCards() {
     tempInterested.push(activeCard.eventId);
     // save new interested array to firestore
     userRef.update({ interested: tempInterested });
+    console.log("event saved to interested:", activeCard);
   };
 
   //create an array of references for each event card whenever filteredEvents array updates
@@ -73,6 +72,9 @@ function EventCards() {
 
   return (
     <div className={styles.container}>
+      <motion.div className={styles.notification} animate={{ opacity: showAnimation ? 0.7 : 0 }} >
+        <h1>TEST</h1>
+      </motion.div>
       <div className={styles.cards__container}>
         {activeCardIndex < 0 && fire.auth().currentUser ? (
           <div className={styles.noCards__container}>
@@ -105,7 +107,7 @@ function EventCards() {
                 <TinderCard
                   className={cx(
                     { [styles.swipe]: true },
-                    { [styles.animateOut]: showAnimation }
+                    // { [styles.animateOut]: showAnimation }
                   )}
                   key={card.title}
                   ref={cardRefs[index]}
