@@ -13,8 +13,7 @@ function EventCards() {
   const router = useRouter();
   const { activeCardIndex, setActiveCardIndex, cards, filteredEvents } =
     useContext(DataContext);
-    const { userData} =
-    useContext(UsersContext);
+  const { userData } = useContext(UsersContext);
   const [cardRefs, setCardRefs] = useState([]);
   const [showAnimation, setShowAnimation] = useState(false);
 
@@ -132,9 +131,14 @@ function EventCards() {
                         <img src="/date.svg" alt="" />
                         <p>{card.date}</p>
                       </div>
-                      
-                      {userData?.interested.includes(card.eventId)? <img className={styles.card__heart} src="/heart_fill.svg" alt="" /> : null}
-                
+
+                      {userData?.interested.includes(card.eventId)?
+                      <img
+                        className={styles.card__heart}
+                        src="/heart_fill.svg"
+                        alt=""
+                      />
+                      : null}
                     </div>
                   </div>
                 </TinderCard>

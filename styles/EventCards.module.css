@@ -75,10 +75,12 @@
 }
 
 .card__heart {
-  position: fixed;
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
+  width: 30px;
   bottom: 20px;
   right: 20px;
-  width: 30px;
 }
 
 .swipe {
