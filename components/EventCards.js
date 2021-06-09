@@ -7,8 +7,7 @@ import { DataContext } from "../context";
 import { useRouter } from "next/router";
 import Buttons from "./Buttons";
 import cx from "../utils/cx";
-import { motion } from "framer-motion"
-
+import { motion } from "framer-motion";
 
 function EventCards() {
   const router = useRouter();
@@ -21,8 +20,10 @@ function EventCards() {
   const handleLike = () => {
     //throw card to the right
     cardRefs[activeCardIndex].current.swipe("right");
-    setShowAnimation(!showAnimation)
-
+    setShowAnimation(true);
+    setTimeout(() => {
+      setShowAnimation(false);
+    }, 800);
   };
 
   //handle swipe
@@ -72,9 +73,6 @@ function EventCards() {
 
   return (
     <div className={styles.container}>
-      <motion.div className={styles.notification} animate={{ opacity: showAnimation ? 0.7 : 0 }} >
-        <h1>TEST</h1>
-      </motion.div>
       <div className={styles.cards__container}>
         {activeCardIndex < 0 && fire.auth().currentUser ? (
           <div className={styles.noCards__container}>
@@ -106,7 +104,7 @@ function EventCards() {
               {filteredEvents?.map((card, index) => (
                 <TinderCard
                   className={cx(
-                    { [styles.swipe]: true },
+                    { [styles.swipe]: true }
                     // { [styles.animateOut]: showAnimation }
                   )}
                   key={card.title}
@@ -127,12 +125,6 @@ function EventCards() {
                         backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
                       }}
                     >
-                      {showAnimation ? (
-                        <img
-                          className={styles.heart__animation}
-                          src="/heart_fill.svg"
-                        />
-                      ) : null}
                       <div className={styles.gradient}></div>
                       <h3>{card.title}</h3>
                       <div className={styles.location__container}>
@@ -184,7 +176,7 @@ function EventCards() {
           </>
         )}
       </div>
-      <Buttons handleLike={handleLike} />
+      <Buttons handleLike={handleLike} showAnimation={showAnimation} />
     </div>
   );
 }

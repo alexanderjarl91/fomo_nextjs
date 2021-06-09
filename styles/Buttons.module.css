@@ -1,3 +1,8 @@
+.container {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .swipeButtons {
   display: flex;
   align-items: center;
@@ -86,4 +91,11 @@
     opacity: 1;
     transform: translate(-0px, 280px) scaleX(0.5) scaleY(0.5);
   }
+}
+
+.notification {
+  display: flex;
+  justify-content: center;
+
+  margin: 0 auto;
 }
