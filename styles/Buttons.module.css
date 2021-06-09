@@ -95,4 +95,11 @@
 
 .notification {
   position: absolute;
+  top: 30%;
+  left: 50%;
+  margin-left: -70px;
+  border-radius: 20px;
+  padding: 10px 20px;
+  color: white;
+  font-size: 12px;
 }

@@ -15,7 +15,7 @@ function EventCards() {
     useContext(DataContext);
   const { userData } = useContext(UsersContext);
   const [cardRefs, setCardRefs] = useState([]);
-  const [showAnimation, setShowAnimation] = useState(false);
+  const [showAnimation, setShowAnimation] = useState(true);
 
   //handle function when like button is clicked
   const handleLike = () => {
