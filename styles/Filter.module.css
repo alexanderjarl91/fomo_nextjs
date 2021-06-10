@@ -55,6 +55,7 @@
   max-width: 80%;
   margin: 0 auto;
   margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .header > div {
@@ -63,6 +64,9 @@
 
 .header > div > img {
   margin-right: 8px;
+}
+.header > p {
+  margin-top: -8px;
 }
 
 .close_btn {
@@ -85,6 +89,12 @@
 
 .what__headline {
   display: flex;
+  align-items: baseline;
+}
+
+.where__headline {
+  display: flex;
+  justify-content: space-between;
   align-items: baseline;
 }
 
@@ -120,7 +130,7 @@
   display: grid;
   margin-top: 8px;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 20px;
+  grid-gap: 12px;
   font-size: 18px;
   line-height: 28px;
   color: #ffffff;
@@ -129,6 +139,28 @@
 .what__buttonContainer > li {
   border-radius: 20px;
   cursor: pointer;
+  padding: 4px;
+}
+.when__buttonContainer {
+  display: grid;
+  margin-top: 8px;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 12px;
+  font-size: 18px;
+  line-height: 28px;
+  color: #ffffff;
+}
+
+.when__buttonContainer > li {
+  border-radius: 20px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.maxKmText {
+  font-size: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 200;
 }
 
 .line {

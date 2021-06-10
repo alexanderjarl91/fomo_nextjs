@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import Buttons from "./Buttons";
 import cx from "../utils/cx";
 
-
 function EventCards() {
   const router = useRouter();
   const { activeCardIndex, setActiveCardIndex, cards, filteredEvents } =
@@ -72,6 +71,11 @@ function EventCards() {
     router.push(`/events/${cards[cardIndex].eventId}`);
   };
 
+  const stringDate = (date) => {
+    const oldDate = new Date(date);
+    return oldDate.toLocaleString;
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.cards__container}>
@@ -129,16 +133,23 @@ function EventCards() {
                       </div>
                       <div className={styles.date__container}>
                         <img src="/date.svg" alt="" />
-                        <p>{card.date}</p>
+                        <p>
+                          {new Date(card.date)
+                            .toDateString()
+                            .substr(
+                              0,
+                              new Date(card.date).toDateString().length - 5
+                            )}
+                        </p>
                       </div>
 
-                      {userData?.interested?.includes(card.eventId)?
-                      <img
-                        className={styles.card__heart}
-                        src="/heart_fill.svg"
-                        alt=""
-                      />
-                      : null}
+                      {userData?.interested?.includes(card.eventId) ? (
+                        <img
+                          className={styles.card__heart}
+                          src="/heart_fill.svg"
+                          alt=""
+                        />
+                      ) : null}
                     </div>
                   </div>
                 </TinderCard>

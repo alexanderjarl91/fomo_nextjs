@@ -95,12 +95,12 @@ export default function Filter() {
               <h3>when?</h3>
               <p>deselect all to show all</p>
             </div>
-            <div className={styles.what__buttonContainer}>
+            <div className={styles.when__buttonContainer}>
               {dateFilters.map((dateFlag, i) => {
                 return (
                   <li
                     className={
-                      dateFilters.includes(dateFlag) ? styles.active : null
+                      dateFilter.includes(dateFlag) ? styles.active : null
                     }
                     key={i}
                     onClick={() => {
@@ -117,10 +117,9 @@ export default function Filter() {
 
           {/* WHERE? */}
           <div className={styles.what__container}>
-            <div className={styles.what__headline}>
+            <div className={styles.where__headline}>
               <h3>when?</h3>
-              <p>deselect all to show all</p>
-              <h2>within {maxDistance}km</h2>
+              <h3 className={styles.maxKmText}>within {maxDistance}km</h3>
             </div>
             <Slider
               className={styles.slider}
@@ -136,7 +135,6 @@ export default function Filter() {
             showing x events happening today within 10km
           </p>
         </div>
-        <button>clear filter</button>
       </div>
     </div>
   );
