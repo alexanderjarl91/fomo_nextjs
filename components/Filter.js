@@ -41,11 +41,6 @@ export default function Filter() {
     setDateFilter((prev) => [...prev, flag]);
   };
 
-  //toggle active class on buttons
-  const handleSelect = (element) => {
-    element.classList.toggle(styles.active);
-  };
-
   const handleMaxDistance = (value) => {
     setMaxDistance(value);
   };
@@ -57,9 +52,16 @@ export default function Filter() {
           <div>
             <img src="/filter_icon.svg" alt="" />
             <h1>FILTER</h1>
-            <img className={styles.close_btn} onClick={handleFilter} src={"/close_filter.svg"} alt="" />
+            <img
+              className={styles.close_btn}
+              onClick={handleFilter}
+              src={"/close_filter.svg"}
+              alt=""
+            />
           </div>
-          <p className={styles.tinyText}>find exactly what you're looking for</p>
+          <p className={styles.tinyText}>
+            find exactly what you're looking for
+          </p>
         </div>
         <div className={styles.filter__content}>
           {/* WHAT? */}
@@ -72,10 +74,12 @@ export default function Filter() {
             <div className={styles.what__buttonContainer}>
               {categoryItems?.map((flag, i) => (
                 <li
+                  className={
+                    activeCategories.includes(flag) ? styles.active : null
+                  }
                   key={i}
-                  onClick={(e) => {
+                  onClick={() => {
                     handleActiveCategories(flag);
-                    handleSelect(e.target);
                   }}
                 >
                   {flag}
@@ -95,10 +99,12 @@ export default function Filter() {
               {dateFilters.map((dateFlag, i) => {
                 return (
                   <li
+                    className={
+                      dateFilters.includes(dateFlag) ? styles.active : null
+                    }
                     key={i}
-                    onClick={(e) => {
+                    onClick={() => {
                       handleActiveDates(dateFlag);
-                      handleSelect(e.target);
                     }}
                   >
                     {dateFlag}

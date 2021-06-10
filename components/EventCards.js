@@ -7,7 +7,7 @@ import { UsersContext, DataContext } from "../context";
 import { useRouter } from "next/router";
 import Buttons from "./Buttons";
 import cx from "../utils/cx";
-import { motion } from "framer-motion";
+
 
 function EventCards() {
   const router = useRouter();
@@ -15,7 +15,7 @@ function EventCards() {
     useContext(DataContext);
   const { userData } = useContext(UsersContext);
   const [cardRefs, setCardRefs] = useState([]);
-  const [showAnimation, setShowAnimation] = useState(true);
+  const [showAnimation, setShowAnimation] = useState(false);
 
   //handle function when like button is clicked
   const handleLike = () => {
@@ -132,7 +132,7 @@ function EventCards() {
                         <p>{card.date}</p>
                       </div>
 
-                      {userData?.interested.includes(card.eventId)?
+                      {userData?.interested?.includes(card.eventId)?
                       <img
                         className={styles.card__heart}
                         src="/heart_fill.svg"
