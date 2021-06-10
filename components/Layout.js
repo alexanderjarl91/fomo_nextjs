@@ -16,7 +16,7 @@ export default function Layout({ children }) {
         open={showMenu}
         onSetOpen={(e) => setShowMenu(true)}
         transitions={true}
-        dragToggleDistance={20}
+        // dragToggleDistance={20}
         styles={{
           sidebar: {
             transition: "transform 0.75s ease-out",

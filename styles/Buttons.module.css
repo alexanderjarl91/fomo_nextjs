@@ -29,11 +29,13 @@
     rgba(245, 187, 187, 0.1) -70.83%,
     rgba(0, 0, 0, 0.085) 244.44%
   );
+  user-select: none;
 }
 
 .event__button > img {
   width: 20px;
   margin-top: 20px;
+  user-select: none;
 }
 
 .interested__button {
@@ -51,9 +53,11 @@
   );
   box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.2);
   cursor: pointer;
+  user-select: none;
 }
 .interested__button > img {
   width: 26px;
+  user-select: none;
 }
 
 .event__button:active {
