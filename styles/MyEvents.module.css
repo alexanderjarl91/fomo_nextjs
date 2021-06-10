@@ -1,13 +1,24 @@
+.headline {
+  margin-top: 6rem;
+  margin-left: 38px;
+}
 .container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-top: 6rem;
+  grid-template-columns: 1fr;
 }
 
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
 @media (min-width: 1200px) {
   .container {
     margin-left: 280px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .container > h2 {
+    margin-left: 300px;
+    background-color: rosybrown;
+  }
+  .event__container {
+    width: 10%;
   }
 }
 
@@ -19,7 +30,7 @@
   background-color: white;
   padding: 20px;
   color: #161618;
-  width: 400px;
+  width: 300px;
   margin: 0 auto;
   margin-top: 1rem;
   border-radius: 12px;
@@ -32,13 +43,14 @@
   padding: 0px 0px 10px 0px;
 }
 
-.event__container > h1 {
+.event__container > div > h1 {
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
   line-height: 100%;
   margin-bottom: 4px;
   margin-top: 4px;
+  max-width: 150px;
 }
 
 .pending {
@@ -61,7 +73,7 @@
   border-radius: 7px;
 }
 
-.passed {
+.declined {
   background: #e91414;
   padding: 4px 12px;
   min-width: 80px;
@@ -79,4 +91,8 @@
   margin-bottom: 6px;
   color: black;
   background-color: black;
+}
+
+.bottom {
+  margin-bottom: -12px;
 }

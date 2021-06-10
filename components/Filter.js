@@ -68,7 +68,7 @@ export default function Filter() {
           <div className={styles.what__container}>
             <div className={styles.what__headline}>
               <h3>what?</h3>
-              <p>deselecting all will show all categories</p>
+              <p>deselect to show all</p>
             </div>
 
             <div className={styles.what__buttonContainer}>
@@ -93,7 +93,7 @@ export default function Filter() {
           <div className={styles.what__container}>
             <div className={styles.what__headline}>
               <h3>when?</h3>
-              <p>deselect all to show all</p>
+              <p>deselect to show all</p>
             </div>
             <div className={styles.when__buttonContainer}>
               {dateFilters.map((dateFlag, i) => {

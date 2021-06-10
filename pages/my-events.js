@@ -40,35 +40,34 @@ export default function myEvents() {
   }, [userData]);
 
   return (
-    <div className={styles.container}>
-      <h2>Your events</h2>
-      <h3>Total events: x</h3>
+    <>
+      <h2 className={styles.headline}>Your events</h2>
+      <div className={styles.container}>
+        {events.reverse().map((event) => (
+          <div className={styles.event__container} key={event.eventId}>
+            <div>
+              <h1>{event.title}</h1>
+              <p>duration: x days</p>
+            </div>
 
-      {events.map((event) => (
-        <div className={styles.event__container} key={event.eventId}>
-          <div>
-            <p>Event</p>
-            <p>duration: x days</p>
+            <p>Live from x. may until x. may</p>
+            <p># of interested: XX</p>
+            <hr className={styles.line} />
+            <div className={styles.bottom}>
+              <p>2990 ISK</p>
+              {event.status == "pending" && (
+                <span className={styles.pending}>PENDING</span>
+              )}
+              {event.status == "approved" && (
+                <span className={styles.active}>APPROVED</span>
+              )}
+              {event.status == "declined" && (
+                <span className={styles.declined}>DECLINED</span>
+              )}
+            </div>
           </div>
-
-          <h1>{event.title}</h1>
-          <p>Live from x. may until x. may</p>
-          <p># of interested: XX</p>
-          <hr className={styles.line} />
-          <div>
-            <p>2990 ISK</p>
-            {event.status == "pending" && (
-              <span className={styles.pending}>PENDING</span>
-            )}
-            {event.status == "active" && (
-              <span className={styles.active}>ACTIVE</span>
-            )}
-            {event.status == "passed" && (
-              <span className={styles.passed}>PASSED</span>
-            )}
-          </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   );
 }
