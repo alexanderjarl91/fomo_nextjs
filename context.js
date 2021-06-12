@@ -202,24 +202,6 @@ export const DataProvider = ({ children }) => {
   //   maxDistance: 5,
   // });
 
-  useEffect(() => {
-    // fetch event data, shuffle them and set to state
-    const getCards = async () => {
-      const cardsRef = fire.firestore().collection("events");
-      const snapshot = await cardsRef.get();
-      let tempCards = [];
-      await snapshot.forEach((doc) => {
-        tempCards = [...tempCards, doc.data()];
-        // console.log("🚀 ~ file: context.js ~ line 176 ~ awaitsnapshot.forEach ~ doc.data()", doc.data().categories)
-      });
-      // set cards
-      shuffleArray(tempCards);
-      setCards(tempCards);
-      setActiveCardIndex(tempCards.length - 1);
-    };
-    getCards();
-  }, []);
-
   // randomize order of array
   const shuffleArray = (array) => {
     for (var i = array.length - 1; i > 0; i--) {
@@ -230,13 +212,31 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  //filter only events where event.date > current date
   useEffect(() => {
-    // show only events that are not before the end of yesterday (today and later)
-    setFutureEvents(
-      cards?.filter((item) => !isBefore(new Date(item.date), endOfYesterday))
-    );
-  }, [cards]);
+    // fetch event data, shuffle them and set to state
+    const getCards = async () => {
+      const cardsRef = fire.firestore().collection("events");
+      const snapshot = await cardsRef.get();
+      let tempCards = [];
+      await snapshot.forEach((doc) => {
+        tempCards = [...tempCards, doc.data()];
+      });
+      // set cards
+      shuffleArray(tempCards);
+      setCards(tempCards);
+      //filter only events where event.date > current date
+      setFutureEvents(
+        tempCards?.filter(
+          (item) => !isBefore(new Date(item.date), endOfYesterday())
+        )
+      );
+    };
+    getCards();
+  }, []);
+
+  useEffect(() => {
+    setActiveCardIndex(futureEvents?.length - 1);
+  }, [futureEvents]);
 
   useEffect(() => {
     let tempEvents = [];

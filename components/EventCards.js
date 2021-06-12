@@ -20,20 +20,23 @@ function EventCards() {
   const handleLike = () => {
     //throw card to the right
     cardRefs[activeCardIndex].current.swipe("right");
-    setShowAnimation(true);
-    setTimeout(() => {
-      setShowAnimation(false);
-    }, 800);
   };
 
   //handle swipe
   const handleSwipe = async (dir, index) => {
+    setActiveCardIndex(index - 1);
     //save event if swiped right
     if (dir == "right") {
+      console.log("active", index);
+      //animate
+      const cardNotifications = document.querySelectorAll(".cardAnimate");
+      const cardNotification = document.getElementById(`animate-${index}`);
+      cardNotifications.forEach((item) => (item.style.display = "none"));
+      cardNotification.style.display = "block";
       const activeCard = filteredEvents[index];
+
       await saveToInterested(activeCard);
     }
-    setActiveCardIndex(index - 1);
   };
 
   const saveToInterested = async (activeCard) => {
@@ -71,10 +74,10 @@ function EventCards() {
     router.push(`/events/${cards[cardIndex].eventId}`);
   };
 
-  const stringDate = (date) => {
-    const oldDate = new Date(date);
-    return oldDate.toLocaleString;
-  };
+  useEffect(() => {
+    const fifthCard = document.getElementById("5");
+    console.log(`fifthCard`, fifthCard);
+  }, [filteredEvents]);
 
   return (
     <div className={styles.container}>
@@ -118,13 +121,31 @@ function EventCards() {
                   onSwipe={(dir) => handleSwipe(dir, index)}
                   onClick={() => goToEvent(index)}
                 >
-                  <div className={cx({ [styles.card]: true })}>
+                  <div
+                    id={`card-${index}`}
+                    className={cx({ [styles.card]: true })}
+                  >
                     <div
                       className={styles.card__front}
                       style={{
                         backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
                       }}
                     >
+                      <img
+                        src="heart_fill.svg"
+                        id={`animate-${index}`}
+                        className="cardAnimate"
+                        style={{
+                          display: "none",
+                          position: "absolute",
+                          top: "30%",
+                          left: "30%",
+                          marginLeft: "-2rem",
+                          width: "300px",
+                          opacity: "0.8",
+                        }}
+                      />
+
                       <div className={styles.gradient}></div>
                       <h3>{card.title}</h3>
                       <div className={styles.location__container}>

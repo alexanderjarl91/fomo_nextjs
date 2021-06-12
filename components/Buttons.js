@@ -28,7 +28,6 @@ export default function Buttons({ handleLike, showAnimation }) {
         }}
       >
         {/* <img src="/heart_fill.svg" alt="" /> */}
-        <h1>event saved!</h1>
       </motion.div>
       <div className={styles.swipeButtons}>
         {/* BACK BUTTON */}
