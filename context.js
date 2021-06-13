@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Router, useRouter } from "next/router";
+import axios from "axios";
+// import useAxios from '@use-hooks/axios';
+
 import {
   isFuture,
   format,
@@ -300,7 +303,7 @@ export const DataProvider = ({ children }) => {
       if (activeCategories.length > 0 && dateFilter.length > 0) {
         console.log("both filters applied");
         let tempdates = [];
-        let eventsMerged = []
+        let eventsMerged = [];
         if (key == 0) {
           dateFilter.map((flag, i) => {
             val["dates"].map((item) => {
@@ -309,12 +312,16 @@ export const DataProvider = ({ children }) => {
               }
             });
           });
-          activeCategories.map(categoryfilter => {
-            eventsMerged = [...eventsMerged,...tempdates.filter(dateEvent => dateEvent.categories.includes(categoryfilter))]
-          })
+          activeCategories.map((categoryfilter) => {
+            eventsMerged = [
+              ...eventsMerged,
+              ...tempdates.filter((dateEvent) =>
+                dateEvent.categories.includes(categoryfilter)
+              ),
+            ];
+          });
           tempEvents = eventsMerged;
         }
-
       } else if (activeCategories.length > 0) {
         console.log("category filters applied");
         let tempCategories = [];
@@ -362,8 +369,34 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     // console.log("categories selected:", activeCategories);
     // console.log("dates selected:", dateFilter);
-    console.log("currently rendering events:", filteredEvents);
+    // console.log("currently rendering events:", filteredEvents);
   }, [filteredEvents]);
+
+  useEffect(() => {
+    console.log(userLocation?.latitude, "userLocation");
+
+    futureEvents?.map((event, i) => {
+      const location = event.location.coordinates;
+      var origin1 = new google.maps.LatLng(
+        userLocation?.latitude,
+        userLocation?.longitude
+      );
+      var destinationA = new google.maps.LatLng(location.lat, location.lng);
+      var service = new google.maps.DistanceMatrixService();
+      service.getDistanceMatrix(
+        {
+          origins: [origin1],
+          destinations: [destinationA],
+          travelMode: "DRIVING",
+        },
+        callback
+      );
+
+      function callback(response, status) {
+        console.log(response?.rows[0].elements[0].distance?.value);
+      }
+    });
+  }, [userLocation, filteredEvents]);
 
   return (
     <DataContext.Provider
