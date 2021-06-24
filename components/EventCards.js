@@ -85,12 +85,6 @@ function EventCards() {
   };
 
 
-
-  useEffect(() => {
-    const fifthCard = document.getElementById("5");
-    console.log(`fifthCard`, fifthCard);
-  }, [filteredEvents]);
-
   return (
     <div className={styles.container}>
       <div className={styles.cards__container}>
@@ -101,7 +95,9 @@ function EventCards() {
             </p>
             <button >
               <a onClick={() => {
-              getCards()}} >Reshuffle cards</a>
+              getCards()
+              
+              }} >Reshuffle cards</a>
             </button>
           </div>
         ) : null}

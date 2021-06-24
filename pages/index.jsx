@@ -8,7 +8,7 @@ import { UsersContext, DataContext } from "../context";
 //components
 import EventCards from "../components/EventCards";
 import Filter from "../components/Filter";
-
+import axios from 'axios'
 
 export default function Home() {
   //context data
@@ -16,23 +16,26 @@ export default function Home() {
   const { userLocation, setUserLocation} = useContext(DataContext);
 
 
-  // // GET USERS POSITION ON MOUNT (maybe handled in context?)
-  // useEffect(() => {
-  //   //check if location is allowed
-  //   if ("geolocation" in navigator) {
-  //     console.log("Available");
-  //   } else {
-  //     console.log("Not Available");
-  //   }
-  //   navigator.geolocation.getCurrentPosition(
-  //     (position) => {
-  //       console.log(position);
-  //       setUserLocation(position.coords)
-  //     },
-  //     (err) => console.log("err:", err),
-  //     { maximumAge: 60000, timeout: 5000, enableHighAccuracy: true }
-  //   );
-  // }, []);
+  // GET USERS POSITION ON MOUNT (maybe handled in context?)
+  useEffect(() => {
+    //check if location is allowed
+    if ("geolocation" in navigator) {
+      console.log("Available");
+    } else {
+      console.log("Not Available");
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log(position);
+        setUserLocation(position.coords)
+      },
+      (err) => console.log("err:", err),
+      { maximumAge: 60000, timeout: 5000, enableHighAccuracy: true }
+    );
+
+
+    
+  }, []);
 
 
   return (

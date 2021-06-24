@@ -7,6 +7,8 @@ import "rc-slider/assets/index.css";
 export default function Filter() {
   const { setShowFilter, showFilter } = useContext(UsersContext);
   const {
+    maxDistance,
+    setMaxDistance,
     categoryItems,
     setActiveCategories,
     activeCategories,
@@ -16,7 +18,7 @@ export default function Filter() {
     filteredEvents,
     filteredEventsByDate,
   } = useContext(DataContext);
-  const [maxDistance, setMaxDistance] = useState(50);
+
 
   const handleFilter = () => {
     setShowFilter(!showFilter);
@@ -44,6 +46,10 @@ export default function Filter() {
   const handleMaxDistance = (value) => {
     setMaxDistance(value);
   };
+
+  useEffect(()=> {
+    console.log(maxDistance)
+  }, [maxDistance])
 
   return (
     <div className={styles.container}>

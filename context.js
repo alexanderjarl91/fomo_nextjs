@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Router, useRouter } from "next/router";
+import axios from "axios";
+
 import {
   isToday,
   isBefore,
@@ -164,11 +166,12 @@ export const UsersProvider = ({ children }) => {
 
 export const DataContext = React.createContext();
 export const DataProvider = ({ children }) => {
-  const [userLocation, setUserLocation] = useState(); //users current location
   const [cards, setCards] = useState([]); // all cards
   const [activeCardIndex, setActiveCardIndex] = useState(); //index of event thats shown
   const [futureEvents, setFutureEvents] = useState(); // events that are today or later
   const [filteredEvents, setFilteredEvents] = useState(); //events after filtering (rendered)
+  const [userLocation, setUserLocation] = useState(); //users current location
+  const [maxDistance, setMaxDistance] = useState(50) //max distance set in filter
   const [activeCategories, setActiveCategories] = useState([]); //array of categories active
   const [dateFilter, setDateFilter] = useState([]); // array of date selections active
   const [categoryItems, setCategoryItems] = useState([
@@ -217,7 +220,6 @@ export const DataProvider = ({ children }) => {
       )
     );
   };
-
 
   useEffect(() => {
     let tempEvents = [];
@@ -344,15 +346,43 @@ export const DataProvider = ({ children }) => {
     setFilteredEvents(unique);
   }, [futureEvents, activeCategories, dateFilter]);
 
-  useEffect(() => {
-    console.log("currently rendering events:", filteredEvents);
-  }, [filteredEvents]);
-
-
   // get index of active card
   useEffect(() => {
     setActiveCardIndex(filteredEvents?.length - 1);
   }, [filteredEvents]);
+
+  useEffect(() => {
+    if (userLocation) {
+    futureEvents?.map((event, i) => {
+      const eventLocation = event.location.coordinates;
+
+      // origin is the users current location
+      let origin = new google.maps.LatLng(
+        userLocation?.latitude,
+        userLocation?.longitude
+      );
+      //convert event location to a google object
+      let destination = new google.maps.LatLng(eventLocation.lat, eventLocation.lng);
+
+      var service = new google.maps.DistanceMatrixService();
+      
+      //get distance from origin to destination with driving as travel mode
+      service.getDistanceMatrix(
+        {
+          origins: [origin],
+          destinations: [destination],
+          travelMode: "DRIVING",
+        },
+
+        callback
+      );
+      function callback(response, status) {
+        const eventDistance = response?.rows[0].elements[0].distance?.value / 1000
+        console.log(event.title, eventDistance, "km away");
+      }
+    });
+   }
+  }, [userLocation, filteredEvents]);
 
   return (
     <DataContext.Provider
@@ -372,6 +402,8 @@ export const DataProvider = ({ children }) => {
         dateFilter,
         setDateFilter,
         futureEvents,
+        maxDistance,
+        setMaxDistance
       }}
     >
       {children}
