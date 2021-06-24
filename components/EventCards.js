@@ -10,11 +10,18 @@ import cx from "../utils/cx";
 
 function EventCards() {
   const router = useRouter();
-  const { activeCardIndex, setActiveCardIndex, cards, filteredEvents } =
+  const { getCards, activeCardIndex, setActiveCardIndex, cards, filteredEvents } =
     useContext(DataContext);
   const { userData } = useContext(UsersContext);
   const [cardRefs, setCardRefs] = useState([]);
   const [showAnimation, setShowAnimation] = useState(false);
+
+
+  //get cards
+  useEffect(() => {
+    getCards();
+  }, []);
+
 
   //handle function when like button is clicked
   const handleLike = () => {
@@ -92,8 +99,9 @@ function EventCards() {
             <p>
               No more events in your area.. change your filter or swipe again
             </p>
-            <button>
-              <a href="/">Reshuffle cards</a>
+            <button >
+              <a onClick={() => {
+              getCards()}} >Reshuffle cards</a>
             </button>
           </div>
         ) : null}

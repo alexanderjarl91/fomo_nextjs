@@ -1,18 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Router, useRouter } from "next/router";
 import {
-  isFuture,
-  format,
-  isPast,
   isToday,
   isBefore,
   isThisWeek,
   isThisMonth,
   isTomorrow,
   endOfYesterday,
-  isYesterday,
-  startOfYesterday,
-  isAfter,
+
 } from "date-fns";
 import fire, {
   google_provider,
@@ -193,12 +188,6 @@ export const DataProvider = ({ children }) => {
     "this month",
   ]);
 
-  // const [filter, setFilter] = useState({
-  //   categories: ["music"],
-  //   activeDates: ["today"],
-  //   maxDistance: 5,
-  // });
-
   // randomize order of array
   const shuffleArray = (array) => {
     for (var i = array.length - 1; i > 0; i--) {
@@ -209,27 +198,25 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    // fetch event data, shuffle them and set to state
-    const getCards = async () => {
-      const cardsRef = fire.firestore().collection("events");
-      const snapshot = await cardsRef.get();
-      let tempCards = [];
-      await snapshot.forEach((doc) => {
-        tempCards = [...tempCards, doc.data()];
-      });
-      // set cards
-      shuffleArray(tempCards);
-      setCards(tempCards);
-      //filter only events where event.date > current date
-      setFutureEvents(
-        tempCards?.filter(
-          (item) => !isBefore(new Date(item.date), endOfYesterday())
-        )
-      );
-    };
-    getCards();
-  }, []);
+  // fetch event data, shuffle them and set to state
+  const getCards = async () => {
+    const cardsRef = fire.firestore().collection("events");
+    const snapshot = await cardsRef.get();
+    let tempCards = [];
+    await snapshot.forEach((doc) => {
+      tempCards = [...tempCards, doc.data()];
+    });
+    
+    // set cards
+    // shuffleArray(tempCards);
+    setCards(tempCards);
+    //filter only events where event.date > current date
+    setFutureEvents(
+      tempCards?.filter(
+        (item) => !isBefore(new Date(item.date), endOfYesterday())
+      )
+    );
+  };
 
 
   useEffect(() => {
@@ -372,6 +359,7 @@ export const DataProvider = ({ children }) => {
       value={{
         cards,
         setCards,
+        getCards,
         activeCardIndex,
         setActiveCardIndex,
         userLocation,
