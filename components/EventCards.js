@@ -138,10 +138,10 @@ function EventCards() {
                         style={{
                           display: "none",
                           position: "absolute",
-                          top: "30%",
+                          top: "20%",
                           left: "30%",
                           marginLeft: "-2rem",
-                          width: "300px",
+                          width: "250px",
                           opacity: "0.8",
                         }}
                       />
