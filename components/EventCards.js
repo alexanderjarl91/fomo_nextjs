@@ -10,7 +10,7 @@ import cx from "../utils/cx";
 
 function EventCards() {
   const router = useRouter();
-  const { getCards, activeCardIndex, setActiveCardIndex, cards, filteredEvents } =
+  const { getCards, activeCardIndex, setActiveCardIndex, cards, filteredEvents, userLocation } =
     useContext(DataContext);
   const { userData } = useContext(UsersContext);
   const [cardRefs, setCardRefs] = useState([]);
@@ -114,7 +114,7 @@ function EventCards() {
           </div>
         ) : null}
 
-        {fire.auth().currentUser ? (
+        {fire.auth().currentUser && userLocation ? (
           <>
             <>
               {/* RENDER CARDS */}
@@ -189,20 +189,22 @@ function EventCards() {
         ) : (
           <>
             {/* RENDER 3 CARDS IF USER IS NOT LOGGED IN */}
+            {userLocation && 
+            <>
             {filteredEvents?.slice(0, 3).map((card, index) => (
               <TinderCard
-                className={`test ${styles.swipe}`}
-                key={index}
-                preventSwipe={["up", "down"]}
-                onSwipe={(dir) => handleSwipe(dir, index)}
-                onClick={() => goToEvent(index)}
+              className={`test ${styles.swipe}`}
+              key={index}
+              preventSwipe={["up", "down"]}
+              onSwipe={(dir) => handleSwipe(dir, index)}
+              onClick={() => goToEvent(index)}
               >
-                <div className={styles.card}>
-                  <div
-                    className={styles.card__front}
-                    style={{
-                      backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
-                    }}
+              <div className={styles.card}>
+              <div
+              className={styles.card__front}
+              style={{
+                backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
+              }}
                   >
                     <div className={styles.gradient}></div>
                     <h3>{card.title}</h3>
@@ -217,7 +219,8 @@ function EventCards() {
                   </div>
                 </div>
               </TinderCard>
-            ))}
+            ))}</>
+      }
           </>
         )}
       </div>

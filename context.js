@@ -191,15 +191,10 @@ export const DataProvider = ({ children }) => {
     "this month",
   ]);
 
-  // randomize order of array
-  const shuffleArray = (array) => {
-    for (var i = array.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
-  };
+    // get index of active card
+    useEffect(() => {
+      setActiveCardIndex(filteredEvents?.length - 1);
+    }, [filteredEvents]);
 
   // fetch event data, shuffle them and set to state
   const getCards = async () => {
@@ -211,16 +206,15 @@ export const DataProvider = ({ children }) => {
     });
     
     // set cards
-    // shuffleArray(tempCards);
     setCards(tempCards);
     //filter only events where event.date > current date
-    setFutureEvents(
-      tempCards?.filter(
-        (item) => !isBefore(new Date(item.date), endOfYesterday())
-      )
-    );
+
+    setFutureEvents(tempCards?.filter(
+      (item) => !isBefore(new Date(item.date), endOfYesterday() )
+    ));
   };
 
+  //filter whenever
   useEffect(() => {
     let tempEvents = [];
     const filter = [
@@ -318,6 +312,7 @@ export const DataProvider = ({ children }) => {
           tempEvents = tempCategories;
         }
       }
+
       //if user only has a date filter applied
       else if (dateFilter.length > 0) {
         console.log("dates filters applied");
@@ -339,18 +334,22 @@ export const DataProvider = ({ children }) => {
       }
     });
 
-    function onlyUnique(value, index, self) {
+    const onlyUnique = (value, index, self) => {
       return self.indexOf(value) === index;
     }
+
+
     const unique = tempEvents?.filter(onlyUnique);
+    console.log("unique before sort", unique)
+
+    const sorted = unique?.sort((a, b) => b.date - a.date)
+    console.log("unique sorted", sorted)
+
     setFilteredEvents(unique);
   }, [futureEvents, activeCategories, dateFilter]);
 
-  // get index of active card
-  useEffect(() => {
-    setActiveCardIndex(filteredEvents?.length - 1);
-  }, [filteredEvents]);
 
+  //get distance to each event
   useEffect(() => {
     if (userLocation) {
     futureEvents?.map((event, i) => {
@@ -378,10 +377,11 @@ export const DataProvider = ({ children }) => {
       );
       function callback(response, status) {
         const eventDistance = response?.rows[0].elements[0].distance?.value / 1000
-        console.log(event.title, eventDistance, "km away");
+        // console.log(event.title, eventDistance, "km away");
       }
     });
    }
+
   }, [userLocation, filteredEvents]);
 
   return (
