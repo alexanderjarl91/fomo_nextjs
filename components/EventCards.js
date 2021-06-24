@@ -71,8 +71,13 @@ function EventCards() {
 
   //go to event dynamic page
   const goToEvent = (cardIndex) => {
-    router.push(`/events/${cards[cardIndex].eventId}`);
+    console.log(`cardIndex`, cardIndex)
+    console.log(filteredEvents[cardIndex])
+    router.push(`/events/${filteredEvents[cardIndex].eventId}`)
+    // router.push(`/events/${cards[cardIndex].eventId}`);
   };
+
+
 
   useEffect(() => {
     const fifthCard = document.getElementById("5");

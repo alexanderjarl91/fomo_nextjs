@@ -132,22 +132,19 @@ export const UsersProvider = ({ children }) => {
     fire
       .auth()
       .signOut()
-      .then(() => {
-        console.log("sign out successful");
-      })
       .catch((error) => {
         console.log(`error`, error);
       });
   };
 
   //   AUTH STATE OBSERVER
-  fire.auth().onAuthStateChanged((user) => {
-    if (user) {
-      console.log("logged in as:", user.displayName);
-    } else {
-      console.log("user not logged in");
-    }
-  });
+  // fire.auth().onAuthStateChanged((user) => {
+  //   if (user) {
+  //     console.log("logged in as:", user.displayName);
+  //   } else {
+  //     console.log("user not logged in");
+  //   }
+  // });
 
   const [showMenu, setShowMenu] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
@@ -234,9 +231,6 @@ export const DataProvider = ({ children }) => {
     getCards();
   }, []);
 
-  useEffect(() => {
-    setActiveCardIndex(futureEvents?.length - 1);
-  }, [futureEvents]);
 
   useEffect(() => {
     let tempEvents = [];
@@ -355,7 +349,6 @@ export const DataProvider = ({ children }) => {
         tempEvents = futureEvents;
       }
     });
-    // console.log("🚀 ~ tempEvents", tempEvents);
 
     function onlyUnique(value, index, self) {
       return self.indexOf(value) === index;
@@ -366,6 +359,12 @@ export const DataProvider = ({ children }) => {
 
   useEffect(() => {
     console.log("currently rendering events:", filteredEvents);
+  }, [filteredEvents]);
+
+
+  // get index of active card
+  useEffect(() => {
+    setActiveCardIndex(filteredEvents?.length - 1);
   }, [filteredEvents]);
 
   return (
