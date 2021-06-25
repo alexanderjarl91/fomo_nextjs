@@ -7,21 +7,30 @@ import { UsersContext, DataContext } from "../context";
 import { useRouter } from "next/router";
 import Buttons from "./Buttons";
 import cx from "../utils/cx";
+import {MdLocationSearching} from 'react-icons/md';
+import {FaSearchLocation
+} from 'react-icons/fa';
+
+FaSearchLocation
 
 function EventCards() {
   const router = useRouter();
-  const { getCards, activeCardIndex, setActiveCardIndex, cards, filteredEvents, userLocation } =
-    useContext(DataContext);
+  const {
+    getCards,
+    activeCardIndex,
+    setActiveCardIndex,
+    cards,
+    filteredEvents,
+    userLocation,
+  } = useContext(DataContext);
   const { userData } = useContext(UsersContext);
   const [cardRefs, setCardRefs] = useState([]);
   const [showAnimation, setShowAnimation] = useState(false);
-
 
   //get cards
   useEffect(() => {
     getCards();
   }, []);
-
 
   //handle function when like button is clicked
   const handleLike = () => {
@@ -78,30 +87,45 @@ function EventCards() {
 
   //go to event dynamic page
   const goToEvent = (cardIndex) => {
-    console.log(`cardIndex`, cardIndex)
-    console.log(filteredEvents[cardIndex])
-    router.push(`/events/${filteredEvents[cardIndex].eventId}`)
+    console.log(`cardIndex`, cardIndex);
+    console.log(filteredEvents[cardIndex]);
+    router.push(`/events/${filteredEvents[cardIndex].eventId}`);
     // router.push(`/events/${cards[cardIndex].eventId}`);
   };
-
 
   return (
     <div className={styles.container}>
       <div className={styles.cards__container}>
+        {!userLocation && (
+          <div className={styles.pulse}>
+            <FaSearchLocation
+ size="2em" />
+            <p style={{marginTop:"5px"}}>finding events</p>
+            <p>near you..</p>
+
+          </div>
+          // <div>
+          //   <img style={{ width: "100px" }} src={require("../public/pulsing.gif")} />
+          //   <h3>finding events near you...</h3>
+          // </div>
+        )}
+
         {activeCardIndex < 0 && fire.auth().currentUser ? (
           <div className={styles.noCards__container}>
             <p>
               No more events in your area.. change your filter or swipe again
             </p>
-            <button >
-              <a onClick={() => {
-              getCards()
-              
-              }} >Reshuffle cards</a>
+            <button>
+              <a
+                onClick={() => {
+                  getCards();
+                }}
+              >
+                Reshuffle cards
+              </a>
             </button>
           </div>
         ) : null}
-
         {activeCardIndex < 0 && !fire.auth().currentUser ? (
           <div className={styles.noCards__container}>
             <p>
@@ -189,38 +213,39 @@ function EventCards() {
         ) : (
           <>
             {/* RENDER 3 CARDS IF USER IS NOT LOGGED IN */}
-            {userLocation && 
-            <>
-            {filteredEvents?.slice(0, 3).map((card, index) => (
-              <TinderCard
-              className={`test ${styles.swipe}`}
-              key={index}
-              preventSwipe={["up", "down"]}
-              onSwipe={(dir) => handleSwipe(dir, index)}
-              onClick={() => goToEvent(index)}
-              >
-              <div className={styles.card}>
-              <div
-              className={styles.card__front}
-              style={{
-                backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
-              }}
+            {userLocation && (
+              <>
+                {filteredEvents?.slice(0, 3).map((card, index) => (
+                  <TinderCard
+                    className={`test ${styles.swipe}`}
+                    key={index}
+                    preventSwipe={["up", "down"]}
+                    onSwipe={(dir) => handleSwipe(dir, index)}
+                    onClick={() => goToEvent(index)}
                   >
-                    <div className={styles.gradient}></div>
-                    <h3>{card.title}</h3>
-                    <div className={styles.location__container}>
-                      <img src="/location_pin.svg" alt="" />
-                      <p>{card.location.name}</p>
+                    <div className={styles.card}>
+                      <div
+                        className={styles.card__front}
+                        style={{
+                          backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
+                        }}
+                      >
+                        <div className={styles.gradient}></div>
+                        <h3>{card.title}</h3>
+                        <div className={styles.location__container}>
+                          <img src="/location_pin.svg" alt="" />
+                          <p>{card.location.name}</p>
+                        </div>
+                        <div className={styles.date__container}>
+                          <img src="/date.svg" alt="" />
+                          <p>{card.date}</p>
+                        </div>
+                      </div>
                     </div>
-                    <div className={styles.date__container}>
-                      <img src="/date.svg" alt="" />
-                      <p>{card.date}</p>
-                    </div>
-                  </div>
-                </div>
-              </TinderCard>
-            ))}</>
-      }
+                  </TinderCard>
+                ))}
+              </>
+            )}
           </>
         )}
       </div>
