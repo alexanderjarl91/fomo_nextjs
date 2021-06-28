@@ -11,7 +11,6 @@ import {MdLocationSearching} from 'react-icons/md';
 import {FaSearchLocation
 } from 'react-icons/fa';
 
-FaSearchLocation
 
 function EventCards() {
   const router = useRouter();
@@ -19,18 +18,47 @@ function EventCards() {
     getCards,
     activeCardIndex,
     setActiveCardIndex,
-    cards,
     filteredEvents,
     userLocation,
+    setUserLocation,
+    setFilteredEvents
   } = useContext(DataContext);
   const { userData } = useContext(UsersContext);
   const [cardRefs, setCardRefs] = useState([]);
   const [showAnimation, setShowAnimation] = useState(false);
 
-  //get cards
+  //get events & user location on mount
   useEffect(() => {
     getCards();
+    getUserLocation()
   }, []);
+
+  //sort events by date everytime event array changes
+  useEffect(()=> {
+    filteredEvents?.sort(function(a,b){
+      return new Date(b.date) - new Date(a.date);
+    })
+  }, [filteredEvents])
+
+
+  // get user location function
+  const getUserLocation = () => {
+        //check if location is available in users browser
+        if ("geolocation" in navigator) {
+          console.log("Available");
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              console.log(position);
+              setUserLocation(position.coords)
+            },
+            (err) => setUserLocation(err),
+            { maximumAge: 60000, timeout: 5000, enableHighAccuracy: true }
+          );
+        } else {
+          console.log("Geolocation Not Available in browser");
+        }   
+  }
+
 
   //handle function when like button is clicked
   const handleLike = () => {
@@ -93,163 +121,176 @@ function EventCards() {
     // router.push(`/events/${cards[cardIndex].eventId}`);
   };
 
+  useEffect(() => {
+    console.log('permissions', navigator.permissions)
+  }, [])
+
   return (
     <div className={styles.container}>
       <div className={styles.cards__container}>
-        {!userLocation && (
-          <div className={styles.pulse}>
-            <FaSearchLocation
- size="2em" />
-            <p style={{marginTop:"5px"}}>finding events</p>
-            <p>near you..</p>
-
-          </div>
-          // <div>
-          //   <img style={{ width: "100px" }} src={require("../public/pulsing.gif")} />
-          //   <h3>finding events near you...</h3>
-          // </div>
-        )}
-
-        {activeCardIndex < 0 && fire.auth().currentUser ? (
-          <div className={styles.noCards__container}>
-            <p>
-              No more events in your area.. change your filter or swipe again
+        {/* DISPLAY ERROR IF LOCATION IS DISABLED */}
+        {userLocation?.code? 
+          <div style={{maxWidth: "200px", textAlign: "center"}}>
+            <h2> 📍 Location disabled</h2>
+            <p>Please enable your browsers or device location services 
+              to view events around you.
             </p>
-            <button>
-              <a
-                onClick={() => {
-                  getCards();
-                }}
-              >
-                Reshuffle cards
-              </a>
-            </button>
           </div>
-        ) : null}
-        {activeCardIndex < 0 && !fire.auth().currentUser ? (
-          <div className={styles.noCards__container}>
-            <p>
-              Sign in with Google or Facebook to see discover more events around
-              you!
-            </p>
-            <button>
-              <a href="/">Sign in</a>
-            </button>
-          </div>
-        ) : null}
-
-        {fire.auth().currentUser && userLocation ? (
+        : 
           <>
-            <>
-              {/* RENDER CARDS */}
-              {filteredEvents?.map((card, index) => (
-                <TinderCard
-                  className={cx(
-                    { [styles.swipe]: true }
-                    // { [styles.animateOut]: showAnimation }
-                  )}
-                  key={card.title}
-                  ref={cardRefs[index]}
-                  preventSwipe={["up", "down"]}
-                  onSwipe={(dir) => handleSwipe(dir, index)}
-                  onClick={() => goToEvent(index)}
+          {/* IF USER LOCATION IS UNDEFINED, SHOW SEARCH ANIMATION */}
+            {!userLocation && (
+            <div className={styles.pulse}>
+              <FaSearchLocation size="2em" />
+              <p style={{marginTop:"5px"}}>finding events</p>
+              <p>near you..</p>
+            </div>
+          )}
+          {/* IF USER IS LOGGED IN & HAS SWIPED ALL CARDS */}
+          {activeCardIndex < 0 && fire.auth().currentUser ? (
+            <div className={styles.noCards__container}>
+              <p>
+                No more events in your area.. change your filter or swipe again
+              </p>
+              <button>
+                <a
+                  onClick={() => {
+                    getCards();
+                  }}
                 >
-                  <div
-                    id={`card-${index}`}
-                    className={cx({ [styles.card]: true })}
-                  >
-                    <div
-                      className={styles.card__front}
-                      style={{
-                        backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
-                      }}
-                    >
-                      <img
-                        src="heart_fill.svg"
-                        id={`animate-${index}`}
-                        className="cardAnimate"
-                        style={{
-                          display: "none",
-                          position: "absolute",
-                          top: "20%",
-                          left: "30%",
-                          marginLeft: "-2rem",
-                          width: "250px",
-                          opacity: "0.8",
-                        }}
-                      />
+                  Reshuffle cards
+                </a>
+              </button>
+            </div>
+          ) : null}
 
-                      <div className={styles.gradient}></div>
-                      <h3>{card.title}</h3>
-                      <div className={styles.location__container}>
-                        <img src="/location_pin.svg" alt="" />
-                        <p>{card.location?.name}</p>
-                      </div>
-                      <div className={styles.date__container}>
-                        <img src="/date.svg" alt="" />
-                        <p>
-                          {new Date(card.date)
-                            .toDateString()
-                            .substr(
-                              0,
-                              new Date(card.date).toDateString().length - 5
-                            )}
-                        </p>
-                      </div>
+          {/* IF USER IS NOT LOGGED IN AND HAS SWIPED ALL CARDS */}
+          {activeCardIndex < 0 && !fire.auth().currentUser ? (
+            <div className={styles.noCards__container}>
+              <p>
+                Sign in with Google or Facebook to see discover more events around
+                you!
+              </p>
+              <button>
+                <a href="/signup">Sign in</a>
+              </button>
+            </div>
+          ) : null}
 
-                      {userData?.interested?.includes(card.eventId) ? (
-                        <img
-                          className={styles.card__heart}
-                          src="/heart_fill.svg"
-                          alt=""
-                        />
-                      ) : null}
-                    </div>
-                  </div>
-                </TinderCard>
-              ))}
-            </>
-          </>
-        ) : (
-          <>
-            {/* RENDER 3 CARDS IF USER IS NOT LOGGED IN */}
-            {userLocation && (
+          {fire.auth().currentUser && userLocation ? (
+            <>
               <>
-                {filteredEvents?.slice(0, 3).map((card, index) => (
+                {/* RENDER CARDS */}
+                {filteredEvents?.map((card, index) => (
                   <TinderCard
-                    className={`test ${styles.swipe}`}
-                    key={index}
+                    className={cx(
+                      { [styles.swipe]: true }
+                      // { [styles.animateOut]: showAnimation }
+                    )}
+                    key={card.title}
+                    ref={cardRefs[index]}
                     preventSwipe={["up", "down"]}
                     onSwipe={(dir) => handleSwipe(dir, index)}
                     onClick={() => goToEvent(index)}
                   >
-                    <div className={styles.card}>
+                    <div
+                      id={`card-${index}`}
+                      className={cx({ [styles.card]: true })}
+                    >
                       <div
                         className={styles.card__front}
                         style={{
                           backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
                         }}
                       >
+                        <img
+                          src="heart_fill.svg"
+                          id={`animate-${index}`}
+                          className="cardAnimate"
+                          style={{
+                            display: "none",
+                            position: "absolute",
+                            top: "20%",
+                            left: "30%",
+                            marginLeft: "-2rem",
+                            width: "250px",
+                            opacity: "0.8",
+                          }}
+                        />
+
                         <div className={styles.gradient}></div>
                         <h3>{card.title}</h3>
                         <div className={styles.location__container}>
                           <img src="/location_pin.svg" alt="" />
-                          <p>{card.location.name}</p>
+                          <p>{card.location?.name}</p>
                         </div>
                         <div className={styles.date__container}>
                           <img src="/date.svg" alt="" />
-                          <p>{card.date}</p>
+                          <p>
+                            {new Date(card.date)
+                              .toDateString()
+                              .substr(
+                                0,
+                                new Date(card.date).toDateString().length - 5
+                              )}
+                          </p>
                         </div>
+
+                        {userData?.interested?.includes(card.eventId) ? (
+                          <img
+                            className={styles.card__heart}
+                            src="/heart_fill.svg"
+                            alt=""
+                          />
+                        ) : null}
                       </div>
                     </div>
                   </TinderCard>
                 ))}
               </>
-            )}
-          </>
-        )}
-      </div>
-      <Buttons handleLike={handleLike} showAnimation={showAnimation} />
+            </>
+          ) : (
+            <>
+              {/* RENDER 3 CARDS IF USER IS NOT LOGGED IN */}
+              {userLocation && (
+                <>
+                  {filteredEvents?.slice(0, 3).map((card, index) => (
+                    <TinderCard
+                      className={`test ${styles.swipe}`}
+                      key={index}
+                      preventSwipe={["up", "down"]}
+                      onSwipe={(dir) => handleSwipe(dir, index)}
+                      onClick={() => goToEvent(index)}
+                    >
+                      <div className={styles.card}>
+                        <div
+                          className={styles.card__front}
+                          style={{
+                            backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
+                          }}
+                        >
+                          <div className={styles.gradient}></div>
+                          <h3>{card.title}</h3>
+                          <div className={styles.location__container}>
+                            <img src="/location_pin.svg" alt="" />
+                            <p>{card.location.name}</p>
+                          </div>
+                          <div className={styles.date__container}>
+                            <img src="/date.svg" alt="" />
+                            <p>{card.date}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </TinderCard>
+                  ))}
+                </>
+              )}
+            </>
+          )}</>
+      }
+        </div>
+        {/* SHOW BUTTONS WHEN USER LOCATION IS FOUND */}
+      {userLocation?.latitude? <Buttons handleLike={handleLike} showAnimation={showAnimation} /> : null}
     </div>
   );
 }

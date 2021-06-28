@@ -9,7 +9,6 @@ import {
   isThisMonth,
   isTomorrow,
   endOfYesterday,
-
 } from "date-fns";
 import fire, {
   google_provider,
@@ -171,7 +170,7 @@ export const DataProvider = ({ children }) => {
   const [futureEvents, setFutureEvents] = useState(); // events that are today or later
   const [filteredEvents, setFilteredEvents] = useState(); //events after filtering (rendered)
   const [userLocation, setUserLocation] = useState(); //users current location
-  const [maxDistance, setMaxDistance] = useState(50) //max distance set in filter
+  const [maxDistance, setMaxDistance] = useState(50); //max distance set in filter
   const [activeCategories, setActiveCategories] = useState([]); //array of categories active
   const [dateFilter, setDateFilter] = useState([]); // array of date selections active
   const [categoryItems, setCategoryItems] = useState([
@@ -191,10 +190,10 @@ export const DataProvider = ({ children }) => {
     "this month",
   ]);
 
-    // get index of active card
-    useEffect(() => {
-      setActiveCardIndex(filteredEvents?.length - 1);
-    }, [filteredEvents]);
+  // get index of active card
+  useEffect(() => {
+    setActiveCardIndex(filteredEvents?.length - 1);
+  }, [filteredEvents]);
 
   // fetch event data, shuffle them and set to state
   const getCards = async () => {
@@ -204,14 +203,16 @@ export const DataProvider = ({ children }) => {
     await snapshot.forEach((doc) => {
       tempCards = [...tempCards, doc.data()];
     });
-    
+
     // set cards
     setCards(tempCards);
     //filter only events where event.date > current date
 
-    setFutureEvents(tempCards?.filter(
-      (item) => !isBefore(new Date(item.date), endOfYesterday() )
-    ));
+    setFutureEvents(
+      tempCards?.filter(
+        (item) => !isBefore(new Date(item.date), endOfYesterday())
+      )
+    );
   };
 
   //filter whenever
@@ -336,52 +337,51 @@ export const DataProvider = ({ children }) => {
 
     const onlyUnique = (value, index, self) => {
       return self.indexOf(value) === index;
-    }
-
+    };
 
     const unique = tempEvents?.filter(onlyUnique);
-    console.log("unique before sort", unique)
-
-    const sorted = unique?.sort((a, b) => b.date - a.date)
-    console.log("unique sorted", sorted)
 
     setFilteredEvents(unique);
   }, [futureEvents, activeCategories, dateFilter]);
 
-
   //get distance to each event
   useEffect(() => {
+    if (userLocation?.code) return; //return if userLocation has error code
+
     if (userLocation) {
-    futureEvents?.map((event, i) => {
-      const eventLocation = event.location.coordinates;
+      futureEvents?.map((event, i) => {
+        const eventLocation = event.location.coordinates;
 
-      // origin is the users current location
-      let origin = new google.maps.LatLng(
-        userLocation?.latitude,
-        userLocation?.longitude
-      );
-      //convert event location to a google object
-      let destination = new google.maps.LatLng(eventLocation.lat, eventLocation.lng);
+        // origin is the users current location
+        let origin = new google.maps.LatLng(
+          userLocation?.latitude,
+          userLocation?.longitude
+        );
+        //convert event location to a google object
+        let destination = new google.maps.LatLng(
+          eventLocation.lat,
+          eventLocation.lng
+        );
 
-      var service = new google.maps.DistanceMatrixService();
-      
-      //get distance from origin to destination with driving as travel mode
-      service.getDistanceMatrix(
-        {
-          origins: [origin],
-          destinations: [destination],
-          travelMode: "DRIVING",
-        },
+        var service = new google.maps.DistanceMatrixService();
 
-        callback
-      );
-      function callback(response, status) {
-        const eventDistance = response?.rows[0].elements[0].distance?.value / 1000
-        // console.log(event.title, eventDistance, "km away");
-      }
-    });
-   }
+        //get distance from origin to destination with driving as travel mode
+        service.getDistanceMatrix(
+          {
+            origins: [origin],
+            destinations: [destination],
+            travelMode: "DRIVING",
+          },
 
+          callback
+        );
+        function callback(response, status) {
+          const eventDistance =
+            response?.rows[0].elements[0].distance?.value / 1000;
+          // console.log(event.title, eventDistance, "km away");
+        }
+      });
+    }
   }, [userLocation, filteredEvents]);
 
   return (
@@ -398,12 +398,13 @@ export const DataProvider = ({ children }) => {
         activeCategories,
         setActiveCategories,
         filteredEvents,
+        setFilteredEvents,
         dateFilters,
         dateFilter,
         setDateFilter,
         futureEvents,
         maxDistance,
-        setMaxDistance
+        setMaxDistance,
       }}
     >
       {children}

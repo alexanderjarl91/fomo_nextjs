@@ -31,13 +31,14 @@
 
 @media (min-width: 1200px) {
   .navbar__container {
-    justify-content: center;
+    /* justify-content: center; */
+    width: 600px;
     margin-left: 150px;
   }
-  .hamburger {
+  /* .hamburger {
     display: none;
   }
   .avatar {
     display: none;
-  }
+  } */
 }

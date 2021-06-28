@@ -23,13 +23,17 @@ export default function signup({}) {
       {/* PAGE CONTENT */}
       <div className={styles.signup__container}>
         <h1>Sign in</h1>
-        <p>Sign in with one click to discover more events and features!</p>
+        <p>
+          Sign in with either your Google or Facebook account to discover more
+          events and features!
+        </p>
         <button
           onClick={() => {
             signInWithGoogle();
           }}
         >
-          <img src="/google_icon.svg" alt="" /> Sign in with Google
+          <img src="/google_icon.svg" alt="" />
+          Continue with Google
         </button>
 
         <button
@@ -37,10 +41,9 @@ export default function signup({}) {
             // signInWithFacebook();
           }}
         >
-          <img src="/facebook_icon.svg" alt="" /> Sign in with Facebook
+          <img src="/facebook_icon.svg" alt="" />
+          Continue with Facebook
         </button>
-
-        <p>no registration required</p>
       </div>
     </div>
   );

@@ -56,7 +56,9 @@ export default function Buttons({ handleLike, showAnimation }) {
               router.push("/signup");
             }}
             className={styles.interested__button}
-          ></div>
+          >
+            <img src="/interested.svg" alt="" />
+          </div>
         )}
         {fire.auth().currentUser ? (
           <div onClick={handleShowFilter} className={styles.event__button}>

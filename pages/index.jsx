@@ -16,27 +16,6 @@ export default function Home() {
   const { userLocation, setUserLocation} = useContext(DataContext);
 
 
-  // GET USERS POSITION ON MOUNT (maybe handled in context?)
-  useEffect(() => {
-    //check if location is allowed
-    if ("geolocation" in navigator) {
-      console.log("Available");
-    } else {
-      console.log("Not Available");
-    }
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        console.log(position);
-        setUserLocation(position.coords)
-      },
-      (err) => console.log("err:", err),
-      { maximumAge: 60000, timeout: 5000, enableHighAccuracy: true }
-    );
-
-
-    
-  }, []);
-
 
   return (
     <div className={styles.index__container} id="INDEX">
