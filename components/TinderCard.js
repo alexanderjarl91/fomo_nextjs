@@ -59,10 +59,11 @@ const animateOut = async (element, speed, easeIn = false) => {
 
   element.style.transform = translateString + rotateString;
 
-  await sleep(time * 1000);
+  await sleep(time * 100);
 };
 
-const animateBack = (element) => {
+const animateBack = async (element) => {
+  console.log("ANIMATE BACK CALLED");
   element.style.transition = settings.snapBackDuration + "ms";
   const startingPoint = getTranslate(element);
   const translation = translationString(
@@ -71,11 +72,9 @@ const animateBack = (element) => {
   );
   const rotation = rotationString(getRotation(element) * -settings.bouncePower);
   element.style.transform = translation + rotation;
-
   setTimeout(() => {
     element.style.transform = "none";
   }, settings.snapBackDuration * 0.75);
-
   setTimeout(() => {
     element.style.transition = "10ms";
   }, settings.snapBackDuration);
@@ -178,7 +177,9 @@ const TinderCard = React.forwardRef(
             true
           );
         }
-        element.current.style.display = "none";
+        // element.current.style.display = "none";
+        element.current.style.visibility = "hidden";
+        element.current.style.opacity = "0";
         if (onCardLeftScreen) onCardLeftScreen(dir);
       },
     }));
@@ -202,7 +203,10 @@ const TinderCard = React.forwardRef(
           if (flickOnSwipe) {
             if (!preventSwipe.includes(dir)) {
               await animateOut(element, speed);
-              element.style.display = "none";
+              // element.style.display = "none";
+              element.style.visibility = "hidden";
+              element.style.opacity = "0";
+
               if (onCardLeftScreen) onCardLeftScreen(dir);
               return;
             }

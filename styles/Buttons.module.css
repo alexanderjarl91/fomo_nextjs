@@ -107,3 +107,10 @@
   color: white;
   font-size: 12px;
 }
+
+.animateBack {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: translate(0px, 0px) !important;
+  transition: visibility 1s, opacity 1s, transform 0.3s linear !important;
+}

@@ -58,6 +58,7 @@
   bottom: 50px;
   left: 18px;
 }
+
 .location__container > img {
   margin-right: 5px;
 }
@@ -174,3 +175,10 @@
     transform: scale(0.95);
   }
 }
+
+/* .animateBack {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: translate(0px, 0px) !important;
+  transition: visibility 1s, opacity 1s, transform 0.3s linear !important;
+} */

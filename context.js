@@ -16,7 +16,6 @@ import fire, {
   signInWithPopup,
   FacebookAuthProvider,
 } from "./firebase";
-import { te } from "date-fns/locale";
 import _, { map } from "underscore";
 
 export const UsersContext = React.createContext();

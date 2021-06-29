@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useEffect } from "react";
 
 import styles from "../styles/Buttons.module.css";
 import { DataContext, UsersContext } from "../context";
@@ -7,7 +7,8 @@ import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 
 export default function Buttons({ handleLike, showAnimation }) {
-  const { cards, activeCardIndex } = useContext(DataContext);
+  const { cards, activeCardIndex, setActiveCardIndex, filteredEvents } =
+    useContext(DataContext);
   const { setShowFilter, showFilter } = useContext(UsersContext);
 
   const heartRef = useRef(null);
@@ -17,6 +18,37 @@ export default function Buttons({ handleLike, showAnimation }) {
   const handleShowFilter = () => {
     setShowFilter(!showFilter);
     console.log(showFilter);
+  };
+
+  useEffect(() => {
+    console.log("active index:", activeCardIndex);
+  }, [activeCardIndex]);
+
+  //get previous card
+  const handleLastCard = async () => {
+    //if first card, cancel function
+    if (activeCardIndex === filteredEvents.length - 1) return;
+
+    //save event if swiped right
+    const lastCardIndex = activeCardIndex + 1;
+    setActiveCardIndex(activeCardIndex + 1);
+
+    // get big heart dom and hide it
+    const cardNotification = document.getElementById(
+      `animate-${lastCardIndex}`
+    );
+    cardNotification.style.display = "none";
+
+    //get last card dom element
+    const lastCardDOM = document.getElementById(
+      `card-${lastCardIndex}`
+    ).parentElement;
+
+    //bring it back
+    lastCardDOM.style.transition = "0.3s linear";
+    lastCardDOM.style.transform = "translate(0px, 0px) rotate(0deg";
+    lastCardDOM.style.visibility = "visible";
+    lastCardDOM.style.opacity = 1;
   };
 
   return (
@@ -34,7 +66,7 @@ export default function Buttons({ handleLike, showAnimation }) {
         <div
           className={styles.event__button}
           onClick={() => {
-            handleLike();
+            handleLastCard();
           }}
         >
           <img src="/back_arrow2.svg" alt="" />
