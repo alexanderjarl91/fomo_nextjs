@@ -10,15 +10,20 @@
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
 @media (min-width: 1200px) {
   .container {
-    margin-left: 280px;
-    grid-template-columns: 1fr 1fr;
+    margin-left: 320px;
+    grid-template-columns: 1fr;
   }
   .container > h2 {
     margin-left: 300px;
     background-color: rosybrown;
   }
   .event__container {
-    width: 10%;
+    background-color: white;
+    padding: 20px;
+    color: #161618;
+    margin: 0 auto;
+    margin-top: 1rem;
+    border-radius: 12px;
   }
 }
 

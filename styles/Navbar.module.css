@@ -6,8 +6,7 @@
   color: white;
   padding-top: 2rem;
   width: 80vw;
-  max-width: 400px;
-  /* max-width: 80vw; */
+  max-width: 500px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -31,7 +30,6 @@
 
 @media (min-width: 1200px) {
   .navbar__container {
-    /* justify-content: center; */
     width: 600px;
     margin-left: 150px;
   }

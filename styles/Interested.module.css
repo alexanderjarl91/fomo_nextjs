@@ -4,12 +4,16 @@
   justify-content: center;
   margin: 0 auto;
   margin-top: 6rem;
+  max-width: 600px;
 }
 
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
 @media (min-width: 1200px) {
   .cards {
-    margin-left: 280px;
+    top: 150px;
+    position: relative;
+    left: 190px;
+    margin: 0 auto;
   }
 }
 
@@ -32,11 +36,12 @@
   background-attachment: fixed;
   background-repeat: no-repeat;
   min-height: 100px;
-  /* max-width: 600px; */
+  max-width: 600px;
   background: rgba(255, 255, 255, 0.06);
   margin: 0 auto;
   margin: 2px 0px;
   cursor: pointer;
+  border-radius: 12px;
 }
 
 .card__content {

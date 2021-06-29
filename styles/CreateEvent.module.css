@@ -1,14 +1,23 @@
+.container {
+  width: 100%;
+}
+
 .createEvent__container {
   overflow: initial;
-  width: 80%;
-  max-width: 600px;
   margin: 0 auto;
   margin-top: 6rem;
+  width: 80%;
+  max-width: 500px;
 }
+
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
 @media (min-width: 1200px) {
+  .container {
+    width: auto;
+    margin-left: 300px;
+  }
   .createEvent__container {
-    margin-left: 480px;
+    width: 500px;
   }
 }
 
@@ -17,27 +26,25 @@
 }
 
 .headline {
-  text-align: center;
+  text-align: left;
   max-width: 300px;
-  margin: 0 auto;
+
   margin-top: 1rem;
 }
 
 .createEvent__container > p {
-  text-align: center;
   font-style: italic;
 }
 
 .event__form {
   max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
 }
 
 .event__form > div {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  /* padding: 20px; */
+  padding: 20px 0px;
   text-align: left;
 }
 
@@ -121,4 +128,64 @@
 
 .map__container {
   margin-bottom: 2rem;
+}
+
+.preview {
+  position: relative;
+  width: 80vw;
+  max-width: 320px;
+  height: 58vh;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  box-sizing: border-box;
+  box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  background-color: red;
+  margin: 0 auto;
+  margin-top: 1rem;
+}
+
+/* CARD DATA */
+.preview > h3 {
+  position: absolute;
+  bottom: 80px;
+  left: 20px;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 35px;
+  max-width: 260px;
+}
+
+.location__container {
+  font-size: 18px;
+  position: absolute;
+  display: flex;
+  bottom: 50px;
+  left: 18px;
+}
+.location__container > img {
+  margin-right: 5px;
+}
+
+.date__container {
+  font-size: 18px;
+  position: absolute;
+  display: flex;
+  bottom: 20px;
+  left: 18px;
+}
+
+.date__container > img {
+  margin-right: 5px;
+}
+
+.card__heart {
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
+  width: 30px;
+  bottom: 20px;
+  right: 20px;
+  opacity: 0.8;
 }

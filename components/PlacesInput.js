@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import PlacesAutocomplete from "react-places-autocomplete";
-import {
-  geocodeByAddress,
-  geocodeByPlaceId,
-  getLatLng,
-} from "react-places-autocomplete";
+import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 
 import {
   withScriptjs,
@@ -51,7 +47,6 @@ export default function places({
   };
 
   // MAP
-
   return (
     <>
       <label htmlFor="">Location</label>
