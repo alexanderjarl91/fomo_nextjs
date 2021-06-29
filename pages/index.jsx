@@ -8,7 +8,6 @@ import { UsersContext, DataContext } from "../context";
 //components
 import EventCards from "../components/EventCards";
 import Filter from "../components/Filter";
-import axios from 'axios'
 
 export default function Home() {
   //context data

@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
-import { UsersContext } from "../context";
+import React, { useContext, useState, useEffect, useRef } from "react";
+import { UsersContext, DataContext} from "../context";
 import { useRouter } from "next/router";
 import fire from "../firebase";
 import styles from "../styles/CreateEvent.module.css";
@@ -7,10 +7,12 @@ import { v4 as uuidv4 } from "uuid";
 
 //components
 import PlacesInput from "../components/PlacesInput";
+import Map2 from "../components/Map2";
 
 export default function createEvent() {
   //context data
   const { showMenu, setShowMenu } = useContext(UsersContext);
+  const { isMapsLoaded } = useContext(DataContext);
   const router = useRouter();
   const [event, setEvent] = useState({});
   const [categories, setCategories] = useState([]);
@@ -92,10 +94,24 @@ export default function createEvent() {
     addCategory(category);
   };
 
-
   useEffect(()=> {
     console.log(event)
   }, [event])
+
+
+
+  const mapRef = useRef(null)
+
+
+useEffect(()=> {
+  if (!isMapsLoaded) return //return if maps is not loaded
+  if (!mapRef) return
+      new google.maps.Map(mapRef.current, {
+        center: { lat: -34.397, lng: 150.644 },
+        zoom: 4,
+      });
+}, [isMapsLoaded])
+
 
   return (
     <div className={styles.container}>
@@ -111,12 +127,12 @@ export default function createEvent() {
         </div>
 
         <div className={styles.event__form}>
+          <div style={{height: "200px", width: "200px"}}ref={mapRef}></div>
           <div>
             <label htmlFor="">Event title</label>
             <input
               type="text"
               name=""
-              
               placeholder="Whats your event called?"
               onChange={(e) => {
                 const tempEvent = event;
@@ -142,14 +158,14 @@ export default function createEvent() {
           </div>
 
           <div>
-            <PlacesInput
+            {/* <PlacesInput
               address={address}
               setAddress={setAddress}
               coordinates={coordinates}
               setCoordinates={setCoordinates}
               setCurrentInput={setCurrentInput}
               currentInput={currentInput}
-            />
+            /> */}
           </div>
 
           <div>

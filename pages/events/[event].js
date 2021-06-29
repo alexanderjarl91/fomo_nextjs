@@ -128,7 +128,7 @@ export default function Event() {
 
               <p className={styles.description}>{event.description}</p>
 
-              <EventMap coordinates={coordinates} />
+              {/* <EventMap coordinates={coordinates} /> */}
 
               <div className={styles.footer__btns}>
                 <a

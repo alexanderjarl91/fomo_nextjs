@@ -22,6 +22,7 @@ const MyMapComponent = withScriptjs(
     </GoogleMap>
   ))
 );
+
 const mapOptions = {
   disableDefaultUI: true,
 };
@@ -50,6 +51,7 @@ export default function places({
   return (
     <>
       <label htmlFor="">Location</label>
+
       <div className={styles.map__container}>
         <MyMapComponent
           isMarkerShown
@@ -60,6 +62,7 @@ export default function places({
           coordinates={coordinates}
         />
       </div>
+
       <PlacesAutocomplete
         value={address}
         onChange={setAddress}

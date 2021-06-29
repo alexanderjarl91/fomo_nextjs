@@ -344,10 +344,29 @@ export const DataProvider = ({ children }) => {
     setFilteredEvents(unique);
   }, [futureEvents, activeCategories, dateFilter]);
 
+  // load google maps
+  const [isMapsLoaded, setIsMapsLoaded] = useState(false);
+  useEffect(() => {
+    const handleMapsLoad = () => {
+      setIsMapsLoaded(true);
+    };
+
+    //if google isnt loaded, load it
+    if (typeof google === "undefined") {
+      const script = document.createElement("script");
+      script.onload = handleMapsLoad;
+      // script.src =
+      //   "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2WN37oJn1RxGfx5ltyGDGZZ7gzGaGFM8&v=3.exp&libraries=geometry,drawing,places";
+      script.src =
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2WN37oJn1RxGfx5ltyGDGZZ7gzGaGFM8&libraries=&v=weekly";
+      document.head.appendChild(script);
+    }
+  }, []);
+
   //get distance to each event
   useEffect(() => {
+    if (!isMapsLoaded) return; //return if google maps isnt loaded
     if (userLocation?.code) return; //return if userLocation has error code
-
     if (userLocation) {
       futureEvents?.map((event, i) => {
         const eventLocation = event.location.coordinates;
@@ -382,7 +401,7 @@ export const DataProvider = ({ children }) => {
         }
       });
     }
-  }, [userLocation, filteredEvents]);
+  }, [userLocation, filteredEvents, isMapsLoaded]);
 
   return (
     <DataContext.Provider
@@ -405,6 +424,7 @@ export const DataProvider = ({ children }) => {
         futureEvents,
         maxDistance,
         setMaxDistance,
+        isMapsLoaded,
       }}
     >
       {children}
