@@ -1,22 +1,40 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import fire from "../firebase";
-import { UsersContext } from "../context";
+import { UsersContext, DataContext } from "../context";
 import { useRouter } from "next/router";
 import styles from "../styles/Signup.module.css";
-
-import Navbar from "../components/Navbar";
-import Menu from "../components/Menu";
 
 export default function signup({}) {
   const router = useRouter();
   const { signInWithGoogle, showMenu, setShowMenu } = useContext(UsersContext);
-
+  const { isMapsLoaded } = useContext(DataContext);
   //route restriction - if user is logged in, redirect to index
   useEffect(() => {
     if (fire.auth().currentUser) {
       router.push("/");
     }
   }, [fire.auth().currentUser]);
+
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    if (!isMapsLoaded) return; //return if maps is not loaded
+    if (!mapRef) return;
+    const mapOptions = {
+      center: { lat: 10.365365, lng: -66.96667 },
+      clickableIcons: false,
+      streetViewControl: false,
+      panControlOptions: false,
+      gestureHandling: "cooperative",
+      mapTypeControl: false,
+      zoomControlOptions: {
+        style: "SMALL",
+      },
+      zoom: 14,
+    };
+    console.log(`google`, google);
+    new google.maps.Map(mapRef.current, mapOptions);
+  }, [isMapsLoaded]);
 
   return (
     <div>
@@ -45,6 +63,7 @@ export default function signup({}) {
           Continue with Facebook
         </button>
       </div>
+      <div id="map" className={styles.map} ref={mapRef}></div>
     </div>
   );
 }

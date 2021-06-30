@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Head from "next/head";
 import PlacesAutocomplete from "react-places-autocomplete";
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 
@@ -47,12 +46,11 @@ export default function places({
     componentRestrictions: { country: "is" },
   };
 
-  // MAP
   return (
     <>
       <label htmlFor="">Location</label>
 
-      <div className={styles.map__container}>
+      {/* <div className={styles.map__container}>
         <MyMapComponent
           isMarkerShown
           googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSj1uHZTVH_tK-ql-1gMeY698tQplNQZ0&v=3.exp&libraries=geometry,drawing,places"
@@ -61,7 +59,7 @@ export default function places({
           mapElement={<div style={{ height: `100%` }} />}
           coordinates={coordinates}
         />
-      </div>
+      </div> */}
 
       <PlacesAutocomplete
         value={address}

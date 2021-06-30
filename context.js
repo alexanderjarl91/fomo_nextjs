@@ -343,22 +343,21 @@ export const DataProvider = ({ children }) => {
     setFilteredEvents(unique);
   }, [futureEvents, activeCategories, dateFilter]);
 
-  // load google maps
+  // load google maps script
   const [isMapsLoaded, setIsMapsLoaded] = useState(false);
   useEffect(() => {
     const handleMapsLoad = () => {
       setIsMapsLoaded(true);
     };
-
     //if google isnt loaded, load it
     if (typeof google === "undefined") {
       const script = document.createElement("script");
+      document.body.appendChild(script);
+
       script.onload = handleMapsLoad;
-      // script.src =
-      //   "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2WN37oJn1RxGfx5ltyGDGZZ7gzGaGFM8&v=3.exp&libraries=geometry,drawing,places";
+      script.type = "text/javascript";
       script.src =
-        "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2WN37oJn1RxGfx5ltyGDGZZ7gzGaGFM8&libraries=&v=weekly";
-      document.head.appendChild(script);
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2WN37oJn1RxGfx5ltyGDGZZ7gzGaGFM8&libraries=geometry,drawing,places&v=weekly";
     }
   }, []);
 
