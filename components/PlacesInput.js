@@ -2,25 +2,25 @@ import React, { useState, useEffect } from "react";
 import PlacesAutocomplete from "react-places-autocomplete";
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 
-import {
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker,
-} from "react-google-maps";
+// import {
+//   withScriptjs,
+//   withGoogleMap,
+//   GoogleMap,
+//   Marker,
+// } from "react-google-maps";
 import styles from "../styles/CreateEvent.module.css";
 
-const MyMapComponent = withScriptjs(
-  withGoogleMap((props) => (
-    <GoogleMap
-      defaultZoom={12}
-      defaultCenter={{ lat: 64.1425421, lng: -21.9172846 }}
-      options={mapOptions}
-    >
-      {props.isMarkerShown && <Marker position={props.coordinates} />}
-    </GoogleMap>
-  ))
-);
+// const MyMapComponent = withScriptjs(
+//   withGoogleMap((props) => (
+//     <GoogleMap
+//       defaultZoom={12}
+//       defaultCenter={{ lat: 64.1425421, lng: -21.9172846 }}
+//       options={mapOptions}
+//     >
+//       {props.isMarkerShown && <Marker position={props.coordinates} />}
+//     </GoogleMap>
+//   ))
+// );
 
 const mapOptions = {
   disableDefaultUI: true,
@@ -53,7 +53,7 @@ export default function places({
       {/* <div className={styles.map__container}>
         <MyMapComponent
           isMarkerShown
-          googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSj1uHZTVH_tK-ql-1gMeY698tQplNQZ0&v=3.exp&libraries=geometry,drawing,places"
+          googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2WN37oJn1RxGfx5ltyGDGZZ7gzGaGFM8&v=3.exp&libraries=geometry,drawing,places"
           loadingElement={<div style={{ height: `50%` }} />}
           containerElement={<div style={{ height: `200px` }} />}
           mapElement={<div style={{ height: `100%` }} />}

@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from "uuid";
 
 //components
 import PlacesInput from "../components/PlacesInput";
-import Map2 from "../components/Map2";
 
 export default function maptester() {
   //context data

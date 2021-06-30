@@ -356,50 +356,51 @@ export const DataProvider = ({ children }) => {
 
       script.onload = handleMapsLoad;
       script.type = "text/javascript";
+      script.async = "true";
       script.src =
-        "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2WN37oJn1RxGfx5ltyGDGZZ7gzGaGFM8&libraries=geometry,drawing,places&v=weekly";
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2WN37oJn1RxGfx5ltyGDGZZ7gzGaGFM8&libraries=places&v=weekly";
     }
   }, []);
 
   //get distance to each event
-  useEffect(() => {
-    if (!isMapsLoaded) return; //return if google maps isnt loaded
-    if (userLocation?.code) return; //return if userLocation has error code
-    if (userLocation) {
-      futureEvents?.map((event, i) => {
-        const eventLocation = event.location.coordinates;
+  // useEffect(() => {
+  //   if (!isMapsLoaded) return; //return if google maps isnt loaded
+  //   if (userLocation?.code) return; //return if userLocation has error code
+  //   if (userLocation) {
+  //     futureEvents?.map((event, i) => {
+  //       const eventLocation = event.location.coordinates;
 
-        // origin is the users current location
-        let origin = new google.maps.LatLng(
-          userLocation?.latitude,
-          userLocation?.longitude
-        );
-        //convert event location to a google object
-        let destination = new google.maps.LatLng(
-          eventLocation.lat,
-          eventLocation.lng
-        );
+  //       // origin is the users current location
+  //       let origin = new google.maps.LatLng(
+  //         userLocation?.latitude,
+  //         userLocation?.longitude
+  //       );
+  //       //convert event location to a google object
+  //       let destination = new google.maps.LatLng(
+  //         eventLocation.lat,
+  //         eventLocation.lng
+  //       );
 
-        var service = new google.maps.DistanceMatrixService();
+  //       var service = new google.maps.DistanceMatrixService();
 
-        //get distance from origin to destination with driving as travel mode
-        service.getDistanceMatrix(
-          {
-            origins: [origin],
-            destinations: [destination],
-            travelMode: "DRIVING",
-          },
+  //       //get distance from origin to destination with driving as travel mode
+  //       service.getDistanceMatrix(
+  //         {
+  //           origins: [origin],
+  //           destinations: [destination],
+  //           travelMode: "DRIVING",
+  //         },
 
-          callback
-        );
-        function callback(response, status) {
-          const eventDistance =
-            response?.rows[0].elements[0].distance?.value / 1000;
-          // console.log(event.title, eventDistance, "km away");
-        }
-      });
-    }
-  }, [userLocation, filteredEvents, isMapsLoaded]);
+  //         callback
+  //       );
+  //       function callback(response, status) {
+  //         const eventDistance =
+  //           response?.rows[0].elements[0].distance?.value / 1000;
+  //         // console.log(event.title, eventDistance, "km away");
+  //       }
+  //     });
+  //   }
+  // }, [userLocation, filteredEvents, isMapsLoaded]);
 
   return (
     <DataContext.Provider
