@@ -95,19 +95,19 @@ export default function maptester() {
     console.log("event", event);
   }, [event]);
 
-  const mapRef = useRef(null);
+  // const mapRef = useRef(null);
 
-  useEffect(() => {
-    if (!isMapsLoaded) return; //return if maps is not loaded
-    if (!mapRef) return;
-    const mapOptions = {
-      disableDefaultUI: true,
-      center: { lat: -34.397, lng: 150.644 },
-      zoom: 8,
-    };
-    console.log(`google`, google);
-    new google.maps.Map(mapRef.current, mapOptions);
-  }, [isMapsLoaded]);
+  // useEffect(() => {
+  //   if (!isMapsLoaded) return; //return if maps is not loaded
+  //   if (!mapRef) return;
+  //   const mapOptions = {
+  //     disableDefaultUI: true,
+  //     center: { lat: -34.397, lng: 150.644 },
+  //     zoom: 8,
+  //   };
+  //   console.log(`google`, google);
+  //   new google.maps.Map(mapRef.current, mapOptions);
+  // }, [isMapsLoaded]);
 
   return (
     <div className={styles.container}>
@@ -147,7 +147,7 @@ export default function maptester() {
             />
           </div>
 
-          <div id="map" className={styles.map} ref={mapRef}></div>
+          {/* <div id="map" className={styles.map} ref={mapRef}></div> */}
 
           {isMapsLoaded && (
             <div>
