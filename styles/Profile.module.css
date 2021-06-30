@@ -46,4 +46,10 @@
   border-radius: 10px;
   font-weight: 600;
   margin-top: 1rem;
+  cursor: pointer;
+  transition: 0.1s ease-in;
+}
+
+.logout__btn:hover {
+  transform: scale(0.98);
 }

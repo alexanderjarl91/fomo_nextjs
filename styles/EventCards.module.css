@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   margin-top: 6rem;
-  /* height: 60vh; */
   height: 60vh;
   align-self: center;
   align-items: center;
@@ -24,7 +23,7 @@
 .card__front {
   position: relative;
   width: 80vw;
-  max-width: 400px;
+  max-width: 500px;
   height: 58vh;
   border-radius: 16px;
   background-size: cover;
@@ -37,6 +36,9 @@
 @media (min-height: 800px) {
   .card__front {
     margin-bottom: 1rem;
+  }
+  .cards__container {
+    margin-top: 7rem;
   }
 }
 

@@ -32,11 +32,12 @@
   .navbar__container {
     width: 600px;
     margin-left: 150px;
+    padding-top: 3rem;
   }
-  /* .hamburger {
-    display: none;
+  .hamburger {
+    visibility: hidden;
   }
   .avatar {
-    display: none;
-  } */
+    visibility: hidden;
+  }
 }

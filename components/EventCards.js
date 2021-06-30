@@ -123,7 +123,6 @@ function EventCards() {
     console.log("permissions", navigator.permissions);
   }, []);
 
-  
   return (
     <div className={styles.container}>
       <div className={styles.cards__container}>
@@ -225,7 +224,7 @@ function EventCards() {
                             <img src="/location_pin.svg" alt="" />
                             <p>{card.location?.name}</p>
                           </div>
-                         
+
                           <div className={styles.date__container}>
                             <img src="/date.svg" alt="" />
                             <p>
@@ -300,7 +299,6 @@ function EventCards() {
                               <p>{card.location?.name}</p>
                             </div>
                             <div className={styles.date__container}>
-                           
                               <img src="/date.svg" alt="" />
                               <p>
                                 {new Date(card.date)
@@ -311,7 +309,6 @@ function EventCards() {
                                       5
                                   )}
                               </p>
-                              <p>300m away</p>
                             </div>
                           </div>
                         </div>

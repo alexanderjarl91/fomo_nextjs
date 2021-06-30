@@ -30,6 +30,9 @@ const Menu = () => {
                   className={styles.menu__avatar}
                   src={fire.auth().currentUser.photoURL}
                   alt=""
+                  onClick={() => {
+                    router.push("/profile");
+                  }}
                 />
                 <h1>{fire.auth().currentUser.displayName}</h1>
                 {userData?.promoter ? (

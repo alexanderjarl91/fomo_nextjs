@@ -1,4 +1,5 @@
 .index__container {
+  overflow: hidden;
 }
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
 @media (min-width: 1200px) {
