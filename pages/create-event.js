@@ -305,7 +305,7 @@ export default function maptester() {
           </div>
 
           <div>
-            <label htmlFor="">Preview</label>
+            <label htmlFor="">Card preview</label>
             <div
               className={styles.preview}
               style={{
@@ -315,15 +315,24 @@ export default function maptester() {
               }}
             >
               <div className={styles.gradient}></div>
-              <h3>Title</h3>
+              <h3>{event?.title}</h3>
               <div className={styles.location__container}>
                 <img src="/location_pin.svg" alt="" />
-                <p>HARPA</p>
+                <p>Your selected location</p>
               </div>
-              <div className={styles.date__container}>
-                <img src="/date.svg" alt="" />
-                <p>29. júni</p>
-              </div>
+              {event?.date && (
+                <div className={styles.date__container}>
+                  <img src="/date.svg" alt="" />
+                  <p>
+                    {new Date(event.date)
+                      .toDateString()
+                      .substr(
+                        0,
+                        new Date(event.date).toDateString().length - 5
+                      )}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
           <p>
