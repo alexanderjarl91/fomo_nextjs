@@ -98,10 +98,13 @@ export default function Event() {
   return (
     <>
       <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta property="title" content="EVENT NAME" />
         <meta property="description" content="description" />
         <meta property="image" content="favicon.png" />
         {event && <title>{event.title}</title>}
+        <meta property="og:title" content="the title" key="ogtitle" />
+        <meta property="og:description" content="the description" key="ogdesc" />
       </Head>
 
       {event && (
