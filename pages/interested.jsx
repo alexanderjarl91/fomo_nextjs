@@ -79,21 +79,26 @@ export default function interested() {
           <>
             {cards.map((card) => (
               <Link href={`events/${card.eventId}`}>
-                  <div className={styles.card}>
+                <div className={styles.card}>
 
-                    <div className={styles.card__content}>
-                      <img src={card.image} alt="" />
-                      <div className={styles.info}>
-                        <h1>{card.title}</h1>
-                        <p>21:30pm</p>
-                        <p>Thursday, Jan. 9</p>
-                        <p>Harpan, Reykjavík</p>
-                      </div>
+                  <div className={styles.card__content}>
+                    <img src={card.image} alt="" />
+                    <div className={styles.info}>
+                      <h1>{card.title}</h1>
+                      <p>{card?.location?.name}</p>
+                      <p>{new Date(card.date)
+                        .toDateString()
+                        .substr(
+                          0,
+                          new Date(card.date).toDateString().length - 5
+                        )}, {card.time} </p>
 
                     </div>
 
-
                   </div>
+
+
+                </div>
               </Link>
             ))}
           </>

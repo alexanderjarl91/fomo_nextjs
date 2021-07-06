@@ -4,7 +4,7 @@
   justify-content: center;
   margin: 0 auto;
   margin-top: 6rem;
-  max-width: 600px;
+  max-width: 500px;
 }
 
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
@@ -39,7 +39,7 @@
   max-width: 600px;
   background: rgba(255, 255, 255, 0.06);
   margin: 0 auto;
-  margin: 2px 0px;
+  margin: 4px 0px;
   cursor: pointer;
   border-radius: 12px;
 }
@@ -54,14 +54,14 @@
   width: 80px;
   height: 80px;
   border-radius: 4px;
+  object-fit: cover;
 }
 
 .info {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   font-weight: 300;
-  font-size: 14px;
+
   line-height: 19px;
   margin-left: 1rem;
   padding: 1px;
@@ -71,8 +71,10 @@
 .info > h1 {
   font-size: 20px;
   /* max-width: 230px; */
-
+  margin-bottom: 6px;
   font-weight: 600;
 }
 .info > p {
+  font-size: 18px;
+  margin-bottom: 4px;
 }

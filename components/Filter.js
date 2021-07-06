@@ -128,7 +128,7 @@ export default function Filter() {
           {/* WHERE? */}
           <div className={styles.what__container}>
             <div className={styles.where__headline}>
-              <h3>when?</h3>
+              <h3>where?</h3>
               <h3 className={styles.maxKmText}>within {maxDistance}km</h3>
             </div>
             <Slider

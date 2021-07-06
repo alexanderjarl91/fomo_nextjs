@@ -6,8 +6,7 @@
   padding: 3rem;
   margin: 0 auto;
   padding-top: 6rem;
-  height: 100vh;
-  overflow: hidden;
+  height: 80vh;
 }
 
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
@@ -69,8 +68,9 @@
   margin-bottom: 1rem;
   font-size: 18px;
   line-height: 25px;
-  /* height: 40%; */
   font-weight: 200;
+  height: 200px;
+  overflow: auto;
 }
 
 .footer__btns {

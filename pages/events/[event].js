@@ -4,7 +4,8 @@ import Link from "next/link";
 import fire from "../../firebase";
 import styles from "../../styles/Event.module.css";
 import { UsersContext, DataContext } from "../../context";
-
+import { FacebookShareButton } from "react-share"
+import { FiShare2 } from "react-icons/fi"
 //components
 import Navbar from "../../components/Navbar";
 import EventMap from "../../components/EventMap";
@@ -20,6 +21,7 @@ export default function Event() {
   const [event, setEvent] = useState();
   const [isInterested, setIsInterested] = useState();
   const [coordinates, setCoordinates] = useState();
+
   // get the data when component mounts
   useEffect(() => {
     matchEventWithQuery();
@@ -43,6 +45,7 @@ export default function Event() {
   const checkIfUserIsInterested = () => {
     setIsInterested(userData.interested.includes(router.query.event));
   };
+
   //if userdata exists, run check functions. do this every time userData changes.
   useEffect(() => {
     if (!userData) return;
@@ -126,6 +129,7 @@ export default function Event() {
                 </div>
               </div>
 
+
               <p className={styles.description}>{event.description}</p>
 
               <EventMap coordinates={coordinates} />
@@ -139,7 +143,14 @@ export default function Event() {
                   KAUPA MIÐA
                 </a>
                 <div className={styles.bottom__btns}>
+                  <FacebookShareButton url={window.location.href}>
+                    <button>shshs</button>
+                  </FacebookShareButton>
                   <button className={styles.share__btn}>SHARE</button>
+
+                  <div style={{ color: 'white', width: '30px', cursor: 'pointer' }}>
+                    <FiShare2 size="1.5em" />
+                  </div>
 
                   {!fire.auth().currentUser && (
                     <Link href="/signup">

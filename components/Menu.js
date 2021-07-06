@@ -65,7 +65,7 @@ const Menu = () => {
                   }}
                 >
                   <img src="/menu_icons/user.svg" alt="" />
-                  <p>My profile</p>
+                  <p>Profile</p>
                 </li>
 
                 {userData && userData.promoter ? (
