@@ -101,7 +101,9 @@ export default function Event() {
         <meta property="title" content="EVENT NAME" />
         <meta property="description" content="description" />
         <meta property="image" content="favicon.png" />
+        {event && <title>{event.title}</title>}
       </Head>
+
       {event && (
         <div
           style={{ margin: "0", padding: 0 }}
