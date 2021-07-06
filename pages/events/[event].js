@@ -98,8 +98,9 @@ export default function Event() {
   return (
     <>
       <Head>
-        <meta property="og:title" content="EVENT NAME" />
-        <meta property="og:image" content="Your path/to/image.jpg" />
+        <meta property="title" content="EVENT NAME" />
+        <meta property="description" content="description" />
+        <meta property="image" content="favicon.png" />
       </Head>
       {event && (
         <div
