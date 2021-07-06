@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import Head from 'next/head'
 import { useRouter } from "next/router";
 import Link from "next/link";
 import fire from "../../firebase";
@@ -96,6 +97,10 @@ export default function Event() {
 
   return (
     <>
+      <Head>
+        <meta property="og:title" content="EVENT NAME" />
+        <meta property="og:image" content="Your path/to/image.jpg" />
+      </Head>
       {event && (
         <div
           style={{ margin: "0", padding: 0 }}
