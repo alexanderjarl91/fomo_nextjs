@@ -146,6 +146,7 @@
   padding-left: 50px;
   cursor: pointer;
   transition: 0.2s ease-in-out;
+  align-items: center;
 }
 
 .menu__nav > li:hover {
@@ -156,8 +157,8 @@
   background-color: green;
 }
 
-.menu__nav > li > img {
-  margin-right: 10px;
+.menu__nav > li > p {
+  margin-left: 10px;
 }
 
 .menu__nav > button {
@@ -172,6 +173,7 @@
   width: 100px;
   margin: 0 auto;
   margin-top: 12px;
+  
   cursor: pointer;
   transition: 0.1s ease-in;
 }

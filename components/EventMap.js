@@ -13,7 +13,7 @@ export default function EventMap({ coordinates }) {
   const MyMapComponent = withScriptjs(
     withGoogleMap((props) => (
       <GoogleMap
-        defaultZoom={14}
+        defaultZoom={12}
         defaultCenter={coordinates}
         options={mapOptions}
       >

@@ -120,6 +120,9 @@ export default function maptester() {
         <div className={styles.event__form}>
           <div>
             <label htmlFor="">Event title</label>
+            <p style={{ opacity: 0.5, marginBottom: "5px" }}>
+            Select a title for your event
+        </p>
             <input
               type="text"
               name=""
@@ -145,7 +148,9 @@ export default function maptester() {
           {/* <div id="map" className={styles.map} ref={mapRef}></div> */}
 
           {isMapsLoaded && (
+            
             <div>
+              
               <PlacesInput
                 address={address}
                 setAddress={setAddress}
@@ -154,11 +159,14 @@ export default function maptester() {
                 setCurrentInput={setCurrentInput}
                 currentInput={currentInput}
               />
+              
             </div>
           )}
 
           <div>
             <label htmlFor="">Date</label>
+            <p style={{opacity: 0.5, marginBottom: '5px'}}>What calendar day is your event taking place?</p>
+
             <input
               type="date"
               onChange={(e) => {
@@ -171,6 +179,8 @@ export default function maptester() {
 
           <div>
             <label htmlFor="">Time</label>
+            <p style={{opacity: 0.5, marginBottom: '5px'}}>At what time does your event begin?</p>
+
             <input
               type="time"
               onChange={(e) => {
@@ -183,10 +193,12 @@ export default function maptester() {
 
           <div>
             <label htmlFor="">Price</label>
+            <p style={{opacity: 0.5, marginBottom: '5px'}}>How much to enter your event, if it applies? (prices are in ISK)</p>
+
             <input
               type="number"
               name=""
-              placeholder="How much to enter? (if it applies)"
+              placeholder="0"
               onChange={(e) => {
                 const tempEvent = { ...event };
                 tempEvent.price = e.target.value;
@@ -262,6 +274,7 @@ export default function maptester() {
           </div>
           <div>
             <label htmlFor="">Action button text</label>
+            <p style={{opacity: 0.5, marginBottom: '5px'}}>The action button in your event leads to a page of your choice, choose something short and descriptive</p>
             <input
               type="text"
               name=""
@@ -275,9 +288,11 @@ export default function maptester() {
           </div>
           <div>
             <label htmlFor="">Action button URL</label>
+            <p style={{opacity: 0.5, marginBottom: '5px'}}>Where should your action button lead to?</p>
+
             <input
               type="text"
-              placeholder="Where should your action button lead to?"
+              placeholder="www.buytickets.com/your-event"
               onChange={(e) => {
                 const tempEvent = { ...event };
                 tempEvent.url = e.target.value;
@@ -288,6 +303,9 @@ export default function maptester() {
 
           <div>
             <label htmlFor="">Image</label>
+            <p style={{ opacity: 0.5, marginBottom: "5px" }}>
+              If your event image is in landscape resolution we suggest designing a portrait rendition for best outcome
+            </p>
             <input
               type="text"
               placeholder="A link to your image.."

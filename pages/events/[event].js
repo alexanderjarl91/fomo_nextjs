@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import Head from 'next/head'
 import { useRouter } from "next/router";
+import Modal from 'react-modal';
 import Link from "next/link";
 import fire from "../../firebase";
 import styles from "../../styles/Event.module.css";
 import { UsersContext, DataContext } from "../../context";
-import { FacebookShareButton } from "react-share"
+import { FacebookShareButton, FacebookIcon, TwitterIcon, WhatsappIcon } from "react-share"
 import { FiShare2 } from "react-icons/fi"
+
 //components
 import Navbar from "../../components/Navbar";
 import EventMap from "../../components/EventMap";
@@ -95,13 +97,54 @@ export default function Event() {
     userRef.update({ interested: tempInterested });
   };
 
+
+
+
+
+  //SHARE MODAL
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  const customStyles = {
+    overlay: {
+      backgroundColor: 'rgba(255,255,255,0.8)'
+
+    },
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      maxWidth: '200px',
+      backgroundColor: '#0e0e0e',
+      border: 'none',
+      borderRadius: '16px',
+      height: '30%',
+      minWidth: '90%',
+      display: "flex",
+      flexDirection: "column",
+      textAlign: 'center'
+    },
+  };
+
+
+
   return (
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta property="title" content="EVENT NAME" />
         <meta property="description" content="description" />
-        <meta property="image" content="favicon.png" />
+        <meta property="image" content="header_img.png" />
         {event && <title>{event.title}</title>}
         <meta property="og:title" content="the title" key="ogtitle" />
         <meta property="og:description" content="the description" key="ogdesc" />
@@ -154,15 +197,38 @@ export default function Event() {
                   KAUPA MIÐA
                 </a>
                 <div className={styles.bottom__btns}>
-                  <FacebookShareButton url={window.location.href}>
-                    <button>shshs</button>
-                  </FacebookShareButton>
-                  <button className={styles.share__btn}>SHARE</button>
 
-                  <div style={{ color: 'white', width: '30px', cursor: 'pointer' }}>
-                    <FiShare2 size="1.5em" />
+
+                  {/* MODAL */}
+                  <div>
+                    <div onClick={openModal} style={{ color: 'white', width: '30px', cursor: 'pointer' }}>
+                      <FiShare2 size="1.5em" />
+                    </div>
+                    <Modal
+                      isOpen={modalIsOpen}
+                      onRequestClose={closeModal}
+                      style={customStyles}
+                      contentLabel="Example Modal"
+
+                    >
+                      <h1>SHARE</h1>
+                      <p>share this event to your social media</p>
+                      <div>
+                        <FacebookIcon size={50} borderRadius={12} />
+                        <TwitterIcon size={50} borderRadius={12} />
+                        <WhatsappIcon size={50} borderRadius={12} />
+                      </div>
+                    </Modal>
                   </div>
 
+
+
+
+
+
+
+
+                  {/* HEART BUTTON */}
                   {!fire.auth().currentUser && (
                     <Link href="/signup">
                       <img src="/heart_empty.svg" alt="" />

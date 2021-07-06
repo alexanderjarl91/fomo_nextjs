@@ -4,7 +4,7 @@ import fire from "../firebase";
 import { useRouter } from "next/router";
 import { UsersContext } from "../context";
 import OutsideClickHandler from "react-outside-click-handler";
-
+import {BsCardChecklist} from "react-icons/bs"
 const Menu = () => {
   const { userData, showMenu, setShowMenu } = useContext(UsersContext);
   const router = useRouter();
@@ -67,6 +67,7 @@ const Menu = () => {
                   <img src="/menu_icons/user.svg" alt="" />
                   <p>Profile</p>
                 </li>
+                
 
                 {userData && userData.promoter ? (
                   <>
@@ -78,6 +79,17 @@ const Menu = () => {
                       <img src="/menu_icons/events.svg" alt="" />
                       <p>My events</p>
                     </li>
+
+                    {fire.auth().currentUser.email == "alexanderjarl91@gmail.com"&& <li
+                  onClick={() => {
+                    routeTo("profile");
+                  }}
+                >
+                  
+                  <BsCardChecklist />
+                  <p>Manage events</p>
+                </li>}
+
                     <button
                       onClick={() => {
                         router.push("/create-event");
