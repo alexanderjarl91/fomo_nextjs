@@ -54,7 +54,7 @@ export default function myEvents() {
             <p># of interested: XX</p>
             <hr className={styles.line} />
             <div className={styles.bottom}>
-              <p>2990 ISK</p>
+              <p>FREE</p>
               {event.status == "pending" && (
                 <span className={styles.pending}>PENDING</span>
               )}

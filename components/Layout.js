@@ -19,8 +19,8 @@ export default function Layout({ children }) {
         // dragToggleDistance={20}
         styles={{
           sidebar: {
-            transition: "transform 0.75s ease-out",
-            WebkitTransition: "-webkit-transform 0.75s ease-out",
+            transition: "transform 0.3s ease-out",
+            WebkitTransition: "-webkit-transform 0.3s ease-out",
           },
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.8)",

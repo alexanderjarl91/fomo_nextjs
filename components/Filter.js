@@ -19,7 +19,6 @@ export default function Filter() {
     filteredEventsByDate,
   } = useContext(DataContext);
 
-
   const handleFilter = () => {
     setShowFilter(!showFilter);
   };
@@ -47,10 +46,15 @@ export default function Filter() {
     setMaxDistance(value);
   };
 
-  useEffect(()=> {
-    console.log(maxDistance)
-  }, [maxDistance])
+  useEffect(() => {
+    console.log(maxDistance);
+  }, [maxDistance]);
 
+  const trackStyles = {
+    color: "green",
+    backgroundColor: "white",
+    width: "30px",
+  };
   return (
     <div className={styles.container}>
       <div className={styles.filter}>
@@ -134,6 +138,23 @@ export default function Filter() {
               max={100}
               step={5}
               onChange={handleMaxDistance}
+              // trackStyle={{ backgroundColor: "white", height: "12px" }}
+              trackStyle={{
+                backgroundColor: "#CCCCCC",
+                height: "8px",
+                marginTop: "1px",
+              }}
+              railStyle={{
+                height: "8px",
+                backgroundColor: "#CCCCCC",
+                marginTop: "1px",
+              }}
+              handleStyle={{
+                width: "20px",
+                height: "20px",
+                border: "none",
+                backgroundColor: "#FFFFFF",
+              }}
             />
           </div>
 

@@ -63,14 +63,25 @@ export default function Buttons({ handleLike, showAnimation }) {
       </motion.div>
       <div className={styles.swipeButtons}>
         {/* BACK BUTTON */}
-        <div
-          className={styles.event__button}
-          onClick={() => {
-            handleLastCard();
-          }}
-        >
-          <img src="/back_arrow2.svg" alt="" />
-        </div>
+        {fire.auth().currentUser ? (
+          <div
+            className={styles.event__button}
+            onClick={() => {
+              handleLastCard();
+            }}
+          >
+            <img src="/back_arrow2.svg" alt="" />
+          </div>
+        ) : (
+          <div
+            className={styles.event__button}
+            onClick={() => {
+              router.push("/signup");
+            }}
+          >
+            <img src="/back_arrow2.svg" alt="" />
+          </div>
+        )}
 
         {/* INTERESTED BUTTON */}
         {fire.auth().currentUser ? (

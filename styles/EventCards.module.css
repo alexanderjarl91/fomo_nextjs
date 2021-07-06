@@ -59,10 +59,12 @@
   display: flex;
   bottom: 50px;
   left: 18px;
+  align-items: center;
 }
 
 .location__container > img {
   margin-right: 5px;
+  height: 20px;
 }
 
 .date__container {
@@ -71,10 +73,12 @@
   display: flex;
   bottom: 20px;
   left: 18px;
+  align-items: center;
 }
 
 .date__container > img {
   margin-right: 5px;
+  height: 20px;
 }
 
 .card__heart {
@@ -111,6 +115,11 @@
   margin: 0 auto;
   margin-top: 1rem;
   box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+}
+.noCards__container > button:hover {
+  transform: scale(0.99);
 }
 
 .gradient {
@@ -184,3 +193,7 @@
   transform: translate(0px, 0px) !important;
   transition: visibility 1s, opacity 1s, transform 0.3s linear !important;
 } */
+
+.pin {
+  color: white;
+}

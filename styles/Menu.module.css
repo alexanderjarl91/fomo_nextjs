@@ -3,7 +3,7 @@
   width: 280px;
 
   overflow: hidden;
-  z-index: 0;
+  z-index: 99;
   max-height: 100vh;
 }
 
@@ -126,6 +126,7 @@
   margin-top: 3rem;
   margin-bottom: 10px;
   border-radius: 85px;
+  cursor: pointer;
 }
 
 .menu__profile > h1 {

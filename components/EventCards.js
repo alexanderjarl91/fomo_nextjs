@@ -7,8 +7,8 @@ import { UsersContext, DataContext } from "../context";
 import { useRouter } from "next/router";
 import Buttons from "./Buttons";
 import cx from "../utils/cx";
-import { MdLocationSearching } from "react-icons/md";
 import { FaSearchLocation } from "react-icons/fa";
+import { GrLocationPin } from "react-icons/gr";
 
 function EventCards() {
   const router = useRouter();
@@ -19,7 +19,6 @@ function EventCards() {
     filteredEvents,
     userLocation,
     setUserLocation,
-    setFilteredEvents,
   } = useContext(DataContext);
   const { userData } = useContext(UsersContext);
   const [cardRefs, setCardRefs] = useState([]);
@@ -145,6 +144,7 @@ function EventCards() {
                 <p>near you..</p>
               </div>
             )}
+
             {/* IF USER IS LOGGED IN & HAS SWIPED ALL CARDS */}
             {activeCardIndex < 0 && fire.auth().currentUser ? (
               <div className={styles.noCards__container}>

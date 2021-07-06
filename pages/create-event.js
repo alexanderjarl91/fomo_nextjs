@@ -21,28 +21,34 @@ export default function maptester() {
     lng: null,
   });
 
-  const postEvent = () => {
-    //add userId to event
+  //add data to event state
+  const completeEventData = async () => {
     const tempEvent = { ...event };
     tempEvent.categories = categories;
     tempEvent.uid = fire.auth().currentUser.uid;
-    tempEvent.eventId = uuidv4();
+    tempEvent.eventId = await uuidv4();
     tempEvent.status = "pending";
-    event.location = {};
-    event.location.name = address.split(",")[0]; //location name split at first comma
-    event.location.coordinates = coordinates;
 
+    tempEvent.location = {
+      name: address.split(",")[0], //location name split at first comma
+      coordinates: coordinates,
+    };
     setEvent(tempEvent);
+  };
+
+  const postEvent = async () => {
+    await completeEventData().then(() => {
+      fire
+        .firestore()
+        .collection("events")
+        .doc(event.title)
+        .set(event)
+        .then(() => {
+          saveToMyEvents();
+          router.push("/");
+        });
+    });
     // post event to firestore events collection
-    fire
-      .firestore()
-      .collection("events")
-      .doc(event.title)
-      .set(event)
-      .then(() => {
-        router.push("/");
-        saveToMyEvents();
-      });
   };
 
   //post event to users own event collection
@@ -62,7 +68,6 @@ export default function maptester() {
     if (doc.data().events) {
       tempEvents = doc.data().events;
     }
-
     //push new events ID to copy of array
     tempEvents.push(event.eventId);
     //post new array to database
@@ -95,19 +100,9 @@ export default function maptester() {
     console.log("event", event);
   }, [event]);
 
-  // const mapRef = useRef(null);
-
-  // useEffect(() => {
-  //   if (!isMapsLoaded) return; //return if maps is not loaded
-  //   if (!mapRef) return;
-  //   const mapOptions = {
-  //     disableDefaultUI: true,
-  //     center: { lat: -34.397, lng: 150.644 },
-  //     zoom: 8,
-  //   };
-  //   console.log(`google`, google);
-  //   new google.maps.Map(mapRef.current, mapOptions);
-  // }, [isMapsLoaded]);
+  useEffect(() => {
+    console.log(categories);
+  }, [categories]);
 
   return (
     <div className={styles.container}>
