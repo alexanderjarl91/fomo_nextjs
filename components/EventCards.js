@@ -85,6 +85,9 @@ function EventCards() {
       if (doc.data().seen) {
         tempSeen = doc.data().seen;
       }
+
+      //prevent duplicates
+      if (tempSeen.includes(currentEventId)) return;
       //push new events ID to copy of array
       tempSeen.push(currentEventId);
       //post new array to database
