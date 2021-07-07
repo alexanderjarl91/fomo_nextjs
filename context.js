@@ -16,7 +16,7 @@ import fire, {
   signInWithPopup,
   FacebookAuthProvider,
 } from "./firebase";
-import _, { map } from "underscore";
+import _, { includes, map } from "underscore";
 
 export const UsersContext = React.createContext();
 export const UsersProvider = ({ children }) => {
@@ -165,6 +165,7 @@ export const UsersProvider = ({ children }) => {
 export const DataContext = React.createContext();
 export const DataProvider = ({ children }) => {
   const [cards, setCards] = useState([]); // all cards
+  const [userData, setUserData] = useState();
   const [activeCardIndex, setActiveCardIndex] = useState(); //index of event thats shown
   const [futureEvents, setFutureEvents] = useState(); // events that are today or later
   const [filteredEvents, setFilteredEvents] = useState(); //events after filtering (rendered)
@@ -213,6 +214,27 @@ export const DataProvider = ({ children }) => {
       )
     );
   };
+
+  //get auth users data from firestore
+  const getUserData = async () => {
+    if (!fire.auth().currentUser) return;
+    await fire
+      .firestore()
+      .collection("users")
+      .doc(fire.auth().currentUser.email)
+      .onSnapshot({
+        next(snapshot) {
+          setUserData(snapshot.data());
+        },
+        error(err) {
+          console.log(err);
+        },
+      });
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, [fire.auth().currentUser]);
 
   //filter whenever
   useEffect(() => {
@@ -334,14 +356,40 @@ export const DataProvider = ({ children }) => {
       }
     });
 
+    //remove duplicates
     const onlyUnique = (value, index, self) => {
       return self.indexOf(value) === index;
     };
 
     const unique = tempEvents?.filter(onlyUnique);
 
+    //set final rendered events state
     setFilteredEvents(unique);
   }, [futureEvents, activeCategories, dateFilter]);
+
+  //SEEN EVENTS FUNCTIONALITY
+  const removeSeen = (array) => {
+    let unseenEvents = [];
+    const seenEvents = userData.seen;
+
+    if (fire.auth().currentUser && userData && filteredEvents) {
+      unseenEvents = array.filter((item) => !seenEvents.includes(item.eventId));
+    }
+    return unseenEvents;
+  };
+
+  useEffect(() => {
+    if (!userData) return;
+    setFilteredEvents(removeSeen(filteredEvents));
+  }, [userData]);
+
+  const clearSeen = async () => {
+    await fire
+      .firestore()
+      .collection("users")
+      .doc(fire.auth().currentUser.email)
+      .update({ seen: [] });
+  };
 
   // load google maps script
   const [isMapsLoaded, setIsMapsLoaded] = useState(false);
@@ -424,6 +472,7 @@ export const DataProvider = ({ children }) => {
         maxDistance,
         setMaxDistance,
         isMapsLoaded,
+        clearSeen,
       }}
     >
       {children}

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { UsersContext, DataContext } from "../context";
+import { DataContext } from "../context";
 import { useRouter } from "next/router";
 import fire from "../firebase";
 import styles from "../styles/CreateEvent.module.css";
@@ -33,26 +33,26 @@ export default function maptester() {
       name: address.split(",")[0], //location name split at first comma
       coordinates: coordinates,
     };
-    setEvent(tempEvent);
+    return tempEvent;
   };
 
   const postEvent = async () => {
-    await completeEventData().then(() => {
-      fire
-        .firestore()
-        .collection("events")
-        .doc(event.title)
-        .set(event)
-        .then(() => {
-          saveToMyEvents();
-          router.push("/");
-        });
-    });
+    const tempEvent = await completeEventData();
+
+    fire
+      .firestore()
+      .collection("events")
+      .doc(tempEvent.title)
+      .set(tempEvent)
+      .then(() => {
+        saveToMyEvents(tempEvent.eventId);
+        router.push("/");
+      });
     // post event to firestore events collection
   };
 
   //post event to users own event collection
-  const saveToMyEvents = async () => {
+  const saveToMyEvents = async (eventId) => {
     //get authenticated user
     const userRef = await fire
       .firestore()
@@ -69,8 +69,9 @@ export default function maptester() {
       tempEvents = doc.data().events;
     }
     //push new events ID to copy of array
-    tempEvents.push(event.eventId);
+    tempEvents.push(eventId);
     //post new array to database
+    console.log("tempEvents :>> ", tempEvents);
     userRef.update({ events: tempEvents });
   };
 
@@ -121,8 +122,8 @@ export default function maptester() {
           <div>
             <label htmlFor="">Event title</label>
             <p style={{ opacity: 0.5, marginBottom: "5px" }}>
-            Select a title for your event
-        </p>
+              Select a title for your event
+            </p>
             <input
               type="text"
               name=""
@@ -148,9 +149,7 @@ export default function maptester() {
           {/* <div id="map" className={styles.map} ref={mapRef}></div> */}
 
           {isMapsLoaded && (
-            
             <div>
-              
               <PlacesInput
                 address={address}
                 setAddress={setAddress}
@@ -159,13 +158,14 @@ export default function maptester() {
                 setCurrentInput={setCurrentInput}
                 currentInput={currentInput}
               />
-              
             </div>
           )}
 
           <div>
             <label htmlFor="">Date</label>
-            <p style={{opacity: 0.5, marginBottom: '5px'}}>What calendar day is your event taking place?</p>
+            <p style={{ opacity: 0.5, marginBottom: "5px" }}>
+              What calendar day is your event taking place?
+            </p>
 
             <input
               type="date"
@@ -179,7 +179,9 @@ export default function maptester() {
 
           <div>
             <label htmlFor="">Time</label>
-            <p style={{opacity: 0.5, marginBottom: '5px'}}>At what time does your event begin?</p>
+            <p style={{ opacity: 0.5, marginBottom: "5px" }}>
+              At what time does your event begin?
+            </p>
 
             <input
               type="time"
@@ -193,7 +195,9 @@ export default function maptester() {
 
           <div>
             <label htmlFor="">Price</label>
-            <p style={{opacity: 0.5, marginBottom: '5px'}}>How much to enter your event, if it applies? (prices are in ISK)</p>
+            <p style={{ opacity: 0.5, marginBottom: "5px" }}>
+              How much to enter your event, if it applies? (prices are in ISK)
+            </p>
 
             <input
               type="number"
@@ -274,7 +278,10 @@ export default function maptester() {
           </div>
           <div>
             <label htmlFor="">Action button text</label>
-            <p style={{opacity: 0.5, marginBottom: '5px'}}>The action button in your event leads to a page of your choice, choose something short and descriptive</p>
+            <p style={{ opacity: 0.5, marginBottom: "5px" }}>
+              The action button in your event leads to a page of your choice,
+              choose something short and descriptive
+            </p>
             <input
               type="text"
               name=""
@@ -288,7 +295,9 @@ export default function maptester() {
           </div>
           <div>
             <label htmlFor="">Action button URL</label>
-            <p style={{opacity: 0.5, marginBottom: '5px'}}>Where should your action button lead to?</p>
+            <p style={{ opacity: 0.5, marginBottom: "5px" }}>
+              Where should your action button lead to?
+            </p>
 
             <input
               type="text"
@@ -304,7 +313,8 @@ export default function maptester() {
           <div>
             <label htmlFor="">Image</label>
             <p style={{ opacity: 0.5, marginBottom: "5px" }}>
-              If your event image is in landscape resolution we suggest designing a portrait rendition for best outcome
+              If your event image is in landscape resolution we suggest
+              designing a portrait rendition for best outcome
             </p>
             <input
               type="text"
