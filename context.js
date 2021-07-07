@@ -17,6 +17,7 @@ import fire, {
   FacebookAuthProvider,
 } from "./firebase";
 import _, { map } from "underscore";
+import { resolveHref } from "next/dist/next-server/lib/router/router";
 
 export const UsersContext = React.createContext();
 export const UsersProvider = ({ children }) => {
@@ -339,9 +340,20 @@ export const DataProvider = ({ children }) => {
     };
 
     const unique = tempEvents?.filter(onlyUnique);
+    // console.clear();
+    let allFiltered = [];
+    unique?.map((evt) => {
+      eventDistanceArr?.map((evtwithdistance) => {
+        if (evt.title === evtwithdistance.title) {
+          if (evtwithdistance.distance < maxDistance) {
+            allFiltered.push(evt);
+          }
+        }
+      });
+    });
 
-    setFilteredEvents(unique);
-  }, [futureEvents, activeCategories, dateFilter]);
+    setFilteredEvents(allFiltered);
+  }, [futureEvents, activeCategories, dateFilter, maxDistance]);
 
   // load google maps script
   const [isMapsLoaded, setIsMapsLoaded] = useState(false);
@@ -362,46 +374,54 @@ export const DataProvider = ({ children }) => {
     }
   }, []);
 
-  //get distance to each event
-  // useEffect(() => {
-  //   if (!isMapsLoaded) return; //return if google maps isnt loaded
-  //   if (userLocation?.code) return; //return if userLocation has error code
-  //   if (userLocation) {
-  //     futureEvents?.map((event, i) => {
-  //       const eventLocation = event.location.coordinates;
+  // get distance to each event
+  const [eventDistanceArr, setEventDistanceArr] = useState();
 
-  //       // origin is the users current location
-  //       let origin = new google.maps.LatLng(
-  //         userLocation?.latitude,
-  //         userLocation?.longitude
-  //       );
-  //       //convert event location to a google object
-  //       let destination = new google.maps.LatLng(
-  //         eventLocation.lat,
-  //         eventLocation.lng
-  //       );
+  useEffect(() => {
+    const tempDistanceArr = [];
+    if (!isMapsLoaded) return; //return if google maps isnt loaded
+    if (userLocation?.code) return; //return if userLocation has error code
+    if (userLocation) {
+      futureEvents?.map((event, i) => {
+        const eventLocation = event.location.coordinates;
 
-  //       var service = new google.maps.DistanceMatrixService();
+        // origin is the users current location
+        let origin = new google.maps.LatLng(
+          userLocation?.latitude,
+          userLocation?.longitude
+        );
+        //convert event location to a google object
+        let destination = new google.maps.LatLng(
+          eventLocation.lat,
+          eventLocation.lng
+        );
 
-  //       //get distance from origin to destination with driving as travel mode
-  //       service.getDistanceMatrix(
-  //         {
-  //           origins: [origin],
-  //           destinations: [destination],
-  //           travelMode: "DRIVING",
-  //         },
+        var service = new google.maps.DistanceMatrixService();
 
-  //         callback
-  //       );
-  //       function callback(response, status) {
-  //         const eventDistance =
-  //           response?.rows[0].elements[0].distance?.value / 1000;
-  //         // console.log(event.title, eventDistance, "km away");
-  //       }
-  //     });
-  //   }
-  // }, [userLocation, filteredEvents, isMapsLoaded]);
+        //get distance from origin to destination with driving as travel mode
+        service.getDistanceMatrix(
+          {
+            origins: [origin],
+            destinations: [destination],
+            travelMode: "DRIVING",
+          },
 
+          callback
+        );
+        function callback(response, status) {
+          const eventDistance =
+            response?.rows[0].elements[0].distance?.value / 1000;
+          // console.log(event.title, eventDistance, "km away");
+          tempDistanceArr.push({ title: event.title, distance: eventDistance });
+        }
+      });
+      setEventDistanceArr(tempDistanceArr);
+    }
+  }, [userLocation, filteredEvents, isMapsLoaded]);
+
+  useEffect(() => {
+    console.log(eventDistanceArr);
+  }, [eventDistanceArr]);
   return (
     <DataContext.Provider
       value={{
