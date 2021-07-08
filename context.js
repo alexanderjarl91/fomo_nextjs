@@ -16,7 +16,8 @@ import fire, {
   signInWithPopup,
   FacebookAuthProvider,
 } from "./firebase";
-import _, { includes, map } from "underscore";
+import _, { map } from "underscore";
+import { resolveHref } from "next/dist/next-server/lib/router/router";
 
 export const UsersContext = React.createContext();
 export const UsersProvider = ({ children }) => {
@@ -382,10 +383,20 @@ export const DataProvider = ({ children }) => {
     };
 
     const unique = tempEvents?.filter(onlyUnique);
+    // console.clear();
+    let allFiltered = [];
+    unique?.map((evt) => {
+      eventDistanceArr?.map((evtwithdistance) => {
+        if (evt.title === evtwithdistance.title) {
+          if (evtwithdistance.distance < maxDistance) {
+            allFiltered.push(evt);
+          }
+        }
+      });
+    });
 
-    //set final rendered events state
-    setFilteredEvents(unique);
-  }, [futureEvents, activeCategories, dateFilter]);
+    setFilteredEvents(allFiltered);
+  }, [futureEvents, activeCategories, dateFilter, maxDistance]);
 
   //SEEN EVENTS FUNCTIONALITY
   const removeSeen = (array) => {
@@ -428,6 +439,56 @@ export const DataProvider = ({ children }) => {
         "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2WN37oJn1RxGfx5ltyGDGZZ7gzGaGFM8&libraries=places&v=weekly";
     }
   }, []);
+
+  // DISTANCE FILTER
+  const [eventDistanceArr, setEventDistanceArr] = useState();
+
+  useEffect(() => {
+    const tempDistanceArr = [];
+    if (!isMapsLoaded) return; //return if google maps isnt loaded
+    if (userLocation?.code) return; //return if userLocation has error code
+    if (userLocation) {
+      futureEvents?.map((event, i) => {
+        const eventLocation = event.location.coordinates;
+
+        // origin is the users current location
+        let origin = new google.maps.LatLng(
+          userLocation?.latitude,
+          userLocation?.longitude
+        );
+        //convert event location to a google object
+        let destination = new google.maps.LatLng(
+          eventLocation.lat,
+          eventLocation.lng
+        );
+
+        var service = new google.maps.DistanceMatrixService();
+
+        //get distance from origin to destination with driving as travel mode
+        service.getDistanceMatrix(
+          {
+            origins: [origin],
+            destinations: [destination],
+            travelMode: "DRIVING",
+          },
+
+          callback
+        );
+        function callback(response, status) {
+          const eventDistance =
+            response?.rows[0].elements[0].distance?.value / 1000;
+          // console.log(event.title, eventDistance, "km away");
+
+          tempDistanceArr.push({ title: event.title, distance: eventDistance });
+        }
+      });
+      setEventDistanceArr(tempDistanceArr);
+    }
+  }, [userLocation, filteredEvents, isMapsLoaded]);
+
+  useEffect(() => {
+    console.log("eventDistanceArr", eventDistanceArr);
+  }, [eventDistanceArr]);
 
   return (
     <DataContext.Provider

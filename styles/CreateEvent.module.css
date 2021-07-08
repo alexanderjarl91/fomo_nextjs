@@ -206,3 +206,8 @@
   background: linear-gradient(180deg, rgba(0, 0, 0, 0), #000000 120%);
   border-radius: 0px 0px 16px 16px;
 }
+
+.error {
+  margin-top: 4px;
+  color: red;
+}
