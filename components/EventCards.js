@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import Buttons from "./Buttons";
 import cx from "../utils/cx";
 import { FaSearchLocation } from "react-icons/fa";
-import { GrLocationPin } from "react-icons/gr";
+import { filter } from "underscore";
 
 function EventCards() {
   const router = useRouter();
@@ -20,16 +20,22 @@ function EventCards() {
     userLocation,
     setUserLocation,
     clearSeen,
+    userData,
+    refreshData,
   } = useContext(DataContext);
-  const { userData } = useContext(UsersContext);
+  // const { userData } = useContext(UsersContext);
   const [cardRefs, setCardRefs] = useState([]);
   const [showAnimation, setShowAnimation] = useState(false);
 
-  //get events & user location on mount
+  //get user location on mount
   useEffect(() => {
-    getCards();
     getUserLocation();
   }, []);
+
+  //get events
+  useEffect(() => {
+    getCards();
+  }, [userData?.email, refreshData]);
 
   //sort events by date everytime event array changes
   useEffect(() => {
@@ -42,10 +48,8 @@ function EventCards() {
   const getUserLocation = () => {
     //check if location is available in users browser
     if ("geolocation" in navigator) {
-      console.log("Available");
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log(position);
           setUserLocation(position.coords);
         },
         (err) => setUserLocation(err),
@@ -95,10 +99,10 @@ function EventCards() {
     };
     saveToSeen();
 
+    console.log("HANDLESWIPE INDEX", index);
     setActiveCardIndex(index - 1);
     //save event if swiped right
     if (dir == "right") {
-      console.log("active", index);
       //animate
       const cardNotifications = document.querySelectorAll(".cardAnimate");
       const cardNotification = document.getElementById(`animate-${index}`);
@@ -108,8 +112,6 @@ function EventCards() {
 
       await saveToInterested(activeCard);
     }
-
-    //add card to seen
   };
 
   const saveToInterested = async (activeCard) => {
@@ -135,7 +137,6 @@ function EventCards() {
     tempInterested.push(activeCard.eventId);
     // save new interested array to firestore
     userRef.update({ interested: tempInterested });
-    console.log("event saved to interested:", activeCard);
   };
 
   //create an array of references for each event card whenever filteredEvents array updates
@@ -146,15 +147,29 @@ function EventCards() {
 
   //go to event dynamic page
   const goToEvent = (cardIndex) => {
-    console.log(`cardIndex`, cardIndex);
-    console.log(filteredEvents[cardIndex]);
     router.push(`/events/${filteredEvents[cardIndex].eventId}`);
     // router.push(`/events/${cards[cardIndex].eventId}`);
   };
 
-  useEffect(() => {
-    console.log("permissions", navigator.permissions);
-  }, []);
+  const reshuffleCards = () => {
+    clearSeen();
+
+    for (let index = 0; index < filteredEvents.length; index++) {
+      const lastCardDOM = document.querySelector(
+        `#card-${index}`
+      ).parentElement;
+
+      console.log(lastCardDOM);
+      lastCardDOM.style.visibility = "visible";
+      lastCardDOM.style.opacity = 1;
+      console.log(
+        "🚀 ~ file: EventCards.js ~ line 165 ~ reshuffleCards ~ lastCardDOM",
+        lastCardDOM
+      );
+      lastCardDOM.style.transition = "";
+      lastCardDOM.style.transform = "";
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -180,20 +195,14 @@ function EventCards() {
             )}
 
             {/* IF USER IS LOGGED IN & HAS SWIPED ALL CARDS */}
-            {activeCardIndex < 0 && fire.auth().currentUser ? (
+            {userLocation && activeCardIndex < 0 && fire.auth().currentUser ? (
               <div className={styles.noCards__container}>
                 <p>
                   No more events in your area.. change your filter or swipe
                   again
                 </p>
-                <button>
-                  <a
-                    onClick={() => {
-                      clearSeen();
-                    }}
-                  >
-                    Reshuffle cards
-                  </a>
+                <button onClick={async () => await reshuffleCards()}>
+                  Reshuffle cards
                 </button>
               </div>
             ) : null}

@@ -80,6 +80,7 @@ export const UsersProvider = ({ children }) => {
           // promoter: false,
           avatar: fire.auth().currentUser.photoURL,
           uid: fire.auth().currentUser.uid,
+          seen: [],
         };
         await fire
           .firestore()
@@ -132,15 +133,6 @@ export const UsersProvider = ({ children }) => {
       });
   };
 
-  //   AUTH STATE OBSERVER
-  // fire.auth().onAuthStateChanged((user) => {
-  //   if (user) {
-  //     console.log("logged in as:", user.displayName);
-  //   } else {
-  //     console.log("user not logged in");
-  //   }
-  // });
-
   const [showMenu, setShowMenu] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
 
@@ -166,6 +158,7 @@ export const DataContext = React.createContext();
 export const DataProvider = ({ children }) => {
   const [cards, setCards] = useState([]); // all cards
   const [userData, setUserData] = useState();
+  const [refreshData, setRefreshData] = useState(false);
   const [activeCardIndex, setActiveCardIndex] = useState(); //index of event thats shown
   const [futureEvents, setFutureEvents] = useState(); // events that are today or later
   const [filteredEvents, setFilteredEvents] = useState(); //events after filtering (rendered)
@@ -190,31 +183,6 @@ export const DataProvider = ({ children }) => {
     "this month",
   ]);
 
-  // get index of active card
-  useEffect(() => {
-    setActiveCardIndex(filteredEvents?.length - 1);
-  }, [filteredEvents]);
-
-  // fetch event data, shuffle them and set to state
-  const getCards = async () => {
-    const cardsRef = fire.firestore().collection("events");
-    const snapshot = await cardsRef.get();
-    let tempCards = [];
-    await snapshot.forEach((doc) => {
-      tempCards = [...tempCards, doc.data()];
-    });
-
-    // set cards
-    setCards(tempCards);
-    //filter only events where event.date > current date
-
-    setFutureEvents(
-      tempCards?.filter(
-        (item) => !isBefore(new Date(item.date), endOfYesterday())
-      )
-    );
-  };
-
   //get auth users data from firestore
   const getUserData = async () => {
     if (!fire.auth().currentUser) return;
@@ -235,6 +203,64 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     getUserData();
   }, [fire.auth().currentUser]);
+
+  // get index of active card
+  useEffect(() => {
+    setActiveCardIndex(filteredEvents?.length - 1);
+  }, [filteredEvents]);
+
+  // fetch event data, shuffle them and set to state
+  const getCards = async () => {
+    console.clear();
+    console.log("getting cards ....");
+    const cardsRef = fire.firestore().collection("events");
+    const snapshot = await cardsRef.get();
+    let tempCards = [];
+    await snapshot.forEach((doc) => {
+      tempCards = [...tempCards, doc.data()];
+    });
+
+    // set cards
+    setCards(tempCards);
+    //filter only events where event.date > current date
+
+    const allFutureEvents = tempCards?.filter(
+      (item) => !isBefore(new Date(item.date), endOfYesterday())
+    );
+
+    //remove seen events
+    const removeSeen = (array) => {
+      if (!userData) return;
+      let unseenEvents = [];
+      const seenEvents = userData.seen;
+
+      if (fire.auth().currentUser && userData) {
+        unseenEvents = array.filter(
+          (item) => !seenEvents.includes(item.eventId)
+        );
+      }
+      return unseenEvents;
+    };
+
+    let unseenFutureEvents = [];
+    if (userData) {
+      console.log("removing seen...");
+      unseenFutureEvents = allFutureEvents && removeSeen(allFutureEvents);
+    }
+
+    //if user is logged in, set unseen, else set all future
+    if (fire.auth().currentUser) {
+      setFutureEvents(unseenFutureEvents);
+    } else {
+      setFutureEvents(allFutureEvents);
+    }
+  };
+
+  useEffect(() => {
+    if (!filteredEvents) return;
+    console.log("filteredEvents", filteredEvents);
+    console.log(`filteredEvents.length`, filteredEvents.length);
+  }, [filteredEvents]);
 
   //filter whenever
   useEffect(() => {
@@ -296,7 +322,6 @@ export const DataProvider = ({ children }) => {
     _.map(filter, (val, key) => {
       //if user has both date & categories filters applied
       if (activeCategories.length > 0 && dateFilter.length > 0) {
-        console.log("both filters applied");
         let tempdates = [];
         let eventsMerged = [];
         if (key == 0) {
@@ -319,13 +344,10 @@ export const DataProvider = ({ children }) => {
         }
         //if user only has a category filters applied
       } else if (activeCategories.length > 0) {
-        console.log("category filters applied");
         let tempCategories = [];
         if (key == 1) {
-          console.log(val["categories"]);
           activeCategories.map((flag, i) => {
             val["categories"].map((item) => {
-              console.log(item);
               if (item[0] == flag) {
                 tempCategories = [...tempCategories, ...item[1]];
               }
@@ -337,7 +359,6 @@ export const DataProvider = ({ children }) => {
 
       //if user only has a date filter applied
       else if (dateFilter.length > 0) {
-        console.log("dates filters applied");
         let tempdates = [];
         if (key == 0) {
           dateFilter.map((flag, i) => {
@@ -351,7 +372,6 @@ export const DataProvider = ({ children }) => {
         }
         //if user has no filter applied
       } else {
-        console.log("no filters applied");
         tempEvents = futureEvents;
       }
     });
@@ -372,16 +392,11 @@ export const DataProvider = ({ children }) => {
     let unseenEvents = [];
     const seenEvents = userData.seen;
 
-    if (fire.auth().currentUser && userData && filteredEvents) {
+    if (fire.auth().currentUser && userData) {
       unseenEvents = array.filter((item) => !seenEvents.includes(item.eventId));
     }
     return unseenEvents;
   };
-
-  useEffect(() => {
-    if (!userData) return;
-    setFilteredEvents(removeSeen(filteredEvents));
-  }, [userData]);
 
   const clearSeen = async () => {
     await fire
@@ -389,6 +404,10 @@ export const DataProvider = ({ children }) => {
       .collection("users")
       .doc(fire.auth().currentUser.email)
       .update({ seen: [] });
+
+    setRefreshData(!refreshData);
+    setActiveCardIndex(filteredEvents.length - 1);
+    console.log("seen has been cleared");
   };
 
   // load google maps script
@@ -473,6 +492,8 @@ export const DataProvider = ({ children }) => {
         setMaxDistance,
         isMapsLoaded,
         clearSeen,
+        userData,
+        refreshData,
       }}
     >
       {children}
