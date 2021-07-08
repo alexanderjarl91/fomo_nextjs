@@ -13,10 +13,6 @@ function MyApp({ Component, pageProps }) {
           <title>fomo.</title>
           <meta name="description" content="Events around you" />
           <link rel="icon" href="/favicon.ico" />
-          {/* <script
-            async
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2WN37oJn1RxGfx5ltyGDGZZ7gzGaGFM8&v=3.exp&libraries=geometry,drawing,places"
-          ></script> */}
         </Head>
         <Layout>
           <div className={styles.docked__menu}>

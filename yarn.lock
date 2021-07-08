@@ -413,6 +413,14 @@
   "resolved" "https://registry.npmjs.org/@hapi/hoek/-/hoek-9.2.0.tgz"
   "version" "9.2.0"
 
+"@ipregistry/client@^4.0.0":
+  "integrity" "sha512-GUFNVCc0zizb0aiHFAQM8P5wugnabjqndQ3GSV9LXcGyyUUf4wEbGdMGxrBiWqO3QrGnz9SqswoT/dmAjcngmg=="
+  "resolved" "https://registry.npmjs.org/@ipregistry/client/-/client-4.0.0.tgz"
+  "version" "4.0.0"
+  dependencies:
+    "axios" "^0.21.1"
+    "lru-cache" "^6.0.0"
+
 "@next/env@10.2.3":
   "integrity" "sha512-uBOjRBjsWC4C8X3DfmWWP6ekwLnf2JCCwQX9KVnJtJkqfDsv1yQPakdOEwvJzXQc3JC/v5KKffYPVmV2wHXCgQ=="
   "resolved" "https://registry.npmjs.org/@next/env/-/env-10.2.3.tgz"
@@ -1005,6 +1013,14 @@
     "is-nan" "^1.2.1"
     "object-is" "^1.0.1"
     "util" "^0.12.0"
+
+"assured@^1.0.12":
+  "integrity" "sha512-EVb4T+6m5VdlTJ6gbv4WjBM1rHfzXP2BspsQ6VLswcnIQSabjJy7A9YEuG4/KmfF+9OEuT5xhqVJ+V1tClD5ww=="
+  "resolved" "https://registry.npmjs.org/assured/-/assured-1.0.15.tgz"
+  "version" "1.0.15"
+  dependencies:
+    "noop6" "^1.0.1"
+    "sliced" "^1.0.1"
 
 "ast-types@0.13.2":
   "integrity" "sha512-uWMHxJxtfj/1oZClOxDEV1sQ1HCDkA4MG8Gr69KKeBjEVH0R84WlejZ0y2DcwyBlpAEMltmVYkVgqfLFb2oyiA=="
@@ -1750,6 +1766,13 @@
   "resolved" "https://registry.npmjs.org/defer-to-connect/-/defer-to-connect-1.1.3.tgz"
   "version" "1.1.3"
 
+"deffy@^2.2.2":
+  "integrity" "sha512-pLc9lsbsWjr6RxmJ2OLyvm+9l4j1yK69h+TML/gUit/t3vTijpkNGh8LioaJYTGO7F25m6HZndADcUOo2PsiUg=="
+  "resolved" "https://registry.npmjs.org/deffy/-/deffy-2.2.4.tgz"
+  "version" "2.2.4"
+  dependencies:
+    "typpy" "^2.0.0"
+
 "define-properties@^1.1.3":
   "integrity" "sha512-3MqfYKj2lLzdMSf8ZIZE/V+Zuy+BgD6f164e8K2w7dgnpKArBDerGYpM46IYYcjnkdPNMjPk9A6VFB8+3SKlXQ=="
   "resolved" "https://registry.npmjs.org/define-properties/-/define-properties-1.1.3.tgz"
@@ -2153,7 +2176,7 @@
     "@firebase/storage" "0.5.2"
     "@firebase/util" "1.1.0"
 
-"follow-redirects@^1.10.0":
+"follow-redirects@^1.10.0", "follow-redirects@^1.4.1":
   "integrity" "sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg=="
   "resolved" "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.14.1.tgz"
   "version" "1.14.1"
@@ -2232,6 +2255,13 @@
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
   "resolved" "https://registry.npmjs.org/function-bind/-/function-bind-1.1.1.tgz"
   "version" "1.1.1"
+
+"function.name@^1.0.3":
+  "integrity" "sha512-mVrqdoy5npWZyoXl4DxCeuVF6delDcQjVS9aPdvLYlBxtMTZDR2B5GVEQEoM1jJyspCqg3C0v4ABkLE7tp9xFA=="
+  "resolved" "https://registry.npmjs.org/function.name/-/function.name-1.0.13.tgz"
+  "version" "1.0.13"
+  dependencies:
+    "noop6" "^1.0.1"
 
 "function.prototype.name@^1.1.2":
   "integrity" "sha512-iqy1pIotY/RmhdFZygSSlW0wko2yxkSCKqsuv4pr8QESohpYyG/Z7B/XXvPRKTJS//960rgguE5mSRUsDdaJrQ=="
@@ -2681,6 +2711,13 @@
   dependencies:
     "loose-envify" "^1.0.0"
 
+"ipinfo@^1.5.1":
+  "integrity" "sha512-nFAmVk3l14MojQ2nn22Tb8v5eaB5xqWdMICzNK+Kui4e0PfixQAmLbdcI1R1AF1pgKkwn0VMylmks6I/Cj2Kvw=="
+  "resolved" "https://registry.npmjs.org/ipinfo/-/ipinfo-1.5.1.tgz"
+  "version" "1.5.1"
+  dependencies:
+    "jsonrequest" "^4.1.3"
+
 "is-arguments@^1.0.4":
   "integrity" "sha512-1Ij4lOMPl/xB5kBDn7I+b2ttPMKa8szhEIrXDuXQD/oe3HJLTLhqhgGspwgyGd6MOywBUqVvYicF72lkgDnIHg=="
   "resolved" "https://registry.npmjs.org/is-arguments/-/is-arguments-1.1.0.tgz"
@@ -2973,6 +3010,15 @@
   "version" "0.2.1"
   dependencies:
     "debug" "^2.1.3"
+
+"jsonrequest@^4.1.3":
+  "integrity" "sha512-/icyab0LIq9158C/djgV4bxbqGKDoGjsZ1UqhI6WMEYHRk4sbAlsgsiUltoMZi66Ea6iogIpy32qqkkdLtswPg=="
+  "resolved" "https://registry.npmjs.org/jsonrequest/-/jsonrequest-4.2.6.tgz"
+  "version" "4.2.6"
+  dependencies:
+    "noop6" "^1.0.6"
+    "tinyreq" "^3.0.1"
+    "ul" "^5.0.0"
 
 "jsonwebtoken@^8.5.1":
   "integrity" "sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w=="
@@ -3493,6 +3539,11 @@
     "touch" "^3.1.0"
     "undefsafe" "^2.0.3"
     "update-notifier" "^4.1.0"
+
+"noop6@^1.0.1", "noop6@^1.0.6", "noop6@^1.0.7":
+  "integrity" "sha512-DB3Hwyd89dPr5HqEPg3YHjzvwh/mCqizC1zZ8vyofqc+TQRyPDnT4wgXXbLGF4z9YAzwwTLi8pNLhGqcbSjgkA=="
+  "resolved" "https://registry.npmjs.org/noop6/-/noop6-1.0.9.tgz"
+  "version" "1.0.9"
 
 "nopt@~1.0.10":
   "integrity" "sha1-bd0hvSoxQXuScn3Vhfim83YI6+4="
@@ -4469,6 +4520,11 @@
   "resolved" "https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.3.tgz"
   "version" "3.0.3"
 
+"sliced@^1.0.1":
+  "integrity" "sha1-CzpmK10Ewxd7GSa+qCsD+Dei70E="
+  "resolved" "https://registry.npmjs.org/sliced/-/sliced-1.0.1.tgz"
+  "version" "1.0.1"
+
 "snakeize@^0.1.0":
   "integrity" "sha1-EMCI2LWOsHazIpu1oE4jLOEmQi0="
   "resolved" "https://registry.npmjs.org/snakeize/-/snakeize-0.1.0.tgz"
@@ -4806,6 +4862,16 @@
   dependencies:
     "setimmediate" "^1.0.4"
 
+"tinyreq@^3.0.1":
+  "integrity" "sha512-VHl9n2w2t1HD9ftvbmYMA99g/yeioIRhpxT5cazb/jo2Vld5ZtPEVW4PhBFgNXjdL2ch8j6z0cawDCF7eIFZsQ=="
+  "resolved" "https://registry.npmjs.org/tinyreq/-/tinyreq-3.4.2.tgz"
+  "version" "3.4.2"
+  dependencies:
+    "assured" "^1.0.12"
+    "follow-redirects" "^1.4.1"
+    "noop6" "^1.0.7"
+    "ul" "^5.2.13"
+
 "tls@0.0.1":
   "integrity" "sha1-CrK/WWjXHfL4wOFRXSSiJAuYqsg="
   "resolved" "https://registry.npmjs.org/tls/-/tls-0.0.1.tgz"
@@ -4923,10 +4989,25 @@
   dependencies:
     "is-typedarray" "^1.0.0"
 
+"typpy@^2.0.0", "typpy@^2.3.4":
+  "integrity" "sha512-vOxIcQz9sxHi+rT09SJ5aDgVgrPppQjwnnayTrMye1ODaU8gIZTDM19t9TxmEElbMihx2Nq/0/b/MtyKfayRqA=="
+  "resolved" "https://registry.npmjs.org/typpy/-/typpy-2.3.13.tgz"
+  "version" "2.3.13"
+  dependencies:
+    "function.name" "^1.0.3"
+
 "ua-parser-js@^0.7.18":
   "integrity" "sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g=="
   "resolved" "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.28.tgz"
   "version" "0.7.28"
+
+"ul@^5.0.0", "ul@^5.2.13":
+  "integrity" "sha512-svLEUy8xSCip5IWnsRa0UOg+2zP0Wsj4qlbjTmX6GJSmvKMHADBuHOm1dpNkWqWPIGuVSqzUkV3Cris5JrlTRQ=="
+  "resolved" "https://registry.npmjs.org/ul/-/ul-5.2.15.tgz"
+  "version" "5.2.15"
+  dependencies:
+    "deffy" "^2.2.2"
+    "typpy" "^2.3.4"
 
 "unbox-primitive@^1.0.0":
   "integrity" "sha512-tZU/3NqK3dA5gpE1KtyiJUrEB0lxnGkMFHptJ7q6ewdZ8s12QrODwNbhIJStmJkd1QDXa1NRA8aF2A1zk/Ypyw=="

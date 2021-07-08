@@ -1,13 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
-import Head from 'next/head'
+import Head from "next/head";
 import { useRouter } from "next/router";
-import Modal from 'react-modal';
+import Modal from "react-modal";
 import Link from "next/link";
 import fire from "../../firebase";
 import styles from "../../styles/Event.module.css";
 import { UsersContext, DataContext } from "../../context";
-import { FacebookShareButton, FacebookIcon, TwitterIcon, WhatsappIcon } from "react-share"
-import { FiShare2 } from "react-icons/fi"
+import {
+  FacebookShareButton,
+  WhatsappShareButton,
+  TwitterShareButton,
+  EmailShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  WhatsappIcon,
+  EmailIcon
+} from "react-share";
+import { FiShare2 } from "react-icons/fi";
 
 //components
 import Navbar from "../../components/Navbar";
@@ -24,6 +33,7 @@ export default function Event() {
   const [event, setEvent] = useState();
   const [isInterested, setIsInterested] = useState();
   const [coordinates, setCoordinates] = useState();
+  const [linkCopied, setLinkCopied] = useState(false)
 
   // get the data when component mounts
   useEffect(() => {
@@ -97,10 +107,6 @@ export default function Event() {
     userRef.update({ interested: tempInterested });
   };
 
-
-
-
-
   //SHARE MODAL
   const [modalIsOpen, setIsOpen] = useState(false);
 
@@ -112,31 +118,39 @@ export default function Event() {
     setIsOpen(false);
   }
 
+  
   const customStyles = {
     overlay: {
-      backgroundColor: 'rgba(255,255,255,0.8)'
-
+      backgroundColor: "rgba(255,255,255,0.8)",
     },
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      maxWidth: '200px',
-      backgroundColor: '#0e0e0e',
-      border: 'none',
-      borderRadius: '16px',
-      height: '30%',
-      minWidth: '90%',
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      maxWidth: "200px",
+      backgroundColor: "#0e0e0e",
+      border: "none",
+      borderRadius: "16px",
+      height: "35%",
+      maxHeight: "260px",
+      minWidth: "350px",
       display: "flex",
       flexDirection: "column",
-      textAlign: 'center'
+      textAlign: "center",
     },
   };
 
 
+  const handleLinkCopied = () => {
+    setLinkCopied(true)
+  }
+
+  useEffect(() => {
+    console.log('link copied?', linkCopied)
+  }, [linkCopied])
 
   return (
     <>
@@ -145,9 +159,13 @@ export default function Event() {
         <meta property="title" content="EVENT NAME" />
         <meta property="description" content="description" />
         <meta property="image" content="header_img.png" />
-        {event && <title>{event.title}</title>}
+        {event && <title>{event.title} | fomo</title>}
         <meta property="og:title" content="the title" key="ogtitle" />
-        <meta property="og:description" content="the description" key="ogdesc" />
+        <meta
+          property="og:description"
+          content="the description"
+          key="ogdesc"
+        />
       </Head>
 
       {event && (
@@ -183,7 +201,6 @@ export default function Event() {
                 </div>
               </div>
 
-
               <p className={styles.description}>{event.description}</p>
 
               <EventMap coordinates={coordinates} />
@@ -197,11 +214,16 @@ export default function Event() {
                   KAUPA MIÐA
                 </a>
                 <div className={styles.bottom__btns}>
-
-
                   {/* MODAL */}
                   <div>
-                    <div onClick={openModal} style={{ color: 'white', width: '30px', cursor: 'pointer' }}>
+                    <div
+                      onClick={openModal}
+                      style={{
+                        color: "white",
+                        width: "30px",
+                        cursor: "pointer",
+                      }}
+                    >
                       <FiShare2 size="1.5em" />
                     </div>
                     <Modal
@@ -209,24 +231,34 @@ export default function Event() {
                       onRequestClose={closeModal}
                       style={customStyles}
                       contentLabel="Example Modal"
-
+                      appElement={""}
                     >
-                      <h1>SHARE</h1>
-                      <p>share this event to your social media</p>
-                      <div>
-                        <FacebookIcon size={50} borderRadius={12} />
-                        <TwitterIcon size={50} borderRadius={12} />
-                        <WhatsappIcon size={50} borderRadius={12} />
+                      <h1 style={{fontSize: '24px', marginBottom: "8px", marginTop: '12px'}}>Share this event</h1>
+                      <div style={{display: 'flex', justifyContent: 'space-around', width: '260px', margin: '0 auto'}}>
+                        <FacebookShareButton url={window.location.href}>
+                          <FacebookIcon size={50} borderRadius={12} />
+                        </FacebookShareButton>
+
+                        <TwitterShareButton url={window.location.href}>
+                          <TwitterIcon size={50} borderRadius={12} />
+                        </TwitterShareButton>
+                        <WhatsappShareButton url={window.location.href}>
+                          <WhatsappIcon size={50} borderRadius={12} />
+                        </WhatsappShareButton>
+                        <EmailShareButton url={window.location.href}>
+                          <EmailIcon size={50} borderRadius={12} />
+                        </EmailShareButton>
                       </div>
+                      <h2 style={{fontSize: '18px', marginTop: "12px"}}>Or copy link</h2>
+                      <input className={styles.linkInput} onClick={() => {
+                        document.execCommand("copy");
+                        handleLinkCopied()
+                      }}type="text" value={window.location.href} />
+                      {linkCopied&& <p>copied!</p> }
+                     
+                     
                     </Modal>
                   </div>
-
-
-
-
-
-
-
 
                   {/* HEART BUTTON */}
                   {!fire.auth().currentUser && (

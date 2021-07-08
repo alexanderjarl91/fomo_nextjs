@@ -22,7 +22,7 @@
   font-style: normal;
   font-weight: 600;
   font-size: 22px;
-  margin-left: 2rem;
+
   margin-bottom: 1rem;
   line-height: 35px;
 }
@@ -35,11 +35,12 @@
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  min-height: 100px;
+  min-height: 150px;
+  width: 80%;
   max-width: 600px;
   background: rgba(255, 255, 255, 0.06);
   margin: 0 auto;
-  margin: 4px 0px;
+  margin-bottom: 8px;
   cursor: pointer;
   border-radius: 12px;
 }
@@ -51,10 +52,12 @@
 }
 
 .card__content > img {
-  width: 80px;
-  height: 80px;
+  margin-left: 2rem;
+  width: 30%;
+  height: 100px;
   border-radius: 4px;
   object-fit: cover;
+  border-radius: 8px;
 }
 
 .info {

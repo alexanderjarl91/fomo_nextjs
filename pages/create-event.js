@@ -20,6 +20,7 @@ export default function maptester() {
     lat: null,
     lng: null,
   });
+  const [isPosting, setIsPosting] = useState(false);
 
   //add data to event state
   const completeEventData = async () => {
@@ -38,17 +39,20 @@ export default function maptester() {
 
   const postEvent = async () => {
     const tempEvent = await completeEventData();
+    setIsPosting(true);
 
-    fire
-      .firestore()
-      .collection("events")
-      .doc(tempEvent.title)
-      .set(tempEvent)
-      .then(() => {
-        saveToMyEvents(tempEvent.eventId);
-        router.push("/");
-      });
-    // post event to firestore events collection
+    // post event to firestore events collection after 1 second (to show loading indicator)
+    setTimeout(()=> {
+      fire
+        .firestore()
+        .collection("events")
+        .doc(tempEvent.title)
+        .set(tempEvent)
+        .then(() => {
+          saveToMyEvents(tempEvent.eventId);
+          router.push("/");
+        });
+    }, 1000)
   };
 
   //post event to users own event collection
@@ -363,14 +367,22 @@ export default function maptester() {
             note: events are not published until they have been accepted by an
             admin
           </p>
-          <button
+          {isPosting? <button
+            className={styles.post__button}
+            onClick={() => {
+              postEvent();
+            }}
+          >
+            <img style={{height: "16px"}} src="/posting.gif"/>
+          </button> : <button
             className={styles.post__button}
             onClick={() => {
               postEvent();
             }}
           >
             POST EVENT
-          </button>
+          </button> }
+          
         </div>
       </div>
     </div>

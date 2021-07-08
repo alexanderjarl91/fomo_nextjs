@@ -429,46 +429,6 @@ export const DataProvider = ({ children }) => {
     }
   }, []);
 
-  //get distance to each event
-  // useEffect(() => {
-  //   if (!isMapsLoaded) return; //return if google maps isnt loaded
-  //   if (userLocation?.code) return; //return if userLocation has error code
-  //   if (userLocation) {
-  //     futureEvents?.map((event, i) => {
-  //       const eventLocation = event.location.coordinates;
-
-  //       // origin is the users current location
-  //       let origin = new google.maps.LatLng(
-  //         userLocation?.latitude,
-  //         userLocation?.longitude
-  //       );
-  //       //convert event location to a google object
-  //       let destination = new google.maps.LatLng(
-  //         eventLocation.lat,
-  //         eventLocation.lng
-  //       );
-
-  //       var service = new google.maps.DistanceMatrixService();
-
-  //       //get distance from origin to destination with driving as travel mode
-  //       service.getDistanceMatrix(
-  //         {
-  //           origins: [origin],
-  //           destinations: [destination],
-  //           travelMode: "DRIVING",
-  //         },
-
-  //         callback
-  //       );
-  //       function callback(response, status) {
-  //         const eventDistance =
-  //           response?.rows[0].elements[0].distance?.value / 1000;
-  //         // console.log(event.title, eventDistance, "km away");
-  //       }
-  //     });
-  //   }
-  // }, [userLocation, filteredEvents, isMapsLoaded]);
-
   return (
     <DataContext.Provider
       value={{

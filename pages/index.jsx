@@ -3,6 +3,7 @@ import Head from "next/head";
 import styles from "../styles/Index.module.css";
 import { UsersContext, DataContext } from "../context";
 
+
 //components
 import EventCards from "../components/EventCards";
 import Filter from "../components/Filter";
@@ -10,6 +11,7 @@ import Filter from "../components/Filter";
 export default function Home() {
   //context data
   const { showFilter} = useContext(UsersContext);
+
 
   return (
     <div className={styles.index__container} id="INDEX">
@@ -25,6 +27,10 @@ export default function Home() {
       {/* FILTER */}
       {showFilter && <Filter  />}
        
+
+
+
+
     </div>
   );
 }

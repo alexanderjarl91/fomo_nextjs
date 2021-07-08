@@ -12,6 +12,7 @@
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
 @media (min-width: 1200px) {
   .content {
+    padding-top: 8rem;
   }
   .container {
     margin-left: 280px;
@@ -124,4 +125,15 @@
   transform: scale(0.96);
   transform: translateY(2px);
   box-shadow: -1px 4px 4px rgba(0, 0, 0, 0.05);
+}
+
+.linkInput {
+  background-color: white;
+  width: 200px;
+  margin: 0 auto;
+  color: black;
+  padding: 0px 20px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
 }

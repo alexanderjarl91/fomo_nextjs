@@ -51,6 +51,7 @@ function EventCards() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setUserLocation(position.coords);
+          console.log("nav geo", navigator.geolocation);
         },
         (err) => setUserLocation(err),
         { maximumAge: 60000, timeout: 5000, enableHighAccuracy: true }
