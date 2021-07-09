@@ -110,11 +110,11 @@ export default function maptester() {
   }, [categories]);
 
   //FORM VALIDATION
-  const [formErrors, setFormErrors] = useState();
+  const [formErrors, setFormErrors] = useState({});
 
   const validateForm = () => {
+    //resetFormErrors state
     setFormErrors({})
-
     const errors = {}
 
     //title validation
@@ -199,10 +199,12 @@ export default function maptester() {
     setFormErrors(errors)
   
     //IF NO ERRORS, POST EVENT
-    if (errors === {}) {
-      console.log('FORM IS VALID')
-      //postEvent()
+    if (Object.keys(errors).length === 0) {
+      
+      postEvent()
     }
+
+    console.log(errors)
   };
 
   return (
@@ -216,7 +218,6 @@ export default function maptester() {
             Lets build your event card, fill in the details below for a preview
             of your event.
           </p>
-          <button onClick={validateForm}> validate</button>
         </div>
 
         <div className={styles.event__form}>
@@ -483,6 +484,8 @@ export default function maptester() {
             note: events are not published until they have been accepted by an
             admin
           </p>
+          {Object.keys(formErrors).length > 0? <p className={styles.error}>Your event is missing some data, scroll up and fix the errors</p> : null}
+
           {isPosting ? (
             <button
               className={styles.post__button}
@@ -494,7 +497,7 @@ export default function maptester() {
             <button
               className={styles.post__button}
               onClick={() => {
-                postEvent();
+                validateForm()
               }}
             >
               POST EVENT

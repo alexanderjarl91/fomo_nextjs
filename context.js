@@ -249,19 +249,27 @@ export const DataProvider = ({ children }) => {
       unseenFutureEvents = allFutureEvents && removeSeen(allFutureEvents);
     }
 
+    //get only approved events
+    let approvedUnseenFutureEvents = unseenFutureEvents.filter(
+      (event) => event.status === "approved"
+    );
+
+    //disregarding seen for unlogged in user
+    let approvedFutureEvents = allFutureEvents.filter(
+      (event) => event.status === "approved"
+    );
+
     //if user is logged in, set unseen, else set all future
     if (fire.auth().currentUser) {
-      setFutureEvents(unseenFutureEvents);
+      setFutureEvents(approvedUnseenFutureEvents);
     } else {
-      setFutureEvents(allFutureEvents);
+      setFutureEvents(approvedFutureEvents);
     }
   };
 
   useEffect(() => {
-    if (!filteredEvents) return;
-    console.log("filteredEvents", filteredEvents);
-    console.log(`filteredEvents.length`, filteredEvents.length);
-  }, [filteredEvents]);
+    console.log("future events", futureEvents);
+  }, [futureEvents]);
 
   //filter whenever
   useEffect(() => {

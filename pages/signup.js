@@ -24,21 +24,53 @@ export default function signup({}) {
           Sign in with either your Google or Facebook account to discover more
           events and features!
         </p>
+        
         <button
           onClick={() => {
             signInWithGoogle();
           }}
+          style={{
+            borderRadius: "0",
+            fontSize: "18px",
+            padding: "2px 14px",
+            fontWeight: "500",
+            backgroundColor: "#DE4A39",
+            color: "white",
+            width: "280px",
+            alignItems: "left",
+            justifyContent: "flex-start",
+          }}
         >
-          <img src="/google_icon.svg" alt="" />
-          Continue with Google
+          <img style={{ marginRight: "60px" }} src="/google_icon.png" alt="" />
+          Continue with Google{" "}
         </button>
 
         <button
+          style={{
+            borderRadius: "0",
+            fontSize: "18px",
+            padding: "2px 14px",
+            fontWeight: "500",
+            backgroundColor: "#4367B2",
+            color: "white",
+            width: "280px",
+            alignItems: "left",
+            justifyContent: "flex-start",
+          }}
           onClick={() => {
             // signInWithFacebook();
           }}
         >
-          <img src="/facebook_icon.svg" alt="" />
+          <img
+            src="/facebook_icon.png"
+            style={{
+              marginLeft: "4px",
+              marginRight: "60px",
+              maxHeight: "24px",
+              width: "auto",
+            }}
+            alt=""
+          />
           Continue with Facebook
         </button>
       </div>

@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  margin-top: 6rem;
+  margin-top: 12rem;
 }
 
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
@@ -18,18 +18,19 @@
   font-weight: bold;
   font-size: 24px;
   line-height: 38px;
-  color: #ffffff;
+  margin-bottom: 1rem;
+  /* color: #ffffff; */
 }
 
 .signup__container > p {
   font-style: normal;
   font-weight: 300;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 25px;
-  max-width: 200px;
+  max-width: 220px;
   margin: 0 auto;
 
-  color: #ffffff;
+  /* color: #ffffff; */
   margin-bottom: 1rem;
 }
 
