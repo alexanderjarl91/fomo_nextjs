@@ -30,12 +30,13 @@ export default function manageevents() {
 
     const approveEvent = async(eventTitle) => {
         const eventRef = await fire.firestore().collection('events').doc(eventTitle)
-
         if (eventRef) {
             await eventRef.set({
                 status: 'approved'
             }, {merge: true})
         }
+
+        getPendingEvents()
 
     }
 
@@ -50,7 +51,10 @@ export default function manageevents() {
 
 
     return (
+        
         <div className={styles.container}>
+            {fire.auth().currentUser?.email == "alexanderjarl91@gmail.com"? <>
+            
             <h1>Manage events</h1>
 
             {pendingEvents?.map((event) => (
@@ -115,8 +119,9 @@ export default function manageevents() {
                     </div>
 
             ))}
+            </>
 
-            
+            : null}
         </div>
     )
 }

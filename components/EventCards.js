@@ -44,6 +44,9 @@ function EventCards() {
     });
   }, [filteredEvents]);
 
+  useEffect(() => {
+    console.log("filtered events", filteredEvents);
+  }, [filteredEvents]);
   // get user location function
   const getUserLocation = () => {
     //check if location is available in users browser

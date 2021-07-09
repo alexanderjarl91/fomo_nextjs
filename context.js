@@ -9,6 +9,7 @@ import {
   isThisMonth,
   isTomorrow,
   endOfYesterday,
+  set,
 } from "date-fns";
 import fire, {
   google_provider,
@@ -164,9 +165,10 @@ export const DataProvider = ({ children }) => {
   const [futureEvents, setFutureEvents] = useState(); // events that are today or later
   const [filteredEvents, setFilteredEvents] = useState(); //events after filtering (rendered)
   const [userLocation, setUserLocation] = useState(); //users current location
-  const [maxDistance, setMaxDistance] = useState(50); //max distance set in filter
+  const [maxDistance, setMaxDistance] = useState(2); //max distance set in filter
   const [activeCategories, setActiveCategories] = useState([]); //array of categories active
   const [dateFilter, setDateFilter] = useState([]); // array of date selections active
+  const [eventDistanceArr, setEventDistanceArr] = useState();
   const [categoryItems, setCategoryItems] = useState([
     //all category selections
     "music",
@@ -202,6 +204,7 @@ export const DataProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    console.log("MAX DISTANCE:", maxDistance);
     getUserData();
   }, [fire.auth().currentUser]);
 
@@ -210,10 +213,49 @@ export const DataProvider = ({ children }) => {
     setActiveCardIndex(filteredEvents?.length - 1);
   }, [filteredEvents]);
 
-  // fetch event data, shuffle them and set to state
+  //SEEN EVENTS FUNCTIONALITY
+  const removeSeen = (array) => {
+    let unseenEvents = [];
+    const seenEvents = userData.seen;
+
+    if (fire.auth().currentUser && userData) {
+      unseenEvents = array.filter((item) => !seenEvents.includes(item.eventId));
+    }
+    return unseenEvents;
+  };
+
+  const clearSeen = async () => {
+    await fire
+      .firestore()
+      .collection("users")
+      .doc(fire.auth().currentUser.email)
+      .update({ seen: [] });
+    setRefreshData(!refreshData);
+    setActiveCardIndex(filteredEvents.length - 1);
+    console.log("seen has been cleared");
+  };
+
+  // load google maps script
+  const [isMapsLoaded, setIsMapsLoaded] = useState(false);
+  useEffect(() => {
+    const handleMapsLoad = () => {
+      setIsMapsLoaded(true);
+    };
+    //if google isnt loaded, load it
+    if (typeof google === "undefined") {
+      const script = document.createElement("script");
+      document.body.appendChild(script);
+
+      script.onload = handleMapsLoad;
+      script.type = "text/javascript";
+      script.async = "true";
+      script.src =
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2WN37oJn1RxGfx5ltyGDGZZ7gzGaGFM8&libraries=places&v=weekly";
+    }
+  }, []);
+
+  ////GET EVENTS AND FILTER ONLY ACTIVE, FUTURE & UNSEEN EVENTS (if user is logged in)
   const getCards = async () => {
-    console.clear();
-    console.log("getting cards ....");
     const cardsRef = fire.firestore().collection("events");
     const snapshot = await cardsRef.get();
     let tempCards = [];
@@ -259,21 +301,22 @@ export const DataProvider = ({ children }) => {
       (event) => event.status === "approved"
     );
 
+    if (!approvedFutureEvents) return;
+
     //if user is logged in, set unseen, else set all future
     if (fire.auth().currentUser) {
-      setFutureEvents(approvedUnseenFutureEvents);
+      // setFutureEvents(approvedUnseenFutureEvents);
+      filterDistance("future", approvedUnseenFutureEvents);
     } else {
-      setFutureEvents(approvedFutureEvents);
+      // setFutureEvents(approvedFutureEvents);
+      filterDistance("future", approvedFutureEvents);
     }
   };
 
-  useEffect(() => {
-    console.log("future events", futureEvents);
-  }, [futureEvents]);
-
-  //filter whenever
+  //FILTER THE ACTIVE UNSEEN FUTURE EVENTS
   useEffect(() => {
     let tempEvents = [];
+
     const filter = [
       {
         dates: [
@@ -365,7 +408,6 @@ export const DataProvider = ({ children }) => {
           tempEvents = tempCategories;
         }
       }
-
       //if user only has a date filter applied
       else if (dateFilter.length > 0) {
         let tempdates = [];
@@ -391,72 +433,22 @@ export const DataProvider = ({ children }) => {
     };
 
     const unique = tempEvents?.filter(onlyUnique);
-    // console.clear();
-    let allFiltered = [];
-    unique?.map((evt) => {
-      eventDistanceArr?.map((evtwithdistance) => {
-        if (evt.title === evtwithdistance.title) {
-          if (evtwithdistance.distance < maxDistance) {
-            allFiltered.push(evt);
-          }
-        }
-      });
-    });
-
-    setFilteredEvents(allFiltered);
+    unique && filterDistance("filtered", unique);
+    // setFilteredEvents(allFiltered.length > 0 ? allFiltered : unique);
   }, [futureEvents, activeCategories, dateFilter, maxDistance]);
 
-  //SEEN EVENTS FUNCTIONALITY
-  const removeSeen = (array) => {
-    let unseenEvents = [];
-    const seenEvents = userData.seen;
-
-    if (fire.auth().currentUser && userData) {
-      unseenEvents = array.filter((item) => !seenEvents.includes(item.eventId));
-    }
-    return unseenEvents;
-  };
-
-  const clearSeen = async () => {
-    await fire
-      .firestore()
-      .collection("users")
-      .doc(fire.auth().currentUser.email)
-      .update({ seen: [] });
-
-    setRefreshData(!refreshData);
-    setActiveCardIndex(filteredEvents.length - 1);
-    console.log("seen has been cleared");
-  };
-
-  // load google maps script
-  const [isMapsLoaded, setIsMapsLoaded] = useState(false);
-  useEffect(() => {
-    const handleMapsLoad = () => {
-      setIsMapsLoaded(true);
-    };
-    //if google isnt loaded, load it
-    if (typeof google === "undefined") {
-      const script = document.createElement("script");
-      document.body.appendChild(script);
-
-      script.onload = handleMapsLoad;
-      script.type = "text/javascript";
-      script.async = "true";
-      script.src =
-        "https://maps.googleapis.com/maps/api/js?key=AIzaSyA2WN37oJn1RxGfx5ltyGDGZZ7gzGaGFM8&libraries=places&v=weekly";
-    }
-  }, []);
-
   // DISTANCE FILTER
-  const [eventDistanceArr, setEventDistanceArr] = useState();
 
-  useEffect(() => {
+  const filterDistance = (eventsToSet, eventsArr) => {
+    console.log(
+      "🚀 ~ file: context.js ~ line 443 ~ filterDistance ~ eventsArr",
+      eventsArr
+    );
     const tempDistanceArr = [];
     if (!isMapsLoaded) return; //return if google maps isnt loaded
     if (userLocation?.code) return; //return if userLocation has error code
     if (userLocation) {
-      futureEvents?.map((event, i) => {
+      eventsArr?.map((event, i) => {
         const eventLocation = event.location.coordinates;
 
         // origin is the users current location
@@ -490,9 +482,38 @@ export const DataProvider = ({ children }) => {
           tempDistanceArr.push({ title: event.title, distance: eventDistance });
         }
       });
-      setEventDistanceArr(tempDistanceArr);
+      console.log(
+        "🚀 ~ file: context.js ~ line 489 ~ eventDistanceArr?.map ~ eventDistanceArr",
+        eventDistanceArr
+      );
+
+      let allFiltered = [];
+      eventsArr?.map((evt) => {
+        tempDistanceArr?.map((evtwithdistance) => {
+          if (evt.title === evtwithdistance.title) {
+            if (evtwithdistance.distance < maxDistance) {
+              allFiltered.push(evt);
+            }
+          }
+        });
+      });
+
+      if (eventsToSet == "future") {
+        setFutureEvents(allFiltered);
+      }
+      if (eventsToSet == "filtered") {
+        setFilteredEvents(allFiltered);
+      }
     }
-  }, [userLocation, filteredEvents, isMapsLoaded]);
+  };
+
+  useEffect(() => {
+    console.log(`filteredEvents`, filteredEvents);
+  }, [filteredEvents]);
+
+  useEffect(() => {
+    filterDistance();
+  }, [userLocation, futureEvents, isMapsLoaded, maxDistance]);
 
   useEffect(() => {
     console.log("eventDistanceArr", eventDistanceArr);

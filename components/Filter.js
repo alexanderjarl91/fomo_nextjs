@@ -15,8 +15,6 @@ export default function Filter() {
     dateFilters,
     dateFilter,
     setDateFilter,
-    filteredEvents,
-    filteredEventsByDate,
   } = useContext(DataContext);
 
   const handleFilter = () => {
@@ -133,10 +131,10 @@ export default function Filter() {
             </div>
             <Slider
               className={styles.slider}
-              defaultValue={1000}
-              min={2}
-              max={1000}
-              step={2}
+              defaultValue={maxDistance}
+              min={1}
+              max={20}
+              step={1}
               onChange={handleMaxDistance}
               // trackStyle={{ backgroundColor: "white", height: "12px" }}
               trackStyle={{
@@ -157,6 +155,7 @@ export default function Filter() {
               }}
             />
           </div>
+
           <p className={styles.tinyText}>
             showing x events happening today within 10km
           </p>
