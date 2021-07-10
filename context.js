@@ -165,7 +165,8 @@ export const DataProvider = ({ children }) => {
   const [futureEvents, setFutureEvents] = useState(); // events that are today or later
   const [filteredEvents, setFilteredEvents] = useState(); //events after filtering (rendered)
   const [userLocation, setUserLocation] = useState(); //users current location
-  const [maxDistance, setMaxDistance] = useState(2); //max distance set in filter
+  const [maxDistance, setMaxDistance] = useState(400); //max distance set in filter
+  const [maxRange, setMaxRange] = useState(1000); //max distance set in filter
   const [activeCategories, setActiveCategories] = useState([]); //array of categories active
   const [dateFilter, setDateFilter] = useState([]); // array of date selections active
   const [eventDistanceArr, setEventDistanceArr] = useState();
@@ -301,8 +302,6 @@ export const DataProvider = ({ children }) => {
       (event) => event.status === "approved"
     );
 
-    if (!approvedFutureEvents) return;
-
     //if user is logged in, set unseen, else set all future
     if (fire.auth().currentUser) {
       // setFutureEvents(approvedUnseenFutureEvents);
@@ -431,31 +430,40 @@ export const DataProvider = ({ children }) => {
     const onlyUnique = (value, index, self) => {
       return self.indexOf(value) === index;
     };
+    console.log(
+      "🚀 ~ file: context.js ~ line 454 ~ useEffect ~ tempEvents",
+      tempEvents
+    );
 
     const unique = tempEvents?.filter(onlyUnique);
-    unique && filterDistance("filtered", unique);
-    // setFilteredEvents(allFiltered.length > 0 ? allFiltered : unique);
+    console.log(
+      "🚀 ~ file: context.js ~ line 435 ~ useEffect ~ unique",
+      unique
+    );
+    // filterDistance("filtered", tempEvents);
+    setFilteredEvents(unique);
   }, [futureEvents, activeCategories, dateFilter, maxDistance]);
 
   // DISTANCE FILTER
-
   const filterDistance = (eventsToSet, eventsArr) => {
     console.log(
-      "🚀 ~ file: context.js ~ line 443 ~ filterDistance ~ eventsArr",
+      "🚀 ~ file: context.js ~ line 446 ~ filterDistance ~ eventsArr",
       eventsArr
     );
-    const tempDistanceArr = [];
+
     if (!isMapsLoaded) return; //return if google maps isnt loaded
     if (userLocation?.code) return; //return if userLocation has error code
     if (userLocation) {
+      let tempDistanceArr = [];
       eventsArr?.map((event, i) => {
         const eventLocation = event.location.coordinates;
 
-        // origin is the users current location
+        //origin is the users current location
         let origin = new google.maps.LatLng(
           userLocation?.latitude,
           userLocation?.longitude
         );
+        // let origin = new google.maps.LatLng(65.681356, -18.089589);
         //convert event location to a google object
         let destination = new google.maps.LatLng(
           eventLocation.lat,
@@ -479,41 +487,17 @@ export const DataProvider = ({ children }) => {
             response?.rows[0].elements[0].distance?.value / 1000;
           // console.log(event.title, eventDistance, "km away");
 
-          tempDistanceArr.push({ title: event.title, distance: eventDistance });
+          if (eventDistance < maxDistance) {
+            // console.log(event, "event in distance");
+            tempDistanceArr = [...tempDistanceArr, event];
+          }
+          if (eventsToSet == "future") {
+            setFutureEvents(tempDistanceArr);
+          }
         }
       });
-      console.log(
-        "🚀 ~ file: context.js ~ line 489 ~ eventDistanceArr?.map ~ eventDistanceArr",
-        eventDistanceArr
-      );
-
-      let allFiltered = [];
-      eventsArr?.map((evt) => {
-        tempDistanceArr?.map((evtwithdistance) => {
-          if (evt.title === evtwithdistance.title) {
-            if (evtwithdistance.distance < maxDistance) {
-              allFiltered.push(evt);
-            }
-          }
-        });
-      });
-
-      if (eventsToSet == "future") {
-        setFutureEvents(allFiltered);
-      }
-      if (eventsToSet == "filtered") {
-        setFilteredEvents(allFiltered);
-      }
     }
   };
-
-  useEffect(() => {
-    console.log(`filteredEvents`, filteredEvents);
-  }, [filteredEvents]);
-
-  useEffect(() => {
-    console.log("eventDistanceArr", eventDistanceArr);
-  }, [eventDistanceArr]);
 
   return (
     <DataContext.Provider
@@ -540,6 +524,7 @@ export const DataProvider = ({ children }) => {
         clearSeen,
         userData,
         refreshData,
+        maxRange,
       }}
     >
       {children}

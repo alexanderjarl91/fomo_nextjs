@@ -22,6 +22,7 @@ function EventCards() {
     clearSeen,
     userData,
     refreshData,
+    maxDistance,
   } = useContext(DataContext);
   // const { userData } = useContext(UsersContext);
   const [cardRefs, setCardRefs] = useState([]);
@@ -35,7 +36,7 @@ function EventCards() {
   //get events
   useEffect(() => {
     getCards();
-  }, [userData?.email, refreshData]);
+  }, [userData?.email, refreshData, maxDistance]);
 
   //sort events by date everytime event array changes
   useEffect(() => {

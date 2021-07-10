@@ -15,6 +15,7 @@ export default function Filter() {
     dateFilters,
     dateFilter,
     setDateFilter,
+    maxRange,
   } = useContext(DataContext);
 
   const handleFilter = () => {
@@ -131,10 +132,10 @@ export default function Filter() {
             </div>
             <Slider
               className={styles.slider}
-              defaultValue={maxDistance}
-              min={1}
-              max={20}
-              step={1}
+              defaultValue={500}
+              min={0}
+              max={maxRange}
+              step={100}
               onChange={handleMaxDistance}
               // trackStyle={{ backgroundColor: "white", height: "12px" }}
               trackStyle={{
