@@ -459,12 +459,12 @@ export const DataProvider = ({ children }) => {
       eventsArr?.map((event, i) => {
         const eventLocation = event.location.coordinates;
 
-        // origin is the users current location
-        // let origin = new google.maps.LatLng(
-        //   userLocation?.latitude,
-        //   userLocation?.longitude
-        // );
-        let origin = new google.maps.LatLng(65.681356, -18.089589);
+        //origin is the users current location
+        let origin = new google.maps.LatLng(
+          userLocation?.latitude,
+          userLocation?.longitude
+        );
+        // let origin = new google.maps.LatLng(65.681356, -18.089589);
         //convert event location to a google object
         let destination = new google.maps.LatLng(
           eventLocation.lat,
