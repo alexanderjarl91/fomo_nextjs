@@ -132,10 +132,10 @@ export default function Filter() {
             </div>
             <Slider
               className={styles.slider}
-              defaultValue={500}
-              min={0}
+              defaultValue={100}
+              min={1}
               max={maxRange}
-              step={100}
+              step={2}
               onChange={handleMaxDistance}
               // trackStyle={{ backgroundColor: "white", height: "12px" }}
               trackStyle={{

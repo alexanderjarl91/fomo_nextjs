@@ -165,7 +165,7 @@ export const DataProvider = ({ children }) => {
   const [futureEvents, setFutureEvents] = useState(); // events that are today or later
   const [filteredEvents, setFilteredEvents] = useState(); //events after filtering (rendered)
   const [userLocation, setUserLocation] = useState(); //users current location
-  const [maxDistance, setMaxDistance] = useState(400); //max distance set in filter
+  const [maxDistance, setMaxDistance] = useState(100); //max distance set in filter
   const [maxRange, setMaxRange] = useState(1000); //max distance set in filter
   const [activeCategories, setActiveCategories] = useState([]); //array of categories active
   const [dateFilter, setDateFilter] = useState([]); // array of date selections active

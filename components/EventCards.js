@@ -36,7 +36,7 @@ function EventCards() {
   //get events
   useEffect(() => {
     getCards();
-  }, [userData?.email, refreshData, maxDistance]);
+  }, [userData?.email, refreshData, maxDistance, userLocation]);
 
   //sort events by date everytime event array changes
   useEffect(() => {
