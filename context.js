@@ -512,10 +512,6 @@ export const DataProvider = ({ children }) => {
   }, [filteredEvents]);
 
   useEffect(() => {
-    filterDistance();
-  }, [userLocation, futureEvents, isMapsLoaded, maxDistance]);
-
-  useEffect(() => {
     console.log("eventDistanceArr", eventDistanceArr);
   }, [eventDistanceArr]);
 
