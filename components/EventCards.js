@@ -1,19 +1,16 @@
 import React, { useState, useContext, createRef, useEffect } from "react";
-// import TinderCard from "react-tinder-card";
 import TinderCard from "../components/TinderCard";
 import styles from "../styles/EventCards.module.css";
 import fire from "../firebase";
-import { UsersContext, DataContext } from "../context";
+import { DataContext } from "../context";
 import { useRouter } from "next/router";
 import Buttons from "./Buttons";
 import cx from "../utils/cx";
 import { FaSearchLocation } from "react-icons/fa";
-import { filter } from "underscore";
 
 function EventCards() {
   const router = useRouter();
   const {
-    getEvents,
     activeCardIndex,
     setActiveCardIndex,
     filteredEvents,
@@ -28,13 +25,6 @@ function EventCards() {
   const [cardRefs, setCardRefs] = useState([]);
   const [showAnimation, setShowAnimation] = useState(false);
   const [renderedEvents, setRenderedEvents] = useState();
-
-  //sort events by date everytime event array changes
-  useEffect(() => {
-    filteredEvents?.sort(function (a, b) {
-      return new Date(b.date) - new Date(a.date);
-    });
-  }, [filteredEvents]);
 
   // get user location function
   const getUserLocation = () => {
@@ -71,8 +61,7 @@ function EventCards() {
       if (!fire.auth().currentUser) return;
       console.log("saving to seen...");
       //get swiped cards event
-      const currentEventId = filteredEvents[index].eventId;
-
+      const currentEventId = renderedEvents[index].eventId;
       //get authenticated user
       const userRef = await fire
         .firestore()
@@ -97,7 +86,7 @@ function EventCards() {
     };
     saveToSeen();
 
-    setActiveCardIndex(index - 1);
+    // setActiveCardIndex(activeCardIndex - 1);
     //save event if swiped right
     if (dir == "right") {
       //animate
@@ -143,8 +132,8 @@ function EventCards() {
 
   //go to event dynamic page
   const goToEvent = (cardIndex) => {
-    router.push(`/events/${filteredEvents[cardIndex].eventId}`);
-    // router.push(`/events/${cards[cardIndex].eventId}`);
+    // router.push(`/events/${renderedEvents[cardIndex].eventId}`);
+    console.log("index from tinderCard", cardIndex);
   };
 
   const reshuffleCards = async () => {
@@ -167,23 +156,28 @@ function EventCards() {
     // }
   };
 
-  //remove seen events
-  const removeSeen = (array) => {
-    if (!userData) return;
-    let unseenEvents = [];
-    const seenEvents = userData.seen;
+  //EVENTS MANIPULATION
 
-    if (fire.auth().currentUser && userData) {
-      unseenEvents = array?.filter(
-        (item) => !seenEvents.includes(item.eventId)
-      );
-    }
-    return unseenEvents;
-  };
-
+  //sort events by date & remove unseen
   useEffect(() => {
-    const unseen = removeSeen(renderedEvents);
-    console.log("unseen", unseen);
+    const sortedEvents = filteredEvents?.sort(function (a, b) {
+      return new Date(b.date) - new Date(a.date);
+    });
+    // //remove seen events
+    const removeSeen = (array) => {
+      if (!userData) return;
+      let unseenEvents = [];
+      const seenEvents = userData.seen;
+
+      if (fire.auth().currentUser && userData) {
+        unseenEvents = array?.filter(
+          (item) => !seenEvents.includes(item.eventId)
+        );
+      }
+      return unseenEvents;
+    };
+    const unseenSorted = removeSeen(sortedEvents);
+    setRenderedEvents(unseenSorted);
   }, [filteredEvents]);
 
   //filter only events within max distance
@@ -199,6 +193,18 @@ function EventCards() {
     if (!filteredEvents) return;
     filterbyDistance(filteredEvents);
   }, [filteredEvents]);
+
+  useEffect(() => {
+    setActiveCardIndex(renderedEvents?.length - 1);
+  }, [renderedEvents]);
+
+  useEffect(() => {
+    console.log("activeCardIndex", activeCardIndex);
+  }, [activeCardIndex]);
+
+  useEffect(() => {
+    console.log("renderedEvs", renderedEvents);
+  }, [renderedEvents]);
 
   return (
     <div className={styles.container}>
@@ -225,7 +231,8 @@ function EventCards() {
 
             {/* IF USER IS LOGGED IN & HAS SWIPED ALL CARDS */}
             {(userLocation && fire.auth().currentUser && activeCardIndex < 0) ||
-            (userLocation && fire.auth().currentUser && !renderedEvents) ? (
+            (userLocation && fire.auth().currentUser && !renderedEvents) ||
+            renderedEvents?.length == 0 ? (
               <div className={styles.noCards__container}>
                 <p>
                   No more events in your area.. change your filter or swipe
@@ -264,7 +271,7 @@ function EventCards() {
                       ref={cardRefs[index]}
                       preventSwipe={["up", "down"]}
                       onSwipe={(dir) => handleSwipe(dir, index)}
-                      onClick={() => goToEvent(index)}
+                      onClick={() => goToEvent(activeCardIndex)}
                     >
                       <div
                         id={`card-${index}`}
@@ -330,7 +337,7 @@ function EventCards() {
                 {/* RENDER 3 CARDS IF USER IS NOT LOGGED IN */}
                 {userLocation && (
                   <>
-                    {filteredEvents?.slice(0, 3).map((card, index) => (
+                    {renderedEvents?.slice(0, 3).map((card, index) => (
                       <TinderCard
                         className={cx(
                           { [styles.swipe]: true }
