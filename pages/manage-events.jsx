@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import styles from "../styles/ManageEvents.module.css"
 import fire from "../firebase";
+import { useRouter } from "next/router";
 
 
 export default function manageevents() {
+    const router = useRouter()
 
     const [pendingEvents, setPendingEvents] = useState()
 
@@ -49,6 +51,11 @@ export default function manageevents() {
 
     }
 
+    useEffect(()=> {
+        if (!fire.auth().currentUser || fire.auth().currentUser.email !== 'alexanderjarl91@gmail.com') {
+            router.push('/')
+        }
+    }, [])
 
     return (
         

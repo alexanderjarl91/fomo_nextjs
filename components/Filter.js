@@ -133,7 +133,7 @@ export default function Filter() {
             <Slider
               className={styles.slider}
               defaultValue={100}
-              min={1}
+              min={2}
               max={maxRange}
               step={2}
               onChange={handleMaxDistance}
@@ -156,9 +156,8 @@ export default function Filter() {
               }}
             />
           </div>
-
           <p className={styles.tinyText}>
-            showing x events happening today within 10km
+            showing x events happening today within {maxDistance} km
           </p>
         </div>
       </div>

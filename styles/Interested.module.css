@@ -4,6 +4,7 @@
   justify-content: center;
   margin: 0 auto;
   margin-top: 6rem;
+  width: 80%;
   max-width: 500px;
 }
 
@@ -35,7 +36,7 @@
   background-attachment: fixed;
   background-repeat: no-repeat;
   min-height: 150px;
-  width: 80%;
+  width: 100%;
   max-width: 600px;
   background: rgba(255, 255, 255, 0.06);
   margin: 0 auto;
@@ -51,9 +52,9 @@
 }
 
 .card__content > img {
-  margin-left: 2rem;
-  width: 30%;
-  height: 100px;
+  margin-left: 1rem;
+  width: 20%;
+  height: 130px;
   border-radius: 4px;
   object-fit: cover;
   border-radius: 8px;

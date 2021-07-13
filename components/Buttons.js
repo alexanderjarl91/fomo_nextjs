@@ -20,20 +20,10 @@ export default function Buttons({ handleLike, showAnimation }) {
     console.log(showFilter);
   };
 
-  useEffect(() => {
-    console.log("active index:", activeCardIndex);
-  }, [activeCardIndex]);
-
   //get previous card
   const handleLastCard = async () => {
     //if first card, cancel function
 
-    console.log(
-      "activeCardIndex:",
-      activeCardIndex,
-      "filteredEvents.length - 1",
-      filteredEvents.length - 1
-    );
     if (activeCardIndex === filteredEvents.length - 1) return;
 
     //save event if swiped right

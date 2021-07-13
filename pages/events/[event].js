@@ -14,7 +14,7 @@ import {
   FacebookIcon,
   TwitterIcon,
   WhatsappIcon,
-  EmailIcon
+  EmailIcon,
 } from "react-share";
 import { FiShare2 } from "react-icons/fi";
 
@@ -33,7 +33,7 @@ export default function Event() {
   const [event, setEvent] = useState();
   const [isInterested, setIsInterested] = useState();
   const [coordinates, setCoordinates] = useState();
-  const [linkCopied, setLinkCopied] = useState(false)
+  const [linkCopied, setLinkCopied] = useState(false);
 
   // get the data when component mounts
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function Event() {
 
   //check if users interested array includes the eventId from query, set boolean state accordingly
   const checkIfUserIsInterested = () => {
-    setIsInterested(userData.interested.includes(router.query.event));
+    setIsInterested(userData?.interested?.includes(router.query.event));
   };
 
   //if userdata exists, run check functions. do this every time userData changes.
@@ -118,7 +118,6 @@ export default function Event() {
     setIsOpen(false);
   }
 
-  
   const customStyles = {
     overlay: {
       backgroundColor: "rgba(255,255,255,0.8)",
@@ -143,14 +142,13 @@ export default function Event() {
     },
   };
 
-
   const handleLinkCopied = () => {
-    setLinkCopied(true)
-  }
+    setLinkCopied(true);
+  };
 
   useEffect(() => {
-    console.log('link copied?', linkCopied)
-  }, [linkCopied])
+    console.log("link copied?", linkCopied);
+  }, [linkCopied]);
 
   return (
     <>
@@ -233,8 +231,23 @@ export default function Event() {
                       contentLabel="Example Modal"
                       appElement={""}
                     >
-                      <h1 style={{fontSize: '24px', marginBottom: "8px", marginTop: '12px'}}>Share this event</h1>
-                      <div style={{display: 'flex', justifyContent: 'space-around', width: '260px', margin: '0 auto'}}>
+                      <h1
+                        style={{
+                          fontSize: "24px",
+                          marginBottom: "8px",
+                          marginTop: "12px",
+                        }}
+                      >
+                        Share this event
+                      </h1>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-around",
+                          width: "260px",
+                          margin: "0 auto",
+                        }}
+                      >
                         <FacebookShareButton url={window.location.href}>
                           <FacebookIcon size={50} borderRadius={12} />
                         </FacebookShareButton>
@@ -249,14 +262,19 @@ export default function Event() {
                           <EmailIcon size={50} borderRadius={12} />
                         </EmailShareButton>
                       </div>
-                      <h2 style={{fontSize: '18px', marginTop: "12px"}}>Or copy link</h2>
-                      <input className={styles.linkInput} onClick={() => {
-                        document.execCommand("copy");
-                        handleLinkCopied()
-                      }}type="text" value={window.location.href} />
-                      {linkCopied&& <p>copied!</p> }
-                     
-                     
+                      <h2 style={{ fontSize: "18px", marginTop: "12px" }}>
+                        Or copy link
+                      </h2>
+                      <input
+                        className={styles.linkInput}
+                        onClick={() => {
+                          document.execCommand("copy");
+                          handleLinkCopied();
+                        }}
+                        type="text"
+                        value={window.location.href}
+                      />
+                      {linkCopied && <p>copied!</p>}
                     </Modal>
                   </div>
 

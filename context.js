@@ -158,15 +158,15 @@ export const UsersProvider = ({ children }) => {
 
 export const DataContext = React.createContext();
 export const DataProvider = ({ children }) => {
-  const [cards, setCards] = useState([]); // all cards
+  const [allEvents, setAllEvents] = useState();
+  const [futureEvents, setFutureEvents] = useState(); // events that are today or later
   const [userData, setUserData] = useState();
   const [refreshData, setRefreshData] = useState(false);
   const [activeCardIndex, setActiveCardIndex] = useState(); //index of event thats shown
-  const [futureEvents, setFutureEvents] = useState(); // events that are today or later
   const [filteredEvents, setFilteredEvents] = useState(); //events after filtering (rendered)
   const [userLocation, setUserLocation] = useState(); //users current location
   const [maxDistance, setMaxDistance] = useState(100); //max distance set in filter
-  const [maxRange, setMaxRange] = useState(1000); //max distance set in filter
+  const [maxRange, setMaxRange] = useState(100); //max distance set in filter
   const [activeCategories, setActiveCategories] = useState([]); //array of categories active
   const [dateFilter, setDateFilter] = useState([]); // array of date selections active
   const [eventDistanceArr, setEventDistanceArr] = useState();
@@ -204,8 +204,8 @@ export const DataProvider = ({ children }) => {
       });
   };
 
+  //get user data when user logs in
   useEffect(() => {
-    console.log("MAX DISTANCE:", maxDistance);
     getUserData();
   }, [fire.auth().currentUser]);
 
@@ -214,17 +214,6 @@ export const DataProvider = ({ children }) => {
     setActiveCardIndex(filteredEvents?.length - 1);
   }, [filteredEvents]);
 
-  //SEEN EVENTS FUNCTIONALITY
-  const removeSeen = (array) => {
-    let unseenEvents = [];
-    const seenEvents = userData.seen;
-
-    if (fire.auth().currentUser && userData) {
-      unseenEvents = array.filter((item) => !seenEvents.includes(item.eventId));
-    }
-    return unseenEvents;
-  };
-
   const clearSeen = async () => {
     await fire
       .firestore()
@@ -232,6 +221,7 @@ export const DataProvider = ({ children }) => {
       .doc(fire.auth().currentUser.email)
       .update({ seen: [] });
     setRefreshData(!refreshData);
+    getEvents();
     setActiveCardIndex(filteredEvents.length - 1);
     console.log("seen has been cleared");
   };
@@ -256,84 +246,123 @@ export const DataProvider = ({ children }) => {
   }, []);
 
   ////GET EVENTS AND FILTER ONLY ACTIVE, FUTURE & UNSEEN EVENTS (if user is logged in)
-  const getCards = async () => {
+  const getEvents = async () => {
     const cardsRef = fire.firestore().collection("events");
     const snapshot = await cardsRef.get();
-    let tempCards = [];
+    let tempEvents = [];
     await snapshot.forEach((doc) => {
-      tempCards = [...tempCards, doc.data()];
+      tempEvents = [...tempEvents, doc.data()];
     });
+    setAllEvents(tempEvents);
 
-    // set cards
-    setCards(tempCards);
+    return tempEvents;
+  };
+
+  //get events on mount
+  useEffect(() => {
+    getEvents();
+  }, []);
+
+  const removeUnwantedEvents = () => {
     //filter only events where event.date > current date
-
-    const allFutureEvents = tempCards?.filter(
+    console.log("removing all passed & unapproved events..");
+    const allFutureEvents = allEvents?.filter(
       (item) => !isBefore(new Date(item.date), endOfYesterday())
     );
 
-    //remove seen events
-    const removeSeen = (array) => {
-      if (!userData) return;
-      let unseenEvents = [];
-      const seenEvents = userData.seen;
-
-      if (fire.auth().currentUser && userData) {
-        unseenEvents = array.filter(
-          (item) => !seenEvents.includes(item.eventId)
-        );
-      }
-      return unseenEvents;
-    };
-
-    let unseenFutureEvents = [];
-    if (userData) {
-      console.log("removing seen...");
-      unseenFutureEvents = allFutureEvents && removeSeen(allFutureEvents);
-    }
-
     //get only approved events
-    let approvedUnseenFutureEvents = unseenFutureEvents.filter(
+    let approvedFutureEvents = allFutureEvents?.filter(
       (event) => event.status === "approved"
     );
+    setFutureEvents(approvedFutureEvents);
 
-    //disregarding seen for unlogged in user
-    let approvedFutureEvents = allFutureEvents.filter(
-      (event) => event.status === "approved"
-    );
+    return;
+  };
 
-    //if user is logged in, set unseen, else set all future
-    if (fire.auth().currentUser) {
-      // setFutureEvents(approvedUnseenFutureEvents);
-      filterDistance("future", approvedUnseenFutureEvents);
-    } else {
-      // setFutureEvents(approvedFutureEvents);
-      filterDistance("future", approvedFutureEvents);
+  useEffect(() => {
+    console.log("removing unwanted..");
+    removeUnwantedEvents(futureEvents);
+  }, [userData, allEvents]);
+
+  const [futureEventsWithDistance, setFutureEventsWithDistance] = useState();
+  //APPEND DISTANCE TO ALL EVENTS
+  const appendDistance = (eventsArr) => {
+    if (!isMapsLoaded) return; //return if google maps isnt loaded
+    if (userLocation?.code) return; //return if userLocation has error code
+    if (userLocation) {
+      let tempDistanceArr = [];
+      eventsArr?.map((event, i) => {
+        const eventLocation = event.location.coordinates;
+        //origin is the users current location
+        let origin = new google.maps.LatLng(
+          userLocation?.latitude,
+          userLocation?.longitude
+        );
+        // let origin = new google.maps.LatLng(65.681356, -18.089589);
+        //convert event location to a google object
+        let destination = new google.maps.LatLng(
+          eventLocation.lat,
+          eventLocation.lng
+        );
+
+        var service = new google.maps.DistanceMatrixService();
+
+        //get distance from origin to destination with driving as travel mode
+        service.getDistanceMatrix(
+          {
+            origins: [origin],
+            destinations: [destination],
+            travelMode: "DRIVING",
+          },
+
+          callback
+        );
+        //append distance to each event
+        function callback(response, status) {
+          const eventDistance =
+            response?.rows[0].elements[0].distance?.value / 1000;
+          event.distance = eventDistance;
+          tempDistanceArr = [...tempDistanceArr, event];
+          setFutureEventsWithDistance(tempDistanceArr);
+        }
+      });
     }
   };
 
-  //FILTER THE ACTIVE UNSEEN FUTURE EVENTS
+  //append distance to events
+  useEffect(() => {
+    appendDistance(futureEvents);
+  }, [futureEvents, userLocation, isMapsLoaded]);
+
+  //USER FILTER EVENT
   useEffect(() => {
     let tempEvents = [];
-
     const filter = [
       {
         dates: [
           [
             "today",
-            futureEvents?.filter((item) => isToday(new Date(item.date))),
+            futureEventsWithDistance?.filter((item) =>
+              isToday(new Date(item.date))
+            ),
           ],
           [
             "tomorrow",
-            futureEvents?.filter((item) => isTomorrow(new Date(item.date))),
+            futureEventsWithDistance?.filter((item) =>
+              isTomorrow(new Date(item.date))
+            ),
           ],
           [
             "this week",
-            futureEvents?.filter((item) => isThisWeek(new Date(item.date))),
+            futureEventsWithDistance?.filter((item) =>
+              isThisWeek(new Date(item.date))
+            ),
           ],
           [
             "this month",
-            futureEvents?.filter((item) => isThisMonth(new Date(item.date))),
+            futureEventsWithDistance?.filter((item) =>
+              isThisMonth(new Date(item.date))
+            ),
           ],
         ],
       },
@@ -341,29 +370,39 @@ export const DataProvider = ({ children }) => {
         categories: [
           [
             "music",
-            futureEvents?.filter((item) => item.categories.includes("music")),
+            futureEventsWithDistance?.filter((item) =>
+              item.categories.includes("music")
+            ),
           ],
           [
             "sports",
-            futureEvents?.filter((item) => item.categories.includes("sports")),
+            futureEventsWithDistance?.filter((item) =>
+              item.categories.includes("sports")
+            ),
           ],
           [
             "nightlife",
-            futureEvents?.filter((item) =>
+            futureEventsWithDistance?.filter((item) =>
               item.categories.includes("nightlife")
             ),
           ],
           [
             "food",
-            futureEvents?.filter((item) => item.categories.includes("food")),
+            futureEventsWithDistance?.filter((item) =>
+              item.categories.includes("food")
+            ),
           ],
           [
             "art",
-            futureEvents?.filter((item) => item.categories.includes("art")),
+            futureEventsWithDistance?.filter((item) =>
+              item.categories.includes("art")
+            ),
           ],
           [
             "other",
-            futureEvents?.filter((item) => item.categories.includes("other")),
+            futureEventsWithDistance?.filter((item) =>
+              item.categories.includes("other")
+            ),
           ],
         ],
       },
@@ -422,7 +461,7 @@ export const DataProvider = ({ children }) => {
         }
         //if user has no filter applied
       } else {
-        tempEvents = futureEvents;
+        tempEvents = futureEventsWithDistance;
       }
     });
 
@@ -430,81 +469,15 @@ export const DataProvider = ({ children }) => {
     const onlyUnique = (value, index, self) => {
       return self.indexOf(value) === index;
     };
-    console.log(
-      "🚀 ~ file: context.js ~ line 454 ~ useEffect ~ tempEvents",
-      tempEvents
-    );
 
     const unique = tempEvents?.filter(onlyUnique);
-    console.log(
-      "🚀 ~ file: context.js ~ line 435 ~ useEffect ~ unique",
-      unique
-    );
-    // filterDistance("filtered", tempEvents);
     setFilteredEvents(unique);
-  }, [futureEvents, activeCategories, dateFilter, maxDistance]);
-
-  // DISTANCE FILTER
-  const filterDistance = (eventsToSet, eventsArr) => {
-    console.log(
-      "🚀 ~ file: context.js ~ line 446 ~ filterDistance ~ eventsArr",
-      eventsArr
-    );
-
-    if (!isMapsLoaded) return; //return if google maps isnt loaded
-    if (userLocation?.code) return; //return if userLocation has error code
-    if (userLocation) {
-      let tempDistanceArr = [];
-      eventsArr?.map((event, i) => {
-        const eventLocation = event.location.coordinates;
-
-        //origin is the users current location
-        let origin = new google.maps.LatLng(
-          userLocation?.latitude,
-          userLocation?.longitude
-        );
-        // let origin = new google.maps.LatLng(65.681356, -18.089589);
-        //convert event location to a google object
-        let destination = new google.maps.LatLng(
-          eventLocation.lat,
-          eventLocation.lng
-        );
-
-        var service = new google.maps.DistanceMatrixService();
-
-        //get distance from origin to destination with driving as travel mode
-        service.getDistanceMatrix(
-          {
-            origins: [origin],
-            destinations: [destination],
-            travelMode: "DRIVING",
-          },
-
-          callback
-        );
-        function callback(response, status) {
-          const eventDistance =
-            response?.rows[0].elements[0].distance?.value / 1000;
-          // console.log(event.title, eventDistance, "km away");
-
-          if (eventDistance < maxDistance) {
-            // console.log(event, "event in distance");
-            tempDistanceArr = [...tempDistanceArr, event];
-          }
-          if (eventsToSet == "future") {
-            setFutureEvents(tempDistanceArr);
-          }
-        }
-      });
-    }
-  };
+  }, [futureEventsWithDistance, activeCategories, dateFilter, maxDistance]);
 
   return (
     <DataContext.Provider
       value={{
-        cards,
-        setCards,
-        getCards,
+        getEvents,
         activeCardIndex,
         setActiveCardIndex,
         userLocation,
