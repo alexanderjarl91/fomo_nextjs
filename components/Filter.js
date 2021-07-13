@@ -132,7 +132,7 @@ export default function Filter() {
             </div>
             <Slider
               className={styles.slider}
-              defaultValue={100}
+              defaultValue={50}
               min={2}
               max={maxRange}
               step={2}

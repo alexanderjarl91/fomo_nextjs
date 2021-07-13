@@ -177,12 +177,13 @@ function EventCards() {
       return unseenEvents;
     };
     const unseenSorted = removeSeen(sortedEvents);
+    console.log("unseen", unseenSorted);
     setRenderedEvents(unseenSorted);
   }, [filteredEvents]);
 
   //filter only events within max distance
-  const filterbyDistance = (events) => {
-    let eventsWithinDistance = events.filter(
+  const filterByDistance = (events) => {
+    let eventsWithinDistance = events?.filter(
       (event) => event.distance < maxDistance
     );
     setRenderedEvents(eventsWithinDistance);
@@ -191,20 +192,20 @@ function EventCards() {
   //filter by distance every time filteredEvents changes
   useEffect(() => {
     if (!filteredEvents) return;
-    filterbyDistance(filteredEvents);
-  }, [filteredEvents]);
+    filterByDistance(filteredEvents);
+  }, [maxDistance, filteredEvents]);
 
   useEffect(() => {
     setActiveCardIndex(renderedEvents?.length - 1);
   }, [renderedEvents]);
 
-  useEffect(() => {
-    console.log("activeCardIndex", activeCardIndex);
-  }, [activeCardIndex]);
+  // useEffect(() => {
+  //   console.log("activeCardIndex", activeCardIndex);
+  // }, [activeCardIndex]);
 
-  useEffect(() => {
-    console.log("renderedEvs", renderedEvents);
-  }, [renderedEvents]);
+  // useEffect(() => {
+  //   console.log("renderedEvs", renderedEvents);
+  // }, [renderedEvents]);
 
   return (
     <div className={styles.container}>
@@ -405,7 +406,11 @@ function EventCards() {
       </div>
       {/* SHOW BUTTONS WHEN USER LOCATION IS FOUND */}
       {userLocation?.latitude ? (
-        <Buttons handleLike={handleLike} showAnimation={showAnimation} />
+        <Buttons
+          handleLike={handleLike}
+          showAnimation={showAnimation}
+          renderedEvents={renderedEvents}
+        />
       ) : null}
     </div>
   );
