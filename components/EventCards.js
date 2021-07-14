@@ -12,9 +12,8 @@ function EventCards() {
   const router = useRouter();
   const {
     getEvents,
-    activeCardIndex,
-    setActiveCardIndex,
     filteredEvents,
+    futureEventsWithDistance,
     userLocation,
     setUserLocation,
     clearSeen,
@@ -22,7 +21,7 @@ function EventCards() {
     refreshData,
     maxDistance,
   } = useContext(DataContext);
-
+  const [renderedEvents, setRenderedEvents] = useState();
   const [cardRefs, setCardRefs] = useState([]);
   const [showAnimation, setShowAnimation] = useState(false);
 
@@ -32,8 +31,12 @@ function EventCards() {
   }, []);
 
   useEffect(() => {
-    console.log(`filteredEvents`, filteredEvents);
+    setRenderedEvents(filteredEvents);
   }, [filteredEvents]);
+
+  useEffect(() => {
+    console.log("renderedEvents", renderedEvents);
+  }, [renderedEvents]);
 
   // get user location function
   const getUserLocation = () => {
@@ -58,19 +61,20 @@ function EventCards() {
   }, []);
 
   //handle function when like button is clicked
-  const handleLike = () => {
+  const handleLike = (index) => {
     //throw card to the right
-    cardRefs[activeCardIndex].current.swipe("right");
+    cardRefs[index].current.swipe("right");
   };
 
   //handle swipe
   const handleSwipe = async (dir, index) => {
-    console.log("start index", index);
-    console.log("start swipe");
-    const currentEventId = filteredEvents[index].eventId;
-    console.log(currentEventId);
+    console.log("index from swipe", index);
+    const currentEventTitle = filteredEvents[index].title;
+    console.log(currentEventTitle);
+    return;
+
     //set card to seen
-    const saveToSeen = async (index) => {
+    const saveToSeen = async () => {
       if (!fire.auth().currentUser) return;
 
       console.log("saving to seen...");
@@ -88,35 +92,32 @@ function EventCards() {
 
       // if (!doc.exists) return;
 
-      //create a copy of users events array
-      if (doc.data().seen) {
-        tempSeen = doc.data().seen;
-      }
       //prevent duplicates
       if (tempSeen.includes(currentEventId)) {
         console.log("found duplicate");
         return;
       }
+
       //push new events ID to copy of array
       tempSeen.push(currentEventId);
       //post new array to database
       userRef.update({ seen: tempSeen });
     };
-    saveToSeen(index);
+
+    await saveToSeen();
 
     //save event if swiped right
-    if (dir == "right") {
+    if (dir === "right") {
       //animate
       const cardNotifications = document.querySelectorAll(".cardAnimate");
       const cardNotification = document.getElementById(`animate-${index}`);
       cardNotifications.forEach((item) => (item.style.display = "none"));
       cardNotification.style.display = "block";
       const activeCard = filteredEvents[index];
-      saveToInterested(activeCard);
+      await saveToInterested(activeCard);
     }
-    setActiveCardIndex(index - 1);
+
     console.log("index", index);
-    console.log("end swipe");
   };
 
   const saveToInterested = async (activeCard) => {
@@ -151,8 +152,12 @@ function EventCards() {
   }, [filteredEvents]);
 
   //go to event dynamic page
-  const goToEvent = (cardIndex) => {
-    router.push(`/events/${filteredEvents[cardIndex].eventId}`);
+  const goToEvent = (index) => {
+    console.log("index", index);
+    console.log("filtered events:", filteredEvents);
+
+    // const activeCard = filteredEvents[index];
+    // router.push(`/events/${activeCard.eventId}`);
   };
 
   const reshuffleCards = async () => {
@@ -175,10 +180,8 @@ function EventCards() {
     // }
   };
 
-  useEffect(() => {
-    setActiveCardIndex(filteredEvents?.length - 1);
-  }, [filteredEvents]);
-
+  const renderedEvents2 = filteredEvents;
+  console.log(filteredEvents, "filtered");
   return (
     <div className={styles.container}>
       <div className={styles.cards__container}>
@@ -203,7 +206,7 @@ function EventCards() {
             )}
 
             {/* IF USER IS LOGGED IN & HAS SWIPED ALL CARDS */}
-            {(userLocation && fire.auth().currentUser && activeCardIndex < 0) ||
+            {(userLocation && fire.auth().currentUser) ||
             (userLocation && fire.auth().currentUser && !filteredEvents) ||
             filteredEvents?.length == 0 ? (
               <div className={styles.noCards__container}>
@@ -218,7 +221,7 @@ function EventCards() {
             ) : null}
 
             {/* IF USER IS NOT LOGGED IN AND HAS SWIPED ALL CARDS */}
-            {activeCardIndex < 0 && !fire.auth().currentUser ? (
+            {!fire.auth().currentUser ? (
               <div className={styles.noCards__container}>
                 <p>
                   Sign in with Google or Facebook to discover more events around
@@ -234,7 +237,7 @@ function EventCards() {
               <>
                 <>
                   {/* RENDER CARDS */}
-                  {filteredEvents?.map((card, index) => (
+                  {futureEventsWithDistance?.map((card, index) => (
                     <TinderCard
                       className={cx({ [styles.swipe]: true })}
                       key={index}
@@ -309,7 +312,7 @@ function EventCards() {
                 {/* RENDER 3 CARDS IF USER IS NOT LOGGED IN */}
                 {userLocation && (
                   <>
-                    {filteredEvents?.slice(0, 3).map((card, index) => (
+                    {renderedEvents?.slice(0, 3).map((card, index) => (
                       <TinderCard
                         className={cx(
                           { [styles.swipe]: true }
@@ -377,7 +380,10 @@ function EventCards() {
       </div>
       {/* SHOW BUTTONS WHEN USER LOCATION IS FOUND */}
       {userLocation?.latitude ? (
-        <Buttons handleLike={handleLike} showAnimation={showAnimation} />
+        <Buttons
+          handleLike={() => handleLike(index)}
+          showAnimation={showAnimation}
+        />
       ) : null}
     </div>
   );

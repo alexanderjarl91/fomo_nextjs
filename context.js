@@ -159,10 +159,9 @@ export const UsersProvider = ({ children }) => {
 export const DataContext = React.createContext();
 export const DataProvider = ({ children }) => {
   const [allEvents, setAllEvents] = useState();
-  const [futureEvents, setFutureEvents] = useState(); // events that are today or later
   const [userData, setUserData] = useState();
   // const [refreshData, setRefreshData] = useState(false);
-  const [activeCardIndex, setActiveCardIndex] = useState(); //index of event thats shown
+
   const [filteredEvents, setFilteredEvents] = useState(); //events after filtering (rendered)
   const [userLocation, setUserLocation] = useState(); //users current location
   const [maxDistance, setMaxDistance] = useState(100); //max distance set in filter
@@ -209,11 +208,6 @@ export const DataProvider = ({ children }) => {
     getUserData();
   }, [fire.auth().currentUser]);
 
-  // get index of active card
-  useEffect(() => {
-    setActiveCardIndex(filteredEvents?.length - 1);
-  }, [filteredEvents]);
-
   const clearSeen = async () => {
     await fire
       .firestore()
@@ -221,7 +215,6 @@ export const DataProvider = ({ children }) => {
       .doc(fire.auth().currentUser.email)
       .update({ seen: [] });
     getEvents();
-    // setActiveCardIndex(filteredEvents.length - 1);
     console.log("seen has been cleared");
   };
 
@@ -253,30 +246,21 @@ export const DataProvider = ({ children }) => {
     await snapshot.forEach((doc) => {
       tempEvents = [...tempEvents, doc.data()];
     });
-    setAllEvents(tempEvents);
-    return tempEvents;
-  };
 
-  const removeUnwantedEvents = () => {
-    //filter only events where event.date > current date
-    console.log("removing all passed & unapproved events..");
-    const allFutureEvents = allEvents?.filter(
+    const allFutureEvents = tempEvents?.filter(
       (item) => !isBefore(new Date(item.date), endOfYesterday())
     );
-
-    //get only approved events
     let approvedFutureEvents = allFutureEvents?.filter(
       (event) => event.status === "approved"
     );
-    setFutureEvents(approvedFutureEvents);
+    console.log(
+      "🚀 ~ file: context.js ~ line 256 ~ getEvents ~ approvedFutureEvents",
+      approvedFutureEvents
+    );
 
-    return;
+    setAllEvents(approvedFutureEvents);
+    // return tempEvents;
   };
-
-  useEffect(() => {
-    console.log("removing unwanted..");
-    removeUnwantedEvents(futureEvents);
-  }, [allEvents]);
 
   const [futureEventsWithDistance, setFutureEventsWithDistance] = useState();
   //APPEND DISTANCE TO ALL EVENTS
@@ -317,45 +301,39 @@ export const DataProvider = ({ children }) => {
             response?.rows[0].elements[0].distance?.value / 1000;
           event.distance = eventDistance;
           tempDistanceArr = [...tempDistanceArr, event];
-          setFutureEventsWithDistance(tempDistanceArr);
+
+          console.log("TEMP DIST", tempDistanceArr);
+          setFutureEventsWithDistance(
+            tempDistanceArr.filter((event) => event.distance < maxDistance)
+          );
         }
       });
     }
   };
   //append distance to events
   useEffect(() => {
-    appendDistance(futureEvents);
-  }, [futureEvents, userLocation, isMapsLoaded]);
+    appendDistance(filteredEvents);
+  }, [filteredEvents, userLocation]);
 
   //USER FILTER EVENT
   useEffect(() => {
     let tempEvents = [];
+    console.log(allEvents);
     const filter = [
       {
         dates: [
-          [
-            "today",
-            futureEventsWithDistance?.filter((item) =>
-              isToday(new Date(item.date))
-            ),
-          ],
+          ["today", allEvents?.filter((item) => isToday(new Date(item.date)))],
           [
             "tomorrow",
-            futureEventsWithDistance?.filter((item) =>
-              isTomorrow(new Date(item.date))
-            ),
+            allEvents?.filter((item) => isTomorrow(new Date(item.date))),
           ],
           [
             "this week",
-            futureEventsWithDistance?.filter((item) =>
-              isThisWeek(new Date(item.date))
-            ),
+            allEvents?.filter((item) => isThisWeek(new Date(item.date))),
           ],
           [
             "this month",
-            futureEventsWithDistance?.filter((item) =>
-              isThisMonth(new Date(item.date))
-            ),
+            allEvents?.filter((item) => isThisMonth(new Date(item.date))),
           ],
         ],
       },
@@ -363,39 +341,24 @@ export const DataProvider = ({ children }) => {
         categories: [
           [
             "music",
-            futureEventsWithDistance?.filter((item) =>
-              item.categories.includes("music")
-            ),
+            allEvents?.filter((item) => item.categories.includes("music")),
           ],
           [
             "sports",
-            futureEventsWithDistance?.filter((item) =>
-              item.categories.includes("sports")
-            ),
+            allEvents?.filter((item) => item.categories.includes("sports")),
           ],
           [
             "nightlife",
-            futureEventsWithDistance?.filter((item) =>
-              item.categories.includes("nightlife")
-            ),
+            allEvents?.filter((item) => item.categories.includes("nightlife")),
           ],
           [
             "food",
-            futureEventsWithDistance?.filter((item) =>
-              item.categories.includes("food")
-            ),
+            allEvents?.filter((item) => item.categories.includes("food")),
           ],
-          [
-            "art",
-            futureEventsWithDistance?.filter((item) =>
-              item.categories.includes("art")
-            ),
-          ],
+          ["art", allEvents?.filter((item) => item.categories.includes("art"))],
           [
             "other",
-            futureEventsWithDistance?.filter((item) =>
-              item.categories.includes("other")
-            ),
+            allEvents?.filter((item) => item.categories.includes("other")),
           ],
         ],
       },
@@ -454,18 +417,18 @@ export const DataProvider = ({ children }) => {
         }
         //if user has no filter applied
       } else {
-        tempEvents = futureEventsWithDistance;
+        tempEvents = allEvents;
       }
     });
+
+    console.log();
 
     //remove duplicates
     const onlyUnique = (value, index, self) => {
       return self.indexOf(value) === index;
     };
 
-    const unique = tempEvents?.filter(onlyUnique);
-
-    const sortedEvents = unique?.sort(function (a, b) {
+    const unique = tempEvents?.filter(onlyUnique).sort(function (a, b) {
       return new Date(b.date) - new Date(a.date);
     });
 
@@ -481,25 +444,18 @@ export const DataProvider = ({ children }) => {
       }
       return unseenEvents;
     };
-    const unseenSorted = removeSeen(sortedEvents);
+    const unseenSorted = removeSeen(unique);
 
-    const filterByDistance = (events) => {
-      let eventsWithinDistance = events?.filter(
-        (event) => event.distance < maxDistance
-      );
-      return eventsWithinDistance;
-    };
+    // const eventsWithinDistance = filterByDistance(unseenSorted);
+    // setFilteredEvents(eventsWithinDistance);
 
-    const eventsWithinDistance = filterByDistance(unseenSorted);
-    setFilteredEvents(eventsWithinDistance);
-  }, [futureEventsWithDistance, activeCategories, dateFilter, maxDistance]);
+    setFilteredEvents(unseenSorted);
+  }, [allEvents, activeCategories, dateFilter, maxDistance]);
 
   return (
     <DataContext.Provider
       value={{
         getEvents,
-        activeCardIndex,
-        setActiveCardIndex,
         userLocation,
         setUserLocation,
         categoryItems,
@@ -507,10 +463,10 @@ export const DataProvider = ({ children }) => {
         setActiveCategories,
         filteredEvents,
         setFilteredEvents,
+        futureEventsWithDistance,
         dateFilters,
         dateFilter,
         setDateFilter,
-        futureEvents,
         maxDistance,
         setMaxDistance,
         isMapsLoaded,

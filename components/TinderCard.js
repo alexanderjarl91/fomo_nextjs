@@ -186,6 +186,7 @@ const TinderCard = React.forwardRef(
 
     const handleSwipeReleased = React.useCallback(
       async (element, speed) => {
+        console.log("handleSwipeReleased was called");
         if (swipeAlreadyReleased.current) {
           return;
         }
@@ -238,7 +239,6 @@ const TinderCard = React.forwardRef(
 
       element.current.addEventListener("touchstart", (ev) => {
         // ev.preventDefault()
-        console.log("touchstart");
         handleSwipeStart();
         offset = {
           x: -touchCoordinatesFromEvent(ev).x,
