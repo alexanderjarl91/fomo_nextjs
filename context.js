@@ -161,7 +161,7 @@ export const DataProvider = ({ children }) => {
   const [allEvents, setAllEvents] = useState();
   const [futureEvents, setFutureEvents] = useState(); // events that are today or later
   const [userData, setUserData] = useState();
-  const [refreshData, setRefreshData] = useState(false);
+  // const [refreshData, setRefreshData] = useState(false);
   const [activeCardIndex, setActiveCardIndex] = useState(); //index of event thats shown
   const [filteredEvents, setFilteredEvents] = useState(); //events after filtering (rendered)
   const [userLocation, setUserLocation] = useState(); //users current location
@@ -220,9 +220,8 @@ export const DataProvider = ({ children }) => {
       .collection("users")
       .doc(fire.auth().currentUser.email)
       .update({ seen: [] });
-    setRefreshData(!refreshData);
     getEvents();
-    setActiveCardIndex(filteredEvents.length - 1);
+    // setActiveCardIndex(filteredEvents.length - 1);
     console.log("seen has been cleared");
   };
 
@@ -517,7 +516,6 @@ export const DataProvider = ({ children }) => {
         isMapsLoaded,
         clearSeen,
         userData,
-        refreshData,
         maxRange,
       }}
     >

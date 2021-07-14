@@ -65,38 +65,45 @@ function EventCards() {
 
   //handle swipe
   const handleSwipe = async (dir, index) => {
-    console.log("handle swipe called");
+    console.log("start index", index);
+    console.log("start swipe");
+    const currentEventId = filteredEvents[index].eventId;
+    console.log(currentEventId);
     //set card to seen
-    const saveToSeen = async () => {
+    const saveToSeen = async (index) => {
       if (!fire.auth().currentUser) return;
+
       console.log("saving to seen...");
       //get swiped cards event
-      const currentEventId = filteredEvents[index].eventId;
+
       //get authenticated user
       const userRef = await fire
         .firestore()
         .collection("users")
         .doc(fire.auth().currentUser.email);
 
-      //get auth users data
+      // //get auth users data
       const doc = await userRef.get();
-      let tempSeen = [];
-      if (!doc.exists) return;
+      let tempSeen = doc.data().seen;
+
+      // if (!doc.exists) return;
 
       //create a copy of users events array
       if (doc.data().seen) {
         tempSeen = doc.data().seen;
       }
       //prevent duplicates
-      if (tempSeen.includes(currentEventId)) return;
+      if (tempSeen.includes(currentEventId)) {
+        console.log("found duplicate");
+        return;
+      }
       //push new events ID to copy of array
       tempSeen.push(currentEventId);
       //post new array to database
       userRef.update({ seen: tempSeen });
     };
-    saveToSeen();
+    saveToSeen(index);
 
-    setActiveCardIndex(index - 1);
     //save event if swiped right
     if (dir == "right") {
       //animate
@@ -105,8 +112,11 @@ function EventCards() {
       cardNotifications.forEach((item) => (item.style.display = "none"));
       cardNotification.style.display = "block";
       const activeCard = filteredEvents[index];
-      await saveToInterested(activeCard);
+      saveToInterested(activeCard);
     }
+    setActiveCardIndex(index - 1);
+    console.log("index", index);
+    console.log("end swipe");
   };
 
   const saveToInterested = async (activeCard) => {
@@ -231,7 +241,9 @@ function EventCards() {
                       ref={cardRefs[index]}
                       preventSwipe={["up", "down"]}
                       onSwipe={(dir) => handleSwipe(dir, index)}
-                      onClick={() => goToEvent(index)}
+                      onClick={() => {
+                        goToEvent(index);
+                      }}
                     >
                       <div
                         id={`card-${index}`}
