@@ -247,6 +247,7 @@ export const DataProvider = ({ children }) => {
 
   ////GET EVENTS AND FILTER ONLY ACTIVE, FUTURE & UNSEEN EVENTS (if user is logged in)
   const getEvents = async () => {
+    console.log("GETTING CARDS!!!");
     const cardsRef = fire.firestore().collection("events");
     const snapshot = await cardsRef.get();
     let tempEvents = [];
@@ -254,14 +255,8 @@ export const DataProvider = ({ children }) => {
       tempEvents = [...tempEvents, doc.data()];
     });
     setAllEvents(tempEvents);
-
     return tempEvents;
   };
-
-  //get events on mount
-  useEffect(() => {
-    getEvents();
-  }, []);
 
   const removeUnwantedEvents = () => {
     //filter only events where event.date > current date
@@ -282,7 +277,7 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     console.log("removing unwanted..");
     removeUnwantedEvents(futureEvents);
-  }, [userData, allEvents]);
+  }, [allEvents]);
 
   const [futureEventsWithDistance, setFutureEventsWithDistance] = useState();
   //APPEND DISTANCE TO ALL EVENTS
@@ -328,7 +323,6 @@ export const DataProvider = ({ children }) => {
       });
     }
   };
-
   //append distance to events
   useEffect(() => {
     appendDistance(futureEvents);
@@ -471,7 +465,34 @@ export const DataProvider = ({ children }) => {
     };
 
     const unique = tempEvents?.filter(onlyUnique);
-    setFilteredEvents(unique);
+
+    const sortedEvents = unique?.sort(function (a, b) {
+      return new Date(b.date) - new Date(a.date);
+    });
+
+    const removeSeen = (array) => {
+      if (!userData) return;
+      let unseenEvents = [];
+      const seenEvents = userData.seen;
+
+      if (fire.auth().currentUser && userData) {
+        unseenEvents = array?.filter(
+          (item) => !seenEvents.includes(item.eventId)
+        );
+      }
+      return unseenEvents;
+    };
+    const unseenSorted = removeSeen(sortedEvents);
+
+    const filterByDistance = (events) => {
+      let eventsWithinDistance = events?.filter(
+        (event) => event.distance < maxDistance
+      );
+      return eventsWithinDistance;
+    };
+
+    const eventsWithinDistance = filterByDistance(unseenSorted);
+    setFilteredEvents(eventsWithinDistance);
   }, [futureEventsWithDistance, activeCategories, dateFilter, maxDistance]);
 
   return (
