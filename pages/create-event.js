@@ -159,7 +159,6 @@ export default function maptester() {
       errors.descriptionError =
         "Your description must be at least 20 characters";
     }
-
     //category validation
     if (categories.length == 0) {
       errors.categoriesError = "You must select at least 1 category";
@@ -182,6 +181,10 @@ export default function maptester() {
     // action url validation
     if (!event.url) {
       errors.urlError = "You must have add link to your events page";
+    }
+
+    if (!event.image) {
+      //handle validation
     }
 
     const isValidUrl = (url) => {
@@ -209,14 +212,14 @@ export default function maptester() {
     console.log(errors);
   };
 
-  const [imageFile, setImageFile] = useState()
-  const [imageURL, setImageURL] = useState()
+  const [imageFile, setImageFile] = useState();
+  const [imageURL, setImageURL] = useState();
 
   const uploadImage = async () => {
-    const storageRef = fire.storage().ref(`/${event.title}/${imageFile.name}`)
+    const storageRef = fire.storage().ref(`/${event.title}/${imageFile.name}`);
 
-    const uploadTask = storageRef.put(imageFile)
-    
+    const uploadTask = storageRef.put(imageFile);
+
     uploadTask.on(
       "state_changed",
       (snapshot) => {},
@@ -224,27 +227,25 @@ export default function maptester() {
         console.log(error);
       },
       () => {
-        fire.storage()
+        fire
+          .storage()
           .ref(`/${event.title}/`)
-           .child(imageFile.name)
+          .child(imageFile.name)
           .getDownloadURL()
           .then((url) => {
             console.log("url:", url);
             const tempEvent = { ...event };
-                tempEvent.image = url
-                setEvent(tempEvent);
-           
+            tempEvent.image = url;
+            setEvent(tempEvent);
           });
       }
     );
-  
   };
-  
 
-  useEffect(()=> {
-    console.log('img:', imageFile)
-    console.log('', imageURL)
-  }, [imageFile, imageURL])
+  useEffect(() => {
+    if (!imageFile) return;
+    uploadImage();
+  }, [imageFile]);
 
   return (
     <div className={styles.container}>
@@ -494,18 +495,14 @@ export default function maptester() {
               designing a portrait rendition for best outcome
             </p>
             <input
-            id="img"
-            className={styles.add_file}
-            type="file"
-            accept="image/*"
-            onChange={(e)=>{
-              setImageFile(e.target.files[0])
-            }}
-
+              id="img"
+              className={styles.add_file}
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                setImageFile(e.target.files[0]);
+              }}
             />
-        <button onClick={()=> {
-          uploadImage()
-        }}>UPLOAD</button>
           </div>
 
           <div>

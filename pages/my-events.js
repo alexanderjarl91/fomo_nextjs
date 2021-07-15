@@ -34,10 +34,10 @@ export default function myEvents() {
     });
   };
 
-  // useEffect(() => {
-  //   if (!fire.auth().currentUser) return;
-  //   getEvents();
-  // }, [userData]);
+  useEffect(() => {
+    if (!fire.auth().currentUser) return;
+    getEvents();
+  }, [userData]);
 
   return (
     <>

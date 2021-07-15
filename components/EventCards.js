@@ -51,7 +51,11 @@ function EventCards() {
   };
 
   useEffect(() => {
-    setRenderedEvents(removeSeen(futureEventsWithDistance));
+    if (fire.auth().currentUser) {
+      setRenderedEvents(removeSeen(futureEventsWithDistance));
+      return;
+    }
+    setRenderedEvents(futureEventsWithDistance);
   }, [userData, futureEventsWithDistance]);
 
   useEffect(() => {
@@ -167,10 +171,6 @@ function EventCards() {
     setCardRefs(renderedEvents?.map(() => createRef()));
   }, [renderedEvents]);
 
-  useEffect(() => {
-    console.log("cardRefs", cardRefs);
-  }, [cardRefs]);
-
   //go to event dynamic page
   const goToEvent = (index) => {
     const activeCard = filteredEvents[index];
@@ -196,6 +196,10 @@ function EventCards() {
     //   lastCardDOM.style.transform = "";
     // }
   };
+
+  useEffect(() => {
+    console.log(`renderedEvents`, renderedEvents);
+  }, [renderedEvents]);
 
   return (
     <div className={styles.container}>
