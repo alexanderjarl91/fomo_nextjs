@@ -30,9 +30,23 @@ function EventCards() {
     getEvents();
   }, []);
 
+  const removeSeen = (array) => {
+    console.log("REMOVING SEEN");
+    if (!userData) return;
+    let unseenEvents = [];
+    const seenEvents = userData.seen;
+
+    if (fire.auth().currentUser && userData) {
+      unseenEvents = array?.filter(
+        (item) => !seenEvents.includes(item.eventId)
+      );
+    }
+    return unseenEvents;
+  };
+
   useEffect(() => {
-    setRenderedEvents(filteredEvents);
-  }, [filteredEvents]);
+    setRenderedEvents(removeSeen(futureEventsWithDistance));
+  }, [userData, futureEventsWithDistance]);
 
   useEffect(() => {
     console.log("renderedEvents", renderedEvents);
@@ -70,8 +84,6 @@ function EventCards() {
   const handleSwipe = async (dir, index) => {
     console.log("index from swipe", index);
     const currentEventId = filteredEvents[index].eventId;
-    console.log(currentEventTitle);
-    return;
 
     //set card to seen
     const saveToSeen = async () => {
@@ -153,9 +165,6 @@ function EventCards() {
 
   //go to event dynamic page
   const goToEvent = (index) => {
-    console.log("index", index);
-    console.log("filtered events:", filteredEvents);
-
     // const activeCard = filteredEvents[index];
     // router.push(`/events/${activeCard.eventId}`);
   };
@@ -180,7 +189,6 @@ function EventCards() {
     // }
   };
 
-  const renderedEvents2 = filteredEvents;
   console.log(filteredEvents, "filtered");
   return (
     <div className={styles.container}>
@@ -237,7 +245,7 @@ function EventCards() {
               <>
                 <>
                   {/* RENDER CARDS */}
-                  {futureEventsWithDistance?.map((card, index) => (
+                  {renderedEvents?.map((card, index) => (
                     <TinderCard
                       className={cx({ [styles.swipe]: true })}
                       key={index}
