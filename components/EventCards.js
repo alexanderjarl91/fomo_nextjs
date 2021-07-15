@@ -26,10 +26,11 @@ function EventCards() {
   const [showAnimation, setShowAnimation] = useState(false);
   const [activeCardIndex, setActiveCardIndex] = useState();
 
-  useEffect(() => {
-    if (!renderedEvents) return;
-    setActiveCardIndex(renderedEvents.length - 1);
-  }, [renderedEvents]);
+  // useEffect(() => {
+  //   if (!renderedEvents) return;
+  //   setActiveCardIndex(renderedEvents.length - 1);
+  //   console.log("setActiveCard was triggered from useeffect");
+  // }, [renderedEvents]);
 
   //get events on mount
   useEffect(() => {
@@ -51,8 +52,10 @@ function EventCards() {
   };
 
   useEffect(() => {
-    if (fire.auth().currentUser) {
-      setRenderedEvents(removeSeen(futureEventsWithDistance));
+    if (fire.auth().currentUser && futureEventsWithDistance) {
+      const eventsWithoutSeen = removeSeen(futureEventsWithDistance);
+      setActiveCardIndex(eventsWithoutSeen.length - 1);
+      setRenderedEvents(eventsWithoutSeen);
       return;
     }
     setRenderedEvents(futureEventsWithDistance);
@@ -178,23 +181,7 @@ function EventCards() {
   };
 
   const reshuffleCards = async () => {
-    // if (!filteredEvents || filteredEvents.length == 0) {
-    //   console.log("cant bring back any cards, all are seen");
-    //   return;
-    // }
     await clearSeen();
-
-    // for (let index = 0; index < filteredEvents.length; index++) {
-    //   const lastCardDOM = document.querySelector(
-    //     `#card-${index}`
-    //   ).parentElement;
-
-    //   console.log(lastCardDOM);
-    //   lastCardDOM.style.visibility = "visible";
-    //   lastCardDOM.style.opacity = 1;
-    //   lastCardDOM.style.transition = "";
-    //   lastCardDOM.style.transform = "";
-    // }
   };
 
   useEffect(() => {
@@ -226,8 +213,8 @@ function EventCards() {
 
             {/* IF USER IS LOGGED IN & HAS SWIPED ALL CARDS */}
             {(userLocation && fire.auth().currentUser) ||
-            (userLocation && fire.auth().currentUser && !filteredEvents) ||
-            filteredEvents?.length == 0 ? (
+            (userLocation && fire.auth().currentUser && !renderedEvents) ||
+            renderedEvents?.length == 0 ? (
               <div className={styles.noCards__container}>
                 <p>
                   No more events in your area.. change your filter or swipe
@@ -240,7 +227,7 @@ function EventCards() {
             ) : null}
 
             {/* IF USER IS NOT LOGGED IN AND HAS SWIPED ALL CARDS */}
-            {!fire.auth().currentUser ? (
+            {userLocation && !fire.auth().currentUser ? (
               <div className={styles.noCards__container}>
                 <p>
                   Sign in with Google or Facebook to discover more events around

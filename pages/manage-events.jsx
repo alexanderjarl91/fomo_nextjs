@@ -52,9 +52,12 @@ export default function manageevents() {
     }
 
     useEffect(()=> {
-        if (!fire.auth().currentUser || fire.auth().currentUser.email !== 'alexanderjarl91@gmail.com') {
-            router.push('/')
-        }
+        setTimeout(()=> {
+            if (!fire.auth().currentUser || fire.auth().currentUser.email !== 'alexanderjarl91@gmail.com') {
+                router.push('/')
+            }
+
+        }, 1000)
     }, [])
 
     return (
@@ -64,6 +67,8 @@ export default function manageevents() {
             
             <h1>Manage events</h1>
 
+            {pendingEvents.length == 0 && <p>no more events to review :)</p>}
+            
             {pendingEvents?.map((event) => (
                 <div key={event.eventId} className={styles.event}>
                     <h3>{event.title}</h3>
@@ -113,12 +118,12 @@ export default function manageevents() {
                         <p>{event.description}</p>
                     </div>
                     
-                    <div className={styles.buttonContainer} style={{display: 'flex'}}>
+                    <div className={styles.buttonContainer} style={{display: 'flex', color: 'white'}}>
                         <button onClick={()=> {
                             declineEvent(event.title)
                         }}>DECLINE</button>
 
-                        <button style={{backgroundColor: '#71FD9B'}} onClick={()=> {
+                        <button style={{backgroundColor: '#30C974', color: 'white'}} onClick={()=> {
                             approveEvent(event.title)
                         }}>APPROVE</button>
                         </div>
@@ -126,8 +131,8 @@ export default function manageevents() {
                     </div>
 
             ))}
+            
             </>
-
             : null}
         </div>
     )

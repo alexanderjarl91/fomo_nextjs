@@ -10,7 +10,7 @@ export default function Layout({ children }) {
   const { showMenu, setShowMenu, showFilter } = useContext(UsersContext);
 
   return (
-    <div>
+    <div style={{ overflow: "hidden !important", height: "100%" }}>
       <Sidebar
         sidebar={<Menu showMenu={showMenu} setShowMenu={setShowMenu} />}
         open={showMenu}
@@ -21,9 +21,17 @@ export default function Layout({ children }) {
           sidebar: {
             transition: "transform 0.3s ease-out",
             WebkitTransition: "-webkit-transform 0.3s ease-out",
+            overflow: "hidden",
+            width: "100%;",
           },
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.8)",
+            overflow: "hidden",
+            width: "100%;",
+          },
+          content: {
+            overflow: "hidden",
+            width: "100%",
           },
         }}
       >
