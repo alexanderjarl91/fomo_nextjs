@@ -56,7 +56,7 @@ function EventCards() {
       return;
     }
     setRenderedEvents(futureEventsWithDistance);
-  }, [userData, futureEventsWithDistance]);
+  }, [futureEventsWithDistance]);
 
   useEffect(() => {
     console.log(`activeCardIndex`, activeCardIndex);
@@ -199,7 +199,7 @@ function EventCards() {
 
   useEffect(() => {
     console.log(`renderedEvents`, renderedEvents);
-  }, [renderedEvents]);
+  }, [renderedEvents, userData]);
 
   return (
     <div className={styles.container}>
