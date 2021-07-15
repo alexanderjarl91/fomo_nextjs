@@ -253,13 +253,8 @@ export const DataProvider = ({ children }) => {
     let approvedFutureEvents = allFutureEvents?.filter(
       (event) => event.status === "approved"
     );
-    console.log(
-      "🚀 ~ file: context.js ~ line 256 ~ getEvents ~ approvedFutureEvents",
-      approvedFutureEvents
-    );
 
     setAllEvents(approvedFutureEvents);
-    // return tempEvents;
   };
 
   const [futureEventsWithDistance, setFutureEventsWithDistance] = useState();
@@ -269,56 +264,75 @@ export const DataProvider = ({ children }) => {
     if (userLocation?.code) return; //return if userLocation has error code
     if (userLocation) {
       let tempDistanceArr = [];
-      eventsArr?.map((event, i) => {
-        const eventLocation = event.location.coordinates;
-        //origin is the users current location
-        let origin = new google.maps.LatLng(
-          userLocation?.latitude,
-          userLocation?.longitude
-        );
-        // let origin = new google.maps.LatLng(65.681356, -18.089589);
-        //convert event location to a google object
-        let destination = new google.maps.LatLng(
-          eventLocation.lat,
-          eventLocation.lng
-        );
-
-        var service = new google.maps.DistanceMatrixService();
-
-        //get distance from origin to destination with driving as travel mode
-        service.getDistanceMatrix(
-          {
-            origins: [origin],
-            destinations: [destination],
-            travelMode: "DRIVING",
-          },
-
-          callback
-        );
-        //append distance to each event
-        function callback(response, status) {
-          const eventDistance =
-            response?.rows[0].elements[0].distance?.value / 1000;
-          event.distance = eventDistance;
-          tempDistanceArr = [...tempDistanceArr, event];
-
-          console.log("TEMP DIST", tempDistanceArr);
-          setFutureEventsWithDistance(
-            tempDistanceArr.filter((event) => event.distance < maxDistance)
+      if (eventsArr.length > 0) {
+        eventsArr.map((event, i) => {
+          const eventLocation = event.location.coordinates;
+          //origin is the users current location
+          let origin = new google.maps.LatLng(
+            userLocation?.latitude,
+            userLocation?.longitude
           );
-        }
-      });
+          // let origin = new google.maps.LatLng(65.681356, -18.089589);
+          //convert event location to a google object
+          let destination = new google.maps.LatLng(
+            eventLocation.lat,
+            eventLocation.lng
+          );
+
+          var service = new google.maps.DistanceMatrixService();
+
+          //get distance from origin to destination with driving as travel mode
+          service.getDistanceMatrix(
+            {
+              origins: [origin],
+              destinations: [destination],
+              travelMode: "DRIVING",
+            },
+
+            callback
+          );
+          //append distance to each event
+          function callback(response, status) {
+            const eventDistance =
+              response?.rows[0].elements[0].distance?.value / 1000;
+            event.distance = eventDistance;
+            tempDistanceArr = [...tempDistanceArr, event];
+
+            console.log("TEMP DIST", tempDistanceArr);
+            console.log(
+              "🚀 ~ file: context.js ~ line 301 ~ callback ~ tempDistanceArr",
+              tempDistanceArr
+            );
+
+            setFutureEventsWithDistance(
+              tempDistanceArr
+                .filter((event) => event.distance < maxDistance)
+                .sort(function (a, b) {
+                  console.log("SORTING EVENTS");
+                  return new Date(b.date) - new Date(a.date);
+                })
+            );
+          }
+        });
+      } else {
+        setFutureEventsWithDistance();
+      }
     }
   };
   //append distance to events
   useEffect(() => {
+    console.log(
+      "🚀 ~ file: context.js ~ line 315 ~ useEffect ~ filteredEvents",
+      filteredEvents
+    );
+
     appendDistance(filteredEvents);
   }, [filteredEvents, userLocation]);
 
   //USER FILTER EVENT
   useEffect(() => {
     let tempEvents = [];
-    console.log(allEvents);
+    console.log(allEvents, "allEvents");
     const filter = [
       {
         dates: [
@@ -391,6 +405,10 @@ export const DataProvider = ({ children }) => {
         //if user only has a category filters applied
       } else if (activeCategories.length > 0) {
         let tempCategories = [];
+        console.log(
+          "🚀 ~ file: context.js ~ line 371 ~ _.map ~ activeCategories",
+          activeCategories
+        );
         if (key == 1) {
           activeCategories.map((flag, i) => {
             val["categories"].map((item) => {
@@ -400,6 +418,11 @@ export const DataProvider = ({ children }) => {
             });
           });
           tempEvents = tempCategories;
+
+          console.log(
+            "🚀 ~ file: context.js ~ line 403 ~ _.map ~ tempEvents",
+            tempEvents
+          );
         }
       }
       //if user only has a date filter applied
@@ -421,18 +444,17 @@ export const DataProvider = ({ children }) => {
       }
     });
 
-    console.log();
-
     //remove duplicates
     const onlyUnique = (value, index, self) => {
       return self.indexOf(value) === index;
     };
-
     const unique = tempEvents?.filter(onlyUnique).sort(function (a, b) {
+      console.log("SORTING EVENTS");
       return new Date(b.date) - new Date(a.date);
     });
 
     const removeSeen = (array) => {
+      console.log("REMOVING SEEN");
       if (!userData) return;
       let unseenEvents = [];
       const seenEvents = userData.seen;
@@ -445,12 +467,16 @@ export const DataProvider = ({ children }) => {
       return unseenEvents;
     };
     const unseenSorted = removeSeen(unique);
+    console.log(
+      "🚀 ~ file: context.js ~ line 456 ~ useEffect ~ unseenSorted",
+      unseenSorted
+    );
 
     // const eventsWithinDistance = filterByDistance(unseenSorted);
     // setFilteredEvents(eventsWithinDistance);
 
     setFilteredEvents(unseenSorted);
-  }, [allEvents, activeCategories, dateFilter, maxDistance]);
+  }, [allEvents, userData, activeCategories, dateFilter, maxDistance]);
 
   return (
     <DataContext.Provider

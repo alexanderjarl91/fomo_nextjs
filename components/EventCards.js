@@ -69,7 +69,7 @@ function EventCards() {
   //handle swipe
   const handleSwipe = async (dir, index) => {
     console.log("index from swipe", index);
-    const currentEventTitle = filteredEvents[index].title;
+    const currentEventId = filteredEvents[index].eventId;
     console.log(currentEventTitle);
     return;
 
