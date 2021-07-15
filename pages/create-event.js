@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from "uuid";
 
 //components
 import PlacesInput from "../components/PlacesInput";
-import { storage } from "firebase-admin";
 
 export default function maptester() {
   //context data
@@ -210,6 +209,43 @@ export default function maptester() {
     console.log(errors);
   };
 
+  const [imageFile, setImageFile] = useState()
+  const [imageURL, setImageURL] = useState()
+
+  const uploadImage = async () => {
+    const storageRef = fire.storage().ref(`/${event.title}/${imageFile.name}`)
+
+    const uploadTask = storageRef.put(imageFile)
+    
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {},
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        fire.storage()
+          .ref(`/${event.title}/`)
+           .child(imageFile.name)
+          .getDownloadURL()
+          .then((url) => {
+            console.log("url:", url);
+            const tempEvent = { ...event };
+                tempEvent.image = url
+                setEvent(tempEvent);
+           
+          });
+      }
+    );
+  
+  };
+  
+
+  useEffect(()=> {
+    console.log('img:', imageFile)
+    console.log('', imageURL)
+  }, [imageFile, imageURL])
+
   return (
     <div className={styles.container}>
       <div className={styles.createEvent__container}>
@@ -271,7 +307,7 @@ export default function maptester() {
                 setCurrentInput={setCurrentInput}
                 currentInput={currentInput}
               />
-              {/* error message */}
+
               {formErrors?.locationError ? (
                 <p className={styles.error}>{formErrors.locationError}</p>
               ) : null}
@@ -458,14 +494,18 @@ export default function maptester() {
               designing a portrait rendition for best outcome
             </p>
             <input
-              type="text"
-              placeholder="A link to your image.."
-              onChange={(e) => {
-                const tempEvent = { ...event };
-                tempEvent.image = e.target.value;
-                setEvent(tempEvent);
-              }}
+            id="img"
+            className={styles.add_file}
+            type="file"
+            accept="image/*"
+            onChange={(e)=>{
+              setImageFile(e.target.files[0])
+            }}
+
             />
+        <button onClick={()=> {
+          uploadImage()
+        }}>UPLOAD</button>
           </div>
 
           <div>
