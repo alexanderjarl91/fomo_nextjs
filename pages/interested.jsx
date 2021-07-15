@@ -40,9 +40,9 @@ export default function interested() {
     });
   };
 
-  // useEffect(() => {
-  //   getEvents();
-  // }, [fire.auth().currentUser]);
+  useEffect(() => {
+    getEvents();
+  }, [fire.auth().currentUser]);
 
   //get users interested array and set to cards state
   useEffect(() => {

@@ -6,9 +6,14 @@ import fire from "../firebase";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 
-export default function Buttons({ handleLike, showAnimation }) {
-  const { activeCardIndex, setActiveCardIndex, filteredEvents } =
-    useContext(DataContext);
+export default function Buttons({
+  handleLike,
+  showAnimation,
+  activeCardIndex,
+  setActiveCardIndex,
+  renderedEvents,
+}) {
+  const { filteredEvents } = useContext(DataContext);
   const { setShowFilter, showFilter } = useContext(UsersContext);
 
   const heartRef = useRef(null);
@@ -24,8 +29,13 @@ export default function Buttons({ handleLike, showAnimation }) {
   const handleLastCard = async () => {
     //if first card, cancel function
 
-    console.log(activeCardIndex, filteredEvents.length);
-    if (activeCardIndex === filteredEvents.length - 1) return;
+    console.log(activeCardIndex, renderedEvents.length, filteredEvents.length);
+
+    // if (activeCardIndex + 1 === filteredEvents.length) {
+    //   console.log("you are on first card");
+    //   return;
+    // }
+
     //save event if swiped right
     const lastCardIndex = activeCardIndex + 1;
     setActiveCardIndex(activeCardIndex + 1);

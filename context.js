@@ -264,7 +264,7 @@ export const DataProvider = ({ children }) => {
     if (userLocation?.code) return; //return if userLocation has error code
     if (userLocation) {
       let tempDistanceArr = [];
-      if (eventsArr.length > 0) {
+      if (eventsArr?.length > 0) {
         eventsArr.map((event, i) => {
           const eventLocation = event.location.coordinates;
           //origin is the users current location
@@ -298,12 +298,6 @@ export const DataProvider = ({ children }) => {
             event.distance = eventDistance;
             tempDistanceArr = [...tempDistanceArr, event];
 
-            console.log("TEMP DIST", tempDistanceArr);
-            console.log(
-              "🚀 ~ file: context.js ~ line 301 ~ callback ~ tempDistanceArr",
-              tempDistanceArr
-            );
-
             setFutureEventsWithDistance(
               tempDistanceArr
                 .filter((event) => event.distance < maxDistance)
@@ -321,11 +315,6 @@ export const DataProvider = ({ children }) => {
   };
   //append distance to events
   useEffect(() => {
-    console.log(
-      "🚀 ~ file: context.js ~ line 315 ~ useEffect ~ filteredEvents",
-      filteredEvents
-    );
-
     appendDistance(filteredEvents);
   }, [filteredEvents, userLocation]);
 
@@ -453,30 +442,10 @@ export const DataProvider = ({ children }) => {
       return new Date(b.date) - new Date(a.date);
     });
 
-    const removeSeen = (array) => {
-      console.log("REMOVING SEEN");
-      if (!userData) return;
-      let unseenEvents = [];
-      const seenEvents = userData.seen;
+    // const unseenSorted = removeSeen(unique);
 
-      if (fire.auth().currentUser && userData) {
-        unseenEvents = array?.filter(
-          (item) => !seenEvents.includes(item.eventId)
-        );
-      }
-      return unseenEvents;
-    };
-    const unseenSorted = removeSeen(unique);
-    console.log(
-      "🚀 ~ file: context.js ~ line 456 ~ useEffect ~ unseenSorted",
-      unseenSorted
-    );
-
-    // const eventsWithinDistance = filterByDistance(unseenSorted);
-    // setFilteredEvents(eventsWithinDistance);
-
-    setFilteredEvents(unseenSorted);
-  }, [allEvents, userData, activeCategories, dateFilter, maxDistance]);
+    setFilteredEvents(unique);
+  }, [allEvents, activeCategories, dateFilter, maxDistance]);
 
   return (
     <DataContext.Provider

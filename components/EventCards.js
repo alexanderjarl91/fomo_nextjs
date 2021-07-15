@@ -24,6 +24,12 @@ function EventCards() {
   const [renderedEvents, setRenderedEvents] = useState();
   const [cardRefs, setCardRefs] = useState([]);
   const [showAnimation, setShowAnimation] = useState(false);
+  const [activeCardIndex, setActiveCardIndex] = useState();
+
+  useEffect(() => {
+    if (!renderedEvents) return;
+    setActiveCardIndex(renderedEvents.length - 1);
+  }, [renderedEvents]);
 
   //get events on mount
   useEffect(() => {
@@ -49,8 +55,8 @@ function EventCards() {
   }, [userData, futureEventsWithDistance]);
 
   useEffect(() => {
-    console.log("renderedEvents", renderedEvents);
-  }, [renderedEvents]);
+    console.log(`activeCardIndex`, activeCardIndex);
+  }, [activeCardIndex]);
 
   // get user location function
   const getUserLocation = () => {
@@ -76,7 +82,6 @@ function EventCards() {
 
   //handle function when like button is clicked
   const handleLike = (index) => {
-    //throw card to the right
     cardRefs[index].current.swipe("right");
   };
 
@@ -125,11 +130,10 @@ function EventCards() {
       const cardNotification = document.getElementById(`animate-${index}`);
       cardNotifications.forEach((item) => (item.style.display = "none"));
       cardNotification.style.display = "block";
-      const activeCard = filteredEvents[index];
+      const activeCard = renderedEvents[index];
       await saveToInterested(activeCard);
     }
-
-    console.log("index", index);
+    setActiveCardIndex(activeCardIndex - 1);
   };
 
   const saveToInterested = async (activeCard) => {
@@ -159,14 +163,18 @@ function EventCards() {
 
   //create an array of references for each event card whenever filteredEvents array updates
   useEffect(() => {
-    if (!filteredEvents) return;
-    setCardRefs(filteredEvents?.map(() => createRef(null)));
-  }, [filteredEvents]);
+    if (!renderedEvents) return;
+    setCardRefs(renderedEvents?.map(() => createRef()));
+  }, [renderedEvents]);
+
+  useEffect(() => {
+    console.log("cardRefs", cardRefs);
+  }, [cardRefs]);
 
   //go to event dynamic page
   const goToEvent = (index) => {
-    // const activeCard = filteredEvents[index];
-    // router.push(`/events/${activeCard.eventId}`);
+    const activeCard = filteredEvents[index];
+    router.push(`/events/${activeCard.eventId}`);
   };
 
   const reshuffleCards = async () => {
@@ -189,7 +197,6 @@ function EventCards() {
     // }
   };
 
-  console.log(filteredEvents, "filtered");
   return (
     <div className={styles.container}>
       <div className={styles.cards__container}>
@@ -389,8 +396,11 @@ function EventCards() {
       {/* SHOW BUTTONS WHEN USER LOCATION IS FOUND */}
       {userLocation?.latitude ? (
         <Buttons
-          handleLike={() => handleLike(index)}
+          handleLike={() => handleLike(activeCardIndex)}
           showAnimation={showAnimation}
+          activeCardIndex={activeCardIndex}
+          setActiveCardIndex={setActiveCardIndex}
+          renderedEvents={renderedEvents}
         />
       ) : null}
     </div>

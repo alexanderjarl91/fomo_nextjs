@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 
 //components
 import PlacesInput from "../components/PlacesInput";
+import { storage } from "firebase-admin";
 
 export default function maptester() {
   //context data
@@ -114,72 +115,74 @@ export default function maptester() {
 
   const validateForm = () => {
     //resetFormErrors state
-    setFormErrors({})
-    const errors = {}
+    setFormErrors({});
+    const errors = {};
 
     //title validation
     if (!event.title) {
-      errors.titleError = "Event must have a title"
+      errors.titleError = "Event must have a title";
     }
 
-    if (event?.title?.length < 3 || event?.title?.length > 15 ) {
+    if (event?.title?.length < 3 || event?.title?.length > 15) {
       errors.titleError = "Title length must be between 3 and 15 characters";
     }
 
     //promoter validation
     if (!event.promoter || event.promoter.length == 0) {
-      errors.promoterError = "Event must have a promoter"
+      errors.promoterError = "Event must have a promoter";
     }
 
     if (event?.promoter?.length < 3) {
-      errors.promoterError = "Promoter name must be atleast 3 characters"
+      errors.promoterError = "Promoter name must be atleast 3 characters";
     }
 
     //location validation
     if (!address) {
-      errors.locationError = "You must select a location for your event"
+      errors.locationError = "You must select a location for your event";
     }
 
     //date validation
     if (!event.date) {
-      errors.dateError = "Your event needs a date"
+      errors.dateError = "Your event needs a date";
     }
 
     //time validation
     if (!event.time) {
-      errors.timeError = "You must set a starting time for your event"
+      errors.timeError = "You must set a starting time for your event";
     }
 
     //description validation
     if (!event.description) {
-      errors.descriptionError = "You must have a description of your event"
+      errors.descriptionError = "You must have a description of your event";
     }
 
     if (event.description && event.description.length < 20) {
-      errors.descriptionError = "Your description must be at least 20 characters"
+      errors.descriptionError =
+        "Your description must be at least 20 characters";
     }
 
     //category validation
     if (categories.length == 0) {
-      errors.categoriesError = "You must select at least 1 category"
+      errors.categoriesError = "You must select at least 1 category";
     }
 
     if (categories.length > 2) {
-      errors.categoriesError = "You can only select 2 categories at most"
+      errors.categoriesError = "You can only select 2 categories at most";
     }
 
     //action button text validation
     if (!event.actionButton) {
-      errors.actionButtonError = "You must have an action button"
+      errors.actionButtonError = "You must have an action button";
     }
 
     if (event?.actionButton?.length < 3 || event?.actionButton?.length > 8) {
-      errors.actionButtonError = "Your action button text must be between 3 and 8 characters"
+      errors.actionButtonError =
+        "Your action button text must be between 3 and 8 characters";
     }
 
     // action url validation
     if (!event.url) {
-      errors.urlError = "You must have add link to your events page"
+      errors.urlError = "You must have add link to your events page";
     }
 
     const isValidUrl = (url) => {
@@ -193,18 +196,18 @@ export default function maptester() {
     };
 
     if (!isValidUrl(event.url)) {
-      errors.urlError = "URL is wrong format, make sure to have https:// in front of your domain"
+      errors.urlError =
+        "URL is wrong format, make sure to have https:// in front of your domain";
     }
     //
-    setFormErrors(errors)
-  
+    setFormErrors(errors);
+
     //IF NO ERRORS, POST EVENT
     if (Object.keys(errors).length === 0) {
-      
-      postEvent()
+      postEvent();
     }
 
-    console.log(errors)
+    console.log(errors);
   };
 
   return (
@@ -233,7 +236,9 @@ export default function maptester() {
               onChange={(e) => setEvent({ ...event, title: e.target.value })}
             />
             {/* error message */}
-            {formErrors?.titleError? <p className={styles.error}>{formErrors.titleError}</p> : null}
+            {formErrors?.titleError ? (
+              <p className={styles.error}>{formErrors.titleError}</p>
+            ) : null}
           </div>
 
           <div>
@@ -249,7 +254,9 @@ export default function maptester() {
               }}
             />
             {/* error message */}
-            {formErrors?.promoterError? <p className={styles.error}>{formErrors.promoterError}</p> : null}
+            {formErrors?.promoterError ? (
+              <p className={styles.error}>{formErrors.promoterError}</p>
+            ) : null}
           </div>
 
           {/* <div id="map" className={styles.map} ref={mapRef}></div> */}
@@ -265,7 +272,9 @@ export default function maptester() {
                 currentInput={currentInput}
               />
               {/* error message */}
-            {formErrors?.locationError? <p className={styles.error}>{formErrors.locationError}</p> : null}
+              {formErrors?.locationError ? (
+                <p className={styles.error}>{formErrors.locationError}</p>
+              ) : null}
             </div>
           )}
 
@@ -284,7 +293,9 @@ export default function maptester() {
               }}
             />
             {/* error message */}
-            {formErrors?.dateError? <p className={styles.error}>{formErrors.dateError}</p> : null}
+            {formErrors?.dateError ? (
+              <p className={styles.error}>{formErrors.dateError}</p>
+            ) : null}
           </div>
 
           <div>
@@ -302,7 +313,9 @@ export default function maptester() {
               }}
             />
             {/* error message */}
-            {formErrors?.timeError? <p className={styles.error}>{formErrors.timeError}</p> : null}
+            {formErrors?.timeError ? (
+              <p className={styles.error}>{formErrors.timeError}</p>
+            ) : null}
           </div>
 
           <div>
@@ -324,7 +337,6 @@ export default function maptester() {
                 }
               }}
             />
-            
           </div>
 
           <div>
@@ -340,7 +352,9 @@ export default function maptester() {
               }}
             />
             {/* error message */}
-            {formErrors?.descriptionError? <p className={styles.error}>{formErrors.descriptionError}</p> : null}
+            {formErrors?.descriptionError ? (
+              <p className={styles.error}>{formErrors.descriptionError}</p>
+            ) : null}
           </div>
 
           <div>
@@ -391,7 +405,9 @@ export default function maptester() {
               </li>
             </div>
             {/* error message */}
-            {formErrors?.categoriesError? <p className={styles.error}>{formErrors.categoriesError}</p> : null}
+            {formErrors?.categoriesError ? (
+              <p className={styles.error}>{formErrors.categoriesError}</p>
+            ) : null}
           </div>
           <div>
             <label htmlFor="">Action button text</label>
@@ -410,7 +426,9 @@ export default function maptester() {
               }}
             />
             {/* error message */}
-            {formErrors?.actionButtonError? <p className={styles.error}>{formErrors.actionButtonError}</p> : null}
+            {formErrors?.actionButtonError ? (
+              <p className={styles.error}>{formErrors.actionButtonError}</p>
+            ) : null}
           </div>
           <div>
             <label htmlFor="">Action button URL</label>
@@ -428,7 +446,9 @@ export default function maptester() {
               }}
             />
             {/* error message */}
-            {formErrors?.urlError? <p className={styles.error}>{formErrors.urlError}</p> : null}
+            {formErrors?.urlError ? (
+              <p className={styles.error}>{formErrors.urlError}</p>
+            ) : null}
           </div>
 
           <div>
@@ -484,20 +504,21 @@ export default function maptester() {
             note: events are not published until they have been accepted by an
             admin
           </p>
-          {Object.keys(formErrors).length > 0? <p className={styles.error}>Your event is missing some data, scroll up and fix the errors</p> : null}
+          {Object.keys(formErrors).length > 0 ? (
+            <p className={styles.error}>
+              Your event is missing some data, scroll up and fix the errors
+            </p>
+          ) : null}
 
           {isPosting ? (
-            <button
-              className={styles.post__button}
-             
-            >
+            <button className={styles.post__button}>
               <img style={{ height: "16px" }} src="/posting.gif" />
             </button>
           ) : (
             <button
               className={styles.post__button}
               onClick={() => {
-                validateForm()
+                validateForm();
               }}
             >
               POST EVENT

@@ -178,15 +178,15 @@ const TinderCard = React.forwardRef(
           );
         }
         // element.current.style.display = "none";
-        element.current.style.visibility = "hidden";
-        element.current.style.opacity = "0";
+        console.log("🚀 ~ file: TinderCard.js ~ line 209 ~ element", element);
+        // element.current.style.visibility = "hidden";
+        // element.current.style.opacity = "0";
         if (onCardLeftScreen) onCardLeftScreen(dir);
       },
     }));
 
     const handleSwipeReleased = React.useCallback(
       async (element, speed) => {
-        console.log("handleSwipeReleased was called");
         if (swipeAlreadyReleased.current) {
           return;
         }
@@ -205,6 +205,7 @@ const TinderCard = React.forwardRef(
             if (!preventSwipe.includes(dir)) {
               await animateOut(element, speed);
               // element.style.display = "none";
+
               element.style.visibility = "hidden";
               element.style.opacity = "0";
 
