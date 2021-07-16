@@ -55,7 +55,7 @@ function EventCards() {
   useEffect(() => {
     if (fire.auth().currentUser && futureEventsWithDistance) {
       const eventsWithoutSeen = removeSeen(futureEventsWithDistance);
-      setActiveCardIndex(eventsWithoutSeen.length - 1);
+      setActiveCardIndex(eventsWithoutSeen?.length - 1);
       setRenderedEvents(eventsWithoutSeen);
       return;
     }
