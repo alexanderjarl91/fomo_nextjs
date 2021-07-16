@@ -114,7 +114,7 @@ const Menu = () => {
                 alt=""
               />
               <p>
-                Sign up to see more events and use all of the fomo features or
+                Sign in to see more events and use all of the fomo features or
                 promote your own event!
               </p>
               <button
@@ -122,17 +122,10 @@ const Menu = () => {
                   routeTo("signup");
                 }}
               >
-                Sign up
+                Sign in
               </button>
 
-              <p>
-                {" "}
-                or{" "}
-                <strong>
-                  <button>sign in</button>
-                </strong>{" "}
-                with an existing Google account
-              </p>
+              <p> with an existing Google or Facebook account</p>
             </div>
           )}
 

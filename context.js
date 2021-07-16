@@ -15,7 +15,7 @@ import fire, {
   google_provider,
   getAuth,
   signInWithPopup,
-  FacebookAuthProvider,
+  fb_provider,
 } from "./firebase";
 import _, { map } from "underscore";
 import { resolveHref } from "next/dist/next-server/lib/router/router";
@@ -92,11 +92,25 @@ export const UsersProvider = ({ children }) => {
       });
   };
 
-  // const provider = new FacebookAuthProvider();
-  // provider.addScope("user_birthday");
-  // provider.setCustomParameters({
-  //   display: "popup",
-  // });
+  const signInWithFacebook = () => {
+    fire
+      .auth()
+      .signInWithPopup(fb_provider)
+      .then((result) => {
+        var credential = result.credential;
+        var user = result.user;
+        var accessToken = credential.accessToken;
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+      });
+  };
 
   // const signInWithFacebook = () => {
   //   const provider = new FacebookAuthProvider();
@@ -144,6 +158,7 @@ export const UsersProvider = ({ children }) => {
         user,
         userData,
         signInWithGoogle,
+        signInWithFacebook,
         signOut,
         showMenu,
         setShowMenu,

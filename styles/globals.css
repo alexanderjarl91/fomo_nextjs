@@ -39,6 +39,9 @@ input,
 li {
   all: unset;
 }
+input[type="file"] {
+  display: none;
+}
 
 /* width */
 ::-webkit-scrollbar {
@@ -52,11 +55,6 @@ li {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #3b454d;
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 20px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: black;
 }

@@ -6,7 +6,7 @@ import styles from "../styles/Signup.module.css";
 
 export default function signup({}) {
   const router = useRouter();
-  const { signInWithGoogle } = useContext(UsersContext);
+  const { signInWithGoogle, signInWithFacebook } = useContext(UsersContext);
 
   //route restriction - if user is logged in, redirect to index
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function signup({}) {
           Sign in with either your Google or Facebook account to discover more
           events and features!
         </p>
-        
+
         <button
           onClick={() => {
             signInWithGoogle();
@@ -58,7 +58,7 @@ export default function signup({}) {
             justifyContent: "flex-start",
           }}
           onClick={() => {
-            // signInWithFacebook();
+            signInWithFacebook();
           }}
         >
           <img

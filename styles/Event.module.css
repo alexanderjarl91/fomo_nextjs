@@ -74,6 +74,7 @@
   max-height: 220px;
   height: 360px;
   overflow: auto;
+  padding-right: 10px;
 }
 
 .footer__btns {
