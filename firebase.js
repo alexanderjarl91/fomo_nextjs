@@ -25,5 +25,6 @@ export const analytics = firebase.analytics;
 
 export const google_provider = new firebase.auth.GoogleAuthProvider();
 export const fb_provider = new firebase.auth.FacebookAuthProvider();
+facebookProvider.addScope("email");
 
 export default fire;
