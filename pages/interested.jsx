@@ -71,7 +71,10 @@ export default function interested() {
   }, [showMenu]);
 
   return (
-    <div className={styles.interested__container}>
+    <div
+      className={styles.interested__container}
+      style={{ overflow: "hidden", overflowY: "scroll", height: "100%" }}
+    >
       {/* PAGE CONTENT */}
       <div className={styles.cards}>
         <h3>Interested</h3>
@@ -80,26 +83,27 @@ export default function interested() {
             {cards.map((card) => (
               <Link href={`events/${card.eventId}`}>
                 <div className={styles.card}>
-
                   <div className={styles.card__content}>
                     <div className={styles.img__container}>
                       <img src={card.image} alt="" />
                     </div>
                     <div className={styles.info}>
-                      <h1>{card?.title?.length > 3 && card.title.substr(0, 12).concat('...') }</h1>
+                      <h1>
+                        {card?.title?.length > 3 &&
+                          card.title.substr(0, 12).concat("...")}
+                      </h1>
                       <p>{card?.location?.name}</p>
-                      <p>{new Date(card.date)
-                        .toDateString()
-                        .substr(
-                          0,
-                          new Date(card.date).toDateString().length - 5
-                        )}, {card.time} </p>
-
+                      <p>
+                        {new Date(card.date)
+                          .toDateString()
+                          .substr(
+                            0,
+                            new Date(card.date).toDateString().length - 5
+                          )}
+                        , {card.time}{" "}
+                      </p>
                     </div>
-
                   </div>
-
-
                 </div>
               </Link>
             ))}
