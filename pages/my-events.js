@@ -41,8 +41,8 @@ export default function myEvents() {
 
   return (
     <>
-      <h2 className={styles.headline}>Your events</h2>
       <div className={styles.container}>
+        <h2 className={styles.headline}>Your events</h2>
         {events.reverse().map((event) => (
           <div className={styles.event__container} key={event.eventId}>
             <div>
@@ -50,11 +50,11 @@ export default function myEvents() {
               <p>duration: x days</p>
             </div>
 
-            <p>Live from x. may until x. may</p>
-            <p># of interested: XX</p>
+            <p>Live from x. may until y. may</p>
+
             <hr className={styles.line} />
             <div className={styles.bottom}>
-              <p>FREE</p>
+              <p>FREE OF CHARGE (beta)</p>
               {event.status == "pending" && (
                 <span className={styles.pending}>PENDING</span>
               )}

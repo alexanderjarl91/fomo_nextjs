@@ -25,7 +25,6 @@ function EventCards() {
   const [cardRefs, setCardRefs] = useState([]);
   const [showAnimation, setShowAnimation] = useState(false);
   const [activeCardIndex, setActiveCardIndex] = useState();
-
   // useEffect(() => {
   //   if (!renderedEvents) return;
   //   setActiveCardIndex(renderedEvents.length - 1);
@@ -35,7 +34,9 @@ function EventCards() {
   //get events on mount
   useEffect(() => {
     getEvents();
+    fire.analytics().logEvent('notification_received');
   }, []);
+
 
   const removeSeen = (array) => {
     console.log("REMOVING SEEN");
@@ -141,6 +142,8 @@ function EventCards() {
       await saveToInterested(activeCard);
     }
     setActiveCardIndex(activeCardIndex - 1);
+
+    fire.analytics().logEvent("swipe");
   };
 
   const saveToInterested = async (activeCard) => {
@@ -284,9 +287,10 @@ function EventCards() {
                           <div className={styles.location__container}>
                             <img src="/location_pin.svg" alt="" />
                             <p>
-                              {card.location?.name}, {card.distance} km{" "}
+                              {card.location?.name}
                             </p>
                           </div>
+                            <p className={styles.card__distance}>{Math.round(card.distance * 100) /100 } km away</p>
 
                           <div className={styles.date__container}>
                             <img src="/date.svg" alt="" />

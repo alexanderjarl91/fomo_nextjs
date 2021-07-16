@@ -47,19 +47,19 @@
 /* CARD DATA */
 .card__front > h3 {
   position: absolute;
-  bottom: 80px;
+  bottom: 100px;
   left: 20px;
   font-weight: 600;
   font-size: 28px;
   line-height: 35px;
-  max-width: 260px;
+  max-width: 90%;
 }
 
 .location__container {
   font-size: 18px;
   position: absolute;
   display: flex;
-  bottom: 50px;
+  bottom: 70px;
   left: 18px;
   align-items: center;
 }
@@ -73,7 +73,7 @@
   font-size: 18px;
   position: absolute;
   display: flex;
-  bottom: 20px;
+  bottom: 40px;
   left: 18px;
   align-items: center;
 }
@@ -83,12 +83,19 @@
   height: 20px;
 }
 
+.card__distance {
+  position: absolute;
+  left: calc(50% - 40px);
+  bottom: 12px;
+  opacity: 0.6;
+  font-weight: 500;
+}
 .card__heart {
   position: absolute;
   display: flex;
   justify-content: flex-end;
   width: 30px;
-  bottom: 20px;
+  bottom: 40px;
   right: 20px;
   opacity: 0.8;
 }

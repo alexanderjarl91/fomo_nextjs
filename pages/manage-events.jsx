@@ -67,7 +67,7 @@ export default function manageevents() {
             
             <h1>Manage events</h1>
 
-            {pendingEvents.length == 0 && <p>no more events to review :)</p>}
+            {pendingEvents?.length == 0 && <p>no more events to review :)</p>}
             
             {pendingEvents?.map((event) => (
                 <div key={event.eventId} className={styles.event}>

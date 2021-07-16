@@ -1,16 +1,19 @@
-.headline {
+/* .headline {
   margin-top: 6rem;
   margin-left: 38px;
-}
+} */
 .container {
   display: grid;
   grid-template-columns: 1fr;
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto;
+  margin-top: 6rem;
 }
 
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
 @media (min-width: 1200px) {
   .container {
-    margin-left: 320px;
     grid-template-columns: 1fr;
   }
   .container > h2 {
@@ -27,16 +30,11 @@
   }
 }
 
-.container > h2 {
-  margin-left: 20px;
-}
-
 .event__container {
   background-color: white;
   padding: 20px;
   color: #161618;
-  width: 80%;
-  max-width: 600px;
+  width: 100%;
   margin: 0 auto;
   margin-top: 1rem;
   border-radius: 12px;

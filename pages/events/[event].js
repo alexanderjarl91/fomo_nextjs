@@ -120,7 +120,8 @@ export default function Event() {
 
   const customStyles = {
     overlay: {
-      backgroundColor: "rgba(255,255,255,0.8)",
+      // backgroundColor: "rgba(255,255,255,0.8)",
+      backgroundColor: "rgba(0,0,0,0.8)",
     },
     content: {
       top: "50%",
