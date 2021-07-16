@@ -23,11 +23,7 @@ export default function profile() {
           <h1>{fire.auth().currentUser.displayName}</h1>
           {!userData ? null : (
             <>
-              {userData && userData.promoter == true ? (
-                <h2>Promoter</h2>
-              ) : (
-                <h2>Festival lover</h2>
-              )}
+              {userData && userData.promoter == true ? <h2>Promoter</h2> : null}
             </>
           )}
           <p>Reykjavík, Iceland</p>
@@ -41,7 +37,7 @@ export default function profile() {
           router.push("/");
         }}
       >
-        LOG OUT
+        Sign out
       </button>
     </div>
   );

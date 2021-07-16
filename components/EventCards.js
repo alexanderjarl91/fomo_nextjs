@@ -34,9 +34,8 @@ function EventCards() {
   //get events on mount
   useEffect(() => {
     getEvents();
-    fire.analytics().logEvent('notification_received');
+    fire.analytics().logEvent("notification_received");
   }, []);
-
 
   const removeSeen = (array) => {
     console.log("REMOVING SEEN");
@@ -286,11 +285,11 @@ function EventCards() {
                           <h3>{card.title}</h3>
                           <div className={styles.location__container}>
                             <img src="/location_pin.svg" alt="" />
-                            <p>
-                              {card.location?.name}
-                            </p>
+                            <p>{card.location?.name}</p>
                           </div>
-                            <p className={styles.card__distance}>{Math.round(card.distance * 100) /100 } km away</p>
+                          <p className={styles.card__distance}>
+                            {Math.round(card.distance * 100) / 100} km away
+                          </p>
 
                           <div className={styles.date__container}>
                             <img src="/date.svg" alt="" />
@@ -322,65 +321,71 @@ function EventCards() {
                 {/* RENDER 3 CARDS IF USER IS NOT LOGGED IN */}
                 {userLocation && (
                   <>
-                    {renderedEvents?.slice(0, 3).map((card, index) => (
-                      <TinderCard
-                        className={cx(
-                          { [styles.swipe]: true }
-                          // { [styles.animateOut]: showAnimation }
-                        )}
-                        key={card.title}
-                        ref={cardRefs[index]}
-                        preventSwipe={["up", "down"]}
-                        onSwipe={(dir) => handleSwipe(dir, index)}
-                        onClick={() => goToEvent(index)}
-                      >
-                        <div
-                          id={`card-${index}`}
-                          className={cx({ [styles.card]: true })}
+                    {renderedEvents
+                      ?.slice(Math.max(renderedEvents.length - 3, 0))
+                      .map((card, index) => (
+                        <TinderCard
+                          className={cx(
+                            { [styles.swipe]: true }
+                            // { [styles.animateOut]: showAnimation }
+                          )}
+                          key={card.title}
+                          ref={cardRefs[index]}
+                          preventSwipe={["up", "down"]}
+                          onSwipe={(dir) => handleSwipe(dir, index)}
+                          onClick={() => goToEvent(index)}
                         >
                           <div
-                            className={styles.card__front}
-                            style={{
-                              backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
-                            }}
+                            id={`card-${index}`}
+                            className={cx({ [styles.card]: true })}
                           >
-                            <img
-                              src="heart_fill.svg"
-                              id={`animate-${index}`}
-                              className="cardAnimate"
+                            <div
+                              className={styles.card__front}
                               style={{
-                                display: "none",
-                                position: "absolute",
-                                top: "20%",
-                                left: "30%",
-                                marginLeft: "-2rem",
-                                width: "250px",
-                                opacity: "0.8",
+                                backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
                               }}
-                            />
+                            >
+                              <img
+                                src="heart_fill.svg"
+                                id={`animate-${index}`}
+                                className="cardAnimate"
+                                style={{
+                                  display: "none",
+                                  position: "absolute",
+                                  top: "20%",
+                                  left: "30%",
+                                  marginLeft: "-2rem",
+                                  width: "250px",
+                                  opacity: "0.8",
+                                }}
+                              />
 
-                            <div className={styles.gradient}></div>
-                            <h3>{card.title}</h3>
-                            <div className={styles.location__container}>
-                              <img src="/location_pin.svg" alt="" />
-                              <p>{card.location?.name}</p>
-                            </div>
-                            <div className={styles.date__container}>
-                              <img src="/date.svg" alt="" />
-                              <p>
-                                {new Date(card.date)
-                                  .toDateString()
-                                  .substr(
-                                    0,
-                                    new Date(card.date).toDateString().length -
-                                      5
-                                  )}
+                              <div className={styles.gradient}></div>
+                              <h3>{card.title}</h3>
+                              <div className={styles.location__container}>
+                                <img src="/location_pin.svg" alt="" />
+                                <p>{card.location?.name}</p>
+                              </div>
+                              <p className={styles.card__distance}>
+                                {Math.round(card.distance * 100) / 100} km away
                               </p>
+
+                              <div className={styles.date__container}>
+                                <img src="/date.svg" alt="" />
+                                <p>
+                                  {new Date(card.date)
+                                    .toDateString()
+                                    .substr(
+                                      0,
+                                      new Date(card.date).toDateString()
+                                        .length - 5
+                                    )}
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </TinderCard>
-                    ))}
+                        </TinderCard>
+                      ))}
                   </>
                 )}
               </>

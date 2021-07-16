@@ -82,9 +82,11 @@ export default function interested() {
                 <div className={styles.card}>
 
                   <div className={styles.card__content}>
-                    <img src={card.image} alt="" />
+                    <div className={styles.img__container}>
+                      <img src={card.image} alt="" />
+                    </div>
                     <div className={styles.info}>
-                      <h1>{card.title}</h1>
+                      <h1>{card?.title?.length > 3 && card.title.substr(0, 12).concat('...') }</h1>
                       <p>{card?.location?.name}</p>
                       <p>{new Date(card.date)
                         .toDateString()

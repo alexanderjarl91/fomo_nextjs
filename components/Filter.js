@@ -157,7 +157,14 @@ export default function Filter() {
             />
           </div>
           <p className={styles.tinyText}>
-            showing x events happening today within {maxDistance} km
+            showing {activeCategories.length === 0 && "all"}{" "}
+            {activeCategories.length == 1 && activeCategories[0]}{" "}
+            {activeCategories.length > 1 &&
+              activeCategories.map((category) => `${category}, `)}
+            events happening {dateFilter.length === 0 && "anytime"}
+            {dateFilter.length > 0 &&
+              dateFilter.map((date) => `${date}, `)}{" "}
+            within {maxDistance} km
           </p>
         </div>
       </div>
