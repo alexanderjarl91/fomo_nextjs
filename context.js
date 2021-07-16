@@ -93,10 +93,12 @@ export const UsersProvider = ({ children }) => {
   };
 
   const signInWithFacebook = () => {
+    console.log("loggin in with fb");
     fire
       .auth()
       .signInWithPopup(fb_provider)
       .then((result) => {
+        console.log("result:", result);
         var credential = result.credential;
         var user = result.user;
         var accessToken = credential.accessToken;
@@ -109,7 +111,23 @@ export const UsersProvider = ({ children }) => {
         var email = error.email;
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
-      });
+        console.log(error);
+      }); // CREATE USER DATA IN FIRESTORE
+    // .then(async () => {
+    //   const data = {
+    //     name: fire.auth().currentUser.displayName,
+    //     email: fire.auth().currentUser.email,
+    //     // promoter: false,
+    //     avatar: fire.auth().currentUser.photoURL,
+    //     uid: fire.auth().currentUser.uid,
+    //     seen: [],
+    //   };
+    //   await fire
+    //     .firestore()
+    //     .collection("users")
+    //     .doc(fire.auth().currentUser.email)
+    //     .set(data, { merge: true });
+    // });
   };
 
   // const signInWithFacebook = () => {
