@@ -31,7 +31,7 @@ export const UsersProvider = ({ children }) => {
   const [userData, setUserData] = useState();
 
   // keeps `user` up to date
-  // useEffect(() => fire.auth().onAuthStateChanged(setUser), []);
+  useEffect(() => fire.auth().onAuthStateChanged(setUser), []);
 
   // keeps `userData` up to date
   useEffect(() => {
