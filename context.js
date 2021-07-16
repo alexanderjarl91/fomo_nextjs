@@ -98,7 +98,16 @@ export const UsersProvider = ({ children }) => {
       .auth()
       .signInWithPopup(fb_provider)
       .then((result) => {
-        console.log("result:", result);
+        console.log("result:", result.user);
+        console.log("result:", result.user);
+        console.log("result:", result.user);
+        console.log("result:", result.user);
+        console.log("result:", result.user);
+        console.log("result:", result.user);
+        console.log("result:", result.user);
+        console.log("result:", result.user);
+        console.log("result:", result.user);
+
         var credential = result.credential;
         var user = result.user;
         var accessToken = credential.accessToken;
