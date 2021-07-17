@@ -92,7 +92,7 @@ const Menu = () => {
                       >
                         <BsCardChecklist />
                         <p>Manage events</p>
-                        {pendingEvents && pendingEvents.length > 0 && (
+                        {pendingEvents && pendingEvents?.length > 0 && (
                           <span className={styles.notification}></span>
                         )}
                       </li>
