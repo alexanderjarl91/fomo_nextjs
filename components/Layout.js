@@ -32,6 +32,8 @@ export default function Layout({ children }) {
           content: {
             overflow: "hidden",
             width: "100%",
+
+            height: "100%",
           },
         }}
       >
