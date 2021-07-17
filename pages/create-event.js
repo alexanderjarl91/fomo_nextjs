@@ -248,7 +248,10 @@ export default function maptester() {
   }, [imageFile]);
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      style={{ overflow: "hidden", overflowY: "scroll", height: "100%" }}
+    >
       <div className={styles.createEvent__container}>
         {/* PAGE CONTENT */}
         <h2>Create Event</h2>
