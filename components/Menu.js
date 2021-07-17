@@ -2,13 +2,15 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import styles from "../styles/Menu.module.css";
 import fire from "../firebase";
 import { useRouter } from "next/router";
-import { UsersContext } from "../context";
+import { UsersContext, DataContext } from "../context";
 import OutsideClickHandler from "react-outside-click-handler";
 import { BsCardChecklist } from "react-icons/bs";
 const Menu = () => {
+  const { allEvents } = useContext(DataContext);
   const { userData, showMenu, setShowMenu } = useContext(UsersContext);
   const router = useRouter();
 
+  console.log(allEvents);
   // Route to X parameter function
   const routeTo = (route) => {
     router.push(`/${route}`);
@@ -88,6 +90,7 @@ const Menu = () => {
                       >
                         <BsCardChecklist />
                         <p>Manage events</p>
+                        <span className={styles.notification}></span>
                       </li>
                     )}
 

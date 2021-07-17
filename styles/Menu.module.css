@@ -3,7 +3,7 @@
   width: 280px;
 
   overflow: hidden;
-  z-index: 99;
+  z-index: 10000;
   max-height: 100vh;
 }
 
@@ -193,4 +193,13 @@
     display: flex;
     position: fixed;
   }
+}
+
+.notification {
+  height: 6px;
+  width: 6px;
+  background-color: #de6a7c;
+  border-radius: 6px;
+  margin-left: 3px;
+  margin-bottom: 16px;
 }

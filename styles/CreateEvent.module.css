@@ -134,6 +134,7 @@
 
 .map__container {
   margin-bottom: 2rem;
+  z-index: 0;
 }
 
 .preview {

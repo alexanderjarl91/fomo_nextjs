@@ -122,8 +122,8 @@ export default function maptester() {
       errors.titleError = "Event must have a title";
     }
 
-    if (event?.title?.length < 3 || event?.title?.length > 15) {
-      errors.titleError = "Title length must be between 3 and 15 characters";
+    if (event?.title?.length < 3 || event?.title?.length > 35) {
+      errors.titleError = "Title length must be between 3 and 35 characters";
     }
 
     //promoter validation
@@ -173,9 +173,9 @@ export default function maptester() {
       errors.actionButtonError = "You must have an action button";
     }
 
-    if (event?.actionButton?.length < 3 || event?.actionButton?.length > 8) {
+    if (event?.actionButton?.length < 3 || event?.actionButton?.length > 15) {
       errors.actionButtonError =
-        "Your action button text must be between 3 and 8 characters";
+        "Your action button text must be between 3 and 15 characters";
     }
 
     // action url validation

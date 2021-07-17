@@ -489,6 +489,10 @@ export const DataProvider = ({ children }) => {
     setFilteredEvents(unique);
   }, [allEvents, activeCategories, dateFilter, maxDistance]);
 
+  useEffect(() => {
+    getEvents();
+  }, []);
+
   return (
     <DataContext.Provider
       value={{

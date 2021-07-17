@@ -39,9 +39,9 @@ input,
 li {
   all: unset;
 }
-input[type="file"] {
+/* input[type="file"] {
   display: none;
-}
+} */
 
 /* width */
 ::-webkit-scrollbar {
