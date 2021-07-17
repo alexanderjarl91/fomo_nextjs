@@ -6,11 +6,13 @@ import { UsersContext, DataContext } from "../context";
 import OutsideClickHandler from "react-outside-click-handler";
 import { BsCardChecklist } from "react-icons/bs";
 const Menu = () => {
-  const { allEvents } = useContext(DataContext);
+  const { pendingEvents } = useContext(DataContext);
   const { userData, showMenu, setShowMenu } = useContext(UsersContext);
   const router = useRouter();
 
-  console.log(allEvents);
+  useEffect(() => {
+    console.log("pending", pendingEvents);
+  }, [pendingEvents]);
   // Route to X parameter function
   const routeTo = (route) => {
     router.push(`/${route}`);
@@ -90,7 +92,9 @@ const Menu = () => {
                       >
                         <BsCardChecklist />
                         <p>Manage events</p>
-                        <span className={styles.notification}></span>
+                        {pendingEvents && pendingEvents.length > 0 && (
+                          <span className={styles.notification}></span>
+                        )}
                       </li>
                     )}
 

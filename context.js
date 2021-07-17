@@ -203,7 +203,7 @@ export const DataProvider = ({ children }) => {
   const [allEvents, setAllEvents] = useState();
   const [userData, setUserData] = useState();
   // const [refreshData, setRefreshData] = useState(false);
-
+  const [pendingEvents, setPendingEvents] = useState();
   const [filteredEvents, setFilteredEvents] = useState(); //events after filtering (rendered)
   const [userLocation, setUserLocation] = useState(); //users current location
   const [maxDistance, setMaxDistance] = useState(8000); //max distance set in filter
@@ -292,12 +292,22 @@ export const DataProvider = ({ children }) => {
     const allFutureEvents = tempEvents?.filter(
       (item) => !isBefore(new Date(item.date), endOfYesterday())
     );
+
+    let pending = allFutureEvents?.filter(
+      (event) => event.status === "pending"
+    );
+    setPendingEvents(pending);
+
     let approvedFutureEvents = allFutureEvents?.filter(
       (event) => event.status === "approved"
     );
 
     setAllEvents(approvedFutureEvents);
   };
+
+  useEffect(() => {
+    getEvents();
+  }, []);
 
   const [futureEventsWithDistance, setFutureEventsWithDistance] = useState();
   //APPEND DISTANCE TO ALL EVENTS
@@ -514,6 +524,7 @@ export const DataProvider = ({ children }) => {
         clearSeen,
         userData,
         maxRange,
+        pendingEvents,
       }}
     >
       {children}
