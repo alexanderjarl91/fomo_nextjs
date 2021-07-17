@@ -111,9 +111,11 @@ export default function Buttons({
           </div>
         )}
         {fire.auth().currentUser ? (
+          <>
           <div onClick={handleShowFilter} className={styles.event__button}>
             <img src="/filter_icon.svg" alt="" />
           </div>
+          </>
         ) : (
           <div
             onClick={() => {
@@ -125,6 +127,8 @@ export default function Buttons({
           </div>
         )}
       </div>
+      {/* <div className={styles.activeFilter}></div> */}
+
     </div>
   );
 }

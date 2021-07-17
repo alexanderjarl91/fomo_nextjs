@@ -34,7 +34,6 @@ function EventCards() {
   //get events on mount
   useEffect(() => {
     getEvents();
-    fire.analytics().logEvent("notification_received");
   }, []);
 
   const removeSeen = (array) => {

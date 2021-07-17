@@ -114,3 +114,11 @@
   transform: translate(0px, 0px) !important;
   transition: visibility 1s, opacity 1s, transform 0.3s linear !important;
 }
+
+.activeFilter {
+  position: absolute;
+  right: 20px;
+  background-color: green;
+  height: 5px;
+  width: 5px;
+}
