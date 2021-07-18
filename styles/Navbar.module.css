@@ -3,6 +3,7 @@
   justify-content: space-between;
   align-items: center;
   position: fixed;
+  backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   color: white;
   padding-top: 2rem;
@@ -10,8 +11,8 @@
   max-width: 500px;
   left: 50%;
   transform: translateX(-50%);
-  /* background: #0e0e0e; */
 }
+
 .navbar__container > img {
   cursor: pointer;
   user-select: none;
