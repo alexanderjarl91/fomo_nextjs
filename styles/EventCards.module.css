@@ -149,7 +149,7 @@
 .gradient {
   position: absolute;
   bottom: 0;
-  height: 450px;
+  height: 400px;
   width: 100%;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0), #000000 80%);
   border-radius: 0px 0px 16px 16px;
