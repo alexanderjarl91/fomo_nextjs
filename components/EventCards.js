@@ -200,6 +200,13 @@ function EventCards() {
               Please enable your browsers or device location services to view
               events around you.
             </p>
+            <button onClick={()=> {
+
+              navigator.permissions.query({name:'geolocation'}).then((result) => {
+                console.log(result)
+              })
+
+            }}>Enable Location</button>
           </div>
         ) : (
           <>

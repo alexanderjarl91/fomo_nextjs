@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 
-import { UsersContext, DataContext } from "../context";
+import { UsersContext } from "../context";
 import Sidebar from "react-sidebar";
 import Navbar from "./Navbar";
 import Menu from "./Menu";
 
 export default function Layout({ children }) {
   //context data
-  const { showMenu, setShowMenu, showFilter } = useContext(UsersContext);
+  const { showMenu, setShowMenu } = useContext(UsersContext);
 
   return (
     <div style={{ overflow: "hidden !important", height: "100%" }}>
@@ -16,7 +16,6 @@ export default function Layout({ children }) {
         open={showMenu}
         onSetOpen={(e) => setShowMenu(true)}
         transitions={true}
-        // dragToggleDistance={20}
         styles={{
           sidebar: {
             transition: "transform 0.3s ease-out",
@@ -32,7 +31,6 @@ export default function Layout({ children }) {
           content: {
             overflow: "hidden",
             width: "100%",
-
             height: "100%",
           },
         }}
