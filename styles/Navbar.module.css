@@ -2,11 +2,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
+  position: fixed;
+  -webkit-backface-visibility: hidden;
   color: white;
   padding-top: 2rem;
   width: 80vw;
-
   max-width: 500px;
   left: 50%;
   transform: translateX(-50%);
