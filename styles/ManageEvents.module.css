@@ -1,8 +1,14 @@
+.body {
+  overflow: "hidden";
+  overflow-y: "scroll";
+  height: 100%;
+}
 .container {
   margin: 0 auto;
   margin-top: 6rem;
   width: 80%;
   max-width: 500px;
+  height: 100% !important;
 }
 
 @media (min-width: 1200px) {

@@ -61,7 +61,7 @@ export default function manageevents() {
     }, [])
 
     return (
-        <div style={{ overflow: "hidden", overflowY: "scroll", height: "100%" }}>
+        <div className={styles.body} style={{ overflow: "hidden", overflowY: "scroll", height: "100%" }}>
 
         <div className={styles.container} >
             {fire.auth().currentUser?.email == "alexanderjarl91@gmail.com"? <>

@@ -31,10 +31,10 @@ export default function Buttons({
 
     console.log(activeCardIndex, renderedEvents.length, filteredEvents.length);
 
-    // if (activeCardIndex + 1 === filteredEvents.length) {
-    //   console.log("you are on first card");
-    //   return;
-    // }
+    if (activeCardIndex + 1 === renderedEvents.length) {
+      console.log("you are on first card");
+      return;
+    }
 
     //save event if swiped right
     const lastCardIndex = activeCardIndex + 1;
@@ -112,9 +112,9 @@ export default function Buttons({
         )}
         {fire.auth().currentUser ? (
           <>
-          <div onClick={handleShowFilter} className={styles.event__button}>
-            <img src="/filter_icon.svg" alt="" />
-          </div>
+            <div onClick={handleShowFilter} className={styles.event__button}>
+              <img src="/filter_icon.svg" alt="" />
+            </div>
           </>
         ) : (
           <div
@@ -128,7 +128,6 @@ export default function Buttons({
         )}
       </div>
       {/* <div className={styles.activeFilter}></div> */}
-
     </div>
   );
 }

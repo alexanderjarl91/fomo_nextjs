@@ -200,13 +200,6 @@ function EventCards() {
               Please enable your browsers or device location services to view
               events around you.
             </p>
-            <button onClick={()=> {
-
-              navigator.permissions.query({name:'geolocation'}).then((result) => {
-                console.log(result)
-              })
-
-            }}>Enable Location</button>
           </div>
         ) : (
           <>
@@ -291,7 +284,11 @@ function EventCards() {
                           <h3>{card.title}</h3>
                           <div className={styles.location__container}>
                             <img src="/location_pin.svg" alt="" />
-                            <p>{card.location?.name}</p>
+                            <p>
+                              {card.location.name.length > 30
+                                ? `${card.location?.name.substring(0, 30)}..`
+                                : card.location.name}
+                            </p>
                           </div>
                           <p className={styles.card__distance}>
                             {Math.round(card.distance * 100) / 100} km away
@@ -306,7 +303,13 @@ function EventCards() {
                                   0,
                                   new Date(card.date).toDateString().length - 5
                                 )}
+                              , {card.time}
                             </p>
+                          </div>
+                          <div className={styles.categories__container}>
+                            {card.categories.map((category) => (
+                              <p>{category}</p>
+                            ))}
                           </div>
 
                           {userData?.interested?.includes(card.eventId) ? (
@@ -370,11 +373,37 @@ function EventCards() {
                               <h3>{card.title}</h3>
                               <div className={styles.location__container}>
                                 <img src="/location_pin.svg" alt="" />
-                                <p>{card.location?.name}</p>
+                                <p>
+                                  {card.location.name.length > 30
+                                    ? `${card.location?.name.substring(
+                                        0,
+                                        30
+                                      )}..`
+                                    : card.location.name}
+                                </p>
                               </div>
                               <p className={styles.card__distance}>
                                 {Math.round(card.distance * 100) / 100} km away
                               </p>
+
+                              <div className={styles.date__container}>
+                                <img src="/date.svg" alt="" />
+                                <p>
+                                  {new Date(card.date)
+                                    .toDateString()
+                                    .substr(
+                                      0,
+                                      new Date(card.date).toDateString()
+                                        .length - 5
+                                    )}
+                                  , {card.time}
+                                </p>
+                              </div>
+                              <div className={styles.categories__container}>
+                                {card.categories.map((category) => (
+                                  <p>{category}</p>
+                                ))}
+                              </div>
 
                               <div className={styles.date__container}>
                                 <img src="/date.svg" alt="" />
