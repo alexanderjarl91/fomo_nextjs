@@ -11,6 +11,7 @@
   max-width: 500px;
   left: 50%;
   transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .navbar__container > img {
