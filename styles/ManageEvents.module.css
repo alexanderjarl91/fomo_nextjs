@@ -1,8 +1,8 @@
-.body {
-  overflow: "hidden";
-  overflow-y: "scroll";
+/* .body {
+  overflow: hidden;
+  overflow-y: scroll;
   height: 100%;
-}
+} */
 .container {
   margin: 0 auto;
   margin-top: 6rem;
