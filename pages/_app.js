@@ -31,6 +31,11 @@ function MyApp({ Component, pageProps }) {
         <Head>
           <title>fomo.</title>
           <meta name="description" content="Events around you" />
+          <meta
+            name="viewport"
+            content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0,width=device-width"
+          />
+
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Layout>
