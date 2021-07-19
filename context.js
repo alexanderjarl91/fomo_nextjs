@@ -28,6 +28,7 @@ export const UsersProvider = ({ children }) => {
     // If a user is already logged in, use the current User object, or `undefined` otherwise.
     return fire.auth().currentUser || undefined;
   });
+
   const [userData, setUserData] = useState();
 
   // keeps `user` up to date
@@ -40,7 +41,7 @@ export const UsersProvider = ({ children }) => {
       return;
     }
 
-    if (!user) return;
+    if (!user || !fire.auth().currentUser) return;
 
     return fire // <-- return the unsubscribe function from onSnapshot
       .firestore()
@@ -72,14 +73,17 @@ export const UsersProvider = ({ children }) => {
         var email = error.email;
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
-        // ...
+        console.log("ERROR", error);
       })
       // CREATE USER DATA IN FIRESTORE
       .then(async () => {
+        console.log(
+          "running .then at line 80 - currentUser",
+          fire.auth().currentUser
+        );
         const data = {
           name: fire.auth().currentUser.displayName,
           email: fire.auth().currentUser.email,
-          // promoter: false,
           avatar: fire.auth().currentUser.photoURL,
           uid: fire.auth().currentUser.uid,
           seen: [],
@@ -93,78 +97,50 @@ export const UsersProvider = ({ children }) => {
   };
 
   const signInWithFacebook = () => {
-    console.log("loggin in with fb");
-    fire
-      .auth()
-      .signInWithPopup(fb_provider)
-      .then((result) => {
-        console.log("result:", result.user);
-        console.log("result:", result.user);
-        console.log("result:", result.user);
-        console.log("result:", result.user);
-        console.log("result:", result.user);
-        console.log("result:", result.user);
-        console.log("result:", result.user);
-        console.log("result:", result.user);
-        console.log("result:", result.user);
-
-        var credential = result.credential;
-        var user = result.user;
-        var accessToken = credential.accessToken;
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-        console.log(error);
-      }); // CREATE USER DATA IN FIRESTORE
-    // .then(async () => {
-    //   const data = {
-    //     name: fire.auth().currentUser.displayName,
-    //     email: fire.auth().currentUser.email,
-    //     // promoter: false,
-    //     avatar: fire.auth().currentUser.photoURL,
-    //     uid: fire.auth().currentUser.uid,
-    //     seen: [],
-    //   };
-    //   await fire
-    //     .firestore()
-    //     .collection("users")
-    //     .doc(fire.auth().currentUser.email)
-    //     .set(data, { merge: true });
-    // });
+    // console.log("loggin in with fb");
+    // fire
+    //   .auth()
+    //   .signInWithPopup(fb_provider)
+    //   .then((result) => {
+    //     console.log("result:", result.user);
+    //     console.log("result:", result.user);
+    //     console.log("result:", result.user);
+    //     console.log("result:", result.user);
+    //     console.log("result:", result.user);
+    //     console.log("result:", result.user);
+    //     console.log("result:", result.user);
+    //     console.log("result:", result.user);
+    //     console.log("result:", result.user);
+    //     var credential = result.credential;
+    //     var user = result.user;
+    //     var accessToken = credential.accessToken;
+    //   })
+    //   .catch((error) => {
+    //     // Handle Errors here.
+    //     var errorCode = error.code;
+    //     var errorMessage = error.message;
+    //     // The email of the user's account used.
+    //     var email = error.email;
+    //     // The firebase.auth.AuthCredential type that was used.
+    //     var credential = error.credential;
+    //     console.log(error);
+    //   }); // CREATE USER DATA IN FIRESTORE
+    // // .then(async () => {
+    // //   const data = {
+    // //     name: fire.auth().currentUser.displayName,
+    // //     email: fire.auth().currentUser.email,
+    // //     // promoter: false,
+    // //     avatar: fire.auth().currentUser.photoURL,
+    // //     uid: fire.auth().currentUser.uid,
+    // //     seen: [],
+    // //   };
+    // //   await fire
+    // //     .firestore()
+    // //     .collection("users")
+    // //     .doc(fire.auth().currentUser.email)
+    // //     .set(data, { merge: true });
+    // // });
   };
-
-  // const signInWithFacebook = () => {
-  //   const provider = new FacebookAuthProvider();
-  //   provider.addScope("user_birthday");
-  //   provider.setCustomParameters({
-  //     display: "popup",
-  //   });
-
-  //   const auth = getAuth();
-
-  //   fire
-  //     .auth()
-  //     .signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //       // The signed-in user info.
-  //       const user = result.user;
-
-  //       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-  //       const credential = FacebookAuthProvider.credentialFromResult(result);
-  //       const accessToken = credential.accessToken;
-
-  //       // ...
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   //SIGN OUT
   const signOut = () => {
