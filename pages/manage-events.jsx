@@ -61,7 +61,7 @@ export default function manageevents() {
     }, [])
 
     return (
-        <div className={styles.body}>
+        <div className={styles.body} >
 
         <div className={styles.container} >
             {fire.auth().currentUser?.email == "alexanderjarl91@gmail.com"? <>
