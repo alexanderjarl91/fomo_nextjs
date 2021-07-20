@@ -114,7 +114,7 @@ export default function manageevents() {
                             ))}
                     </div>
 
-                    <div style={{display: 'flex'}}>
+                    <div>
                         <p style={{marginRight: '8px', fontWeight: '600'}}>description:</p>
                         <p>{event.description}</p>
                     </div>
