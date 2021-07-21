@@ -9,7 +9,7 @@
   grid-template-columns: 1fr;
   max-width: 500px;
   margin: 0 auto;
-
+  margin-top: 6rem;
   width: 80%;
   height: 100%;
 }

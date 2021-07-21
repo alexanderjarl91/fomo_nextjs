@@ -45,11 +45,12 @@ export default function myEvents() {
         height: "100%",
         overflowY: "scroll",
         zIndex: "-10",
-        marginTop: "6rem",
+        
       }}
     >
       <div className={styles.container}>
-        <h2 className={styles.headline}>Your events</h2>
+        <h2 className={styles.headline}>My events</h2>
+        <p>This is where you can review and manage your events</p>
         {events.reverse().map((event) => (
           <div className={styles.event__container} key={event.eventId}>
             <div>

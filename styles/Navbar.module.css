@@ -12,6 +12,7 @@
   left: 50%;
   transform: translateX(-50%);
   /* background: #0e0e0e; */
+  z-index: 10;
 }
 
 .navbar__container > img {
@@ -30,6 +31,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
   user-select: none;
+  z-index: 99;
 }
 
 @media (min-width: 1200px) {
