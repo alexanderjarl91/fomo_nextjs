@@ -12,14 +12,17 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
-  background: linear-gradient(
+  /* background: linear-gradient(
     180deg,
-    rgba(14, 14, 14, 0.98) 80%,
-    rgba(77, 48, 136, 0) 85%
-  );
+    rgba(14, 14, 14, 0.9) 80%,
+    rgba(77, 48, 136, 0) 40%
+  ); */
   height: 125px;
   padding-bottom: 20px;
   /* padding: 5px; */
+}
+.navbar__containerBackground {
+  background: green;
 }
 
 .navbar__container > img {

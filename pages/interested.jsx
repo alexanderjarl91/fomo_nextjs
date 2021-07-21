@@ -71,11 +71,6 @@ export default function interested() {
   }, [showMenu]);
 
   return (
-    <div
-      className={styles.interested__container}
-      style={{ overflow: "hidden", overflowY: "scroll", height: "100%" }}
-    >
-      {/* PAGE CONTENT */}
       <div className={styles.cards}>
         <h3>Interested</h3>
         {cards ? (
@@ -110,6 +105,6 @@ export default function interested() {
           </>
         ) : null}
       </div>
-    </div>
+
   );
 }

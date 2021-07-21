@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 
 import { UsersContext } from "../context";
 import Sidebar from "react-sidebar";
@@ -8,6 +8,27 @@ import Menu from "./Menu";
 export default function Layout({ children }) {
   //context data
   const { showMenu, setShowMenu } = useContext(UsersContext);
+  const [showNavBackground, setShowNavBackground] = useState(false)
+  const scrollRef = useRef(null)
+
+  useEffect(()=> {
+    if (!scrollRef) return
+    const scrollContainer = scrollRef.current.parentNode
+    console.log('scrollContainer', scrollContainer)
+    const updateBackground = () => {
+      setShowNavBackground(scrollContainer.scrollTop > 60)
+    }
+
+    scrollContainer.addEventListener("scroll", updateBackground)
+
+    return () => {
+      scrollContainer.removeEventListener("scroll", updateBackground)
+    }
+  }, [])
+
+  useEffect(()=> {
+    console.log(`showNavBackground`, showNavBackground)
+  }, [showNavBackground])
 
   return (
     <div style={{ overflow: "hidden !important", height: "100%" }}>
@@ -36,8 +57,11 @@ export default function Layout({ children }) {
           },
         }}
       >
-        <Navbar showMenu={showMenu} setShowMenu={setShowMenu} />
-        {children}
+        <Navbar showMenu={showMenu} setShowMenu={setShowMenu} showNavBackground={showNavBackground}/>
+        <div ref={scrollRef}>
+          {children}
+        </div>
+
       </Sidebar>
     </div>
   );

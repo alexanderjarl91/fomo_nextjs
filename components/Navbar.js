@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import fire from "../firebase";
 import styles from "../styles/Navbar.module.css";
 import { UsersContext } from "../context";
-
+import cx from "../utils/cx";
 //components
 import Menu from "./Menu";
 
-export default function Navbar() {
+export default function Navbar({ showNavBackground }) {
   const router = useRouter();
   const [avatar, setAvatar] = useState();
 
@@ -29,7 +29,11 @@ export default function Navbar() {
 
   return (
     <>
-      <div className={styles.navbar__container}>
+      <div
+        className={cx(styles.navbar__container, {
+          [styles.navbar__containerBackground]: showNavBackground,
+        })}
+      >
         {router.query.event ? (
           <img
             src="/back_arrow.svg"
