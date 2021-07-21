@@ -40,14 +40,7 @@ export default function myEvents() {
   }, [userData]);
 
   return (
-    <div
-      className={styles.body}
-      style={{
-        overflowY: "scroll",
-        zIndex: "-10",
-        marginTop: "6rem",
-      }}
-    >
+    <div className={styles.body}>
       <div className={styles.container}>
         <h2 className={styles.headline}>My events</h2>
         <p>Review and manage your events</p>

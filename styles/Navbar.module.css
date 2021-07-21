@@ -1,3 +1,7 @@
+.container {
+  width: 100%;
+  height: 125px;
+}
 .navbar__container {
   display: flex;
   justify-content: space-between;
@@ -6,23 +10,34 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   color: white;
-  padding-top: 2rem;
+  padding-top: 1rem;
   width: 82vw;
-  max-width: 600px;
+  max-width: 510px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
-  /* background: linear-gradient(
-    180deg,
-    rgba(14, 14, 14, 0.9) 80%,
-    rgba(77, 48, 136, 0) 40%
-  ); */
+
   height: 125px;
   padding-bottom: 20px;
-  /* padding: 5px; */
+  padding: 5px;
 }
 .navbar__containerBackground {
-  background: green;
+  background: linear-gradient(
+    180deg,
+    rgba(14, 14, 14, 0.9) 40%,
+    rgba(77, 48, 136, 0) 100%
+  );
+
+  transition: 0.5s ease-in-out;
+  animation: background;
+}
+@keyframes background {
+  0% {
+    top: -100px;
+  }
+  100% {
+    top: -100px;
+  }
 }
 
 .navbar__container > img {
@@ -46,9 +61,8 @@
 
 @media (min-width: 1200px) {
   .navbar__container {
-    width: 600px;
-    margin-left: 150px;
-    padding-top: 3rem;
+    margin-left: 140px;
+    padding-top: 1rem;
   }
   .hamburger {
     visibility: hidden;

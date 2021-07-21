@@ -36,6 +36,7 @@ export default function Navbar({ showNavBackground }) {
       >
         {router.query.event ? (
           <img
+            classname={styles.backArrow}
             src="/back_arrow.svg"
             alt=""
             onClick={() => {

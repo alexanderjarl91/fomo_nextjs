@@ -1,6 +1,6 @@
 .body {
   margin: 0 auto;
-  margin-top: 6rem;
+  padding-top: 6rem;
   height: 100%;
   width: 80%;
   max-width: 485px;
@@ -15,8 +15,7 @@
 
 @media (min-width: 1200px) {
   .body {
-    margin-top: 8rem;
-    margin-left: 420px;
+    padding-top: 8rem;
     max-width: 800px;
   }
 }
