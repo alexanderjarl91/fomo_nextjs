@@ -5,7 +5,7 @@
   height: 60vh;
   align-self: center;
   align-items: center;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .card {

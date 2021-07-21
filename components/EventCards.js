@@ -185,11 +185,9 @@ function EventCards() {
     await clearSeen();
   };
 
-  useEffect(() => {
-    console.log(`renderedEvents`, renderedEvents);
-  }, [renderedEvents, userData]);
 
   return (
+    <div style={{overflow: "hidden", position: "relative"}}>
     <div className={styles.container}>
       <div className={styles.cards__container}>
         {/* DISPLAY ERROR IF LOCATION IS DISABLED */}
@@ -438,6 +436,7 @@ function EventCards() {
           renderedEvents={renderedEvents}
         />
       ) : null}
+    </div>
     </div>
   );
 }

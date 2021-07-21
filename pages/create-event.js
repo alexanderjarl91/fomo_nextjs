@@ -495,8 +495,7 @@ export default function maptester() {
           <div>
             <label htmlFor="">Image</label>
             <p style={{ opacity: 0.5, marginBottom: "5px" }}>
-              If your event image is in landscape resolution we suggest
-              designing a portrait rendition for best outcome
+              We suggest using a portrait rendition for best outcome
             </p>
             <input
               id="img"
