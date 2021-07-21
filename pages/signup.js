@@ -58,7 +58,7 @@ export default function signup({}) {
             justifyContent: "flex-start",
           }}
           onClick={() => {
-            signInWithFacebook();
+            // signInWithFacebook();
           }}
         >
           <img
@@ -71,7 +71,7 @@ export default function signup({}) {
             }}
             alt=""
           />
-          Continue with Facebook
+          Facebook login (coming soon)
         </button>
       </div>
     </div>
