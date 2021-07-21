@@ -7,12 +7,18 @@
   -webkit-backface-visibility: hidden;
   color: white;
   padding-top: 2rem;
-  width: 80vw;
+  width: 82vw;
   max-width: 500px;
   left: 50%;
   transform: translateX(-50%);
-  /* background: #0e0e0e; */
-  z-index: 10;
+  z-index: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(14, 14, 14, 0.98) 80%,
+    rgba(77, 48, 136, 0) 85%
+  );
+  height: 105px;
+  padding: 5px;
 }
 
 .navbar__container > img {
