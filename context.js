@@ -42,6 +42,7 @@ export const UsersProvider = ({ children }) => {
     }
 
     if (!user || !fire.auth().currentUser) return;
+    if (!fire.auth().currentUser.email) return;
 
     return fire // <-- return the unsubscribe function from onSnapshot
       .firestore()
