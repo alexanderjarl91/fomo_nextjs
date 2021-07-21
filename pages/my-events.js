@@ -7,7 +7,7 @@ import { UsersContext, DataContext } from "../context";
 import Navbar from "../components/Navbar";
 export default function myEvents() {
   // context data
-  const { userData, showMenu, setShowMenu } = useContext(UsersContext);
+  const { userData } = useContext(UsersContext);
 
   const [events, setEvents] = useState([]);
 
@@ -40,7 +40,14 @@ export default function myEvents() {
   }, [userData]);
 
   return (
-    <>
+    <div
+      style={{
+        height: "100%",
+        overflowY: "scroll",
+        zIndex: "-10",
+        marginTop: "6rem",
+      }}
+    >
       <div className={styles.container}>
         <h2 className={styles.headline}>Your events</h2>
         {events.reverse().map((event) => (
@@ -68,6 +75,6 @@ export default function myEvents() {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

@@ -1,14 +1,17 @@
-/* .headline {
-  margin-top: 6rem;
-  margin-left: 38px;
-} */
+.body {
+  width: 80%;
+  overflow: scroll;
+  height: 100%;
+}
+
 .container {
   display: grid;
   grid-template-columns: 1fr;
-  width: 80%;
   max-width: 500px;
   margin: 0 auto;
-  margin-top: 6rem;
+
+  width: 80%;
+  height: 100%;
 }
 
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
