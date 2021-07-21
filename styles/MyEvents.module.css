@@ -1,7 +1,8 @@
 .body {
   width: 80%;
-  overflow: scroll;
-  height: 100%;
+  overflow: hidden;
+  height: auto;
+  margin: 0 auto;
 }
 
 .container {
@@ -9,20 +10,22 @@
   grid-template-columns: 1fr;
   max-width: 500px;
   margin: 0 auto;
-  margin-top: 6rem;
   width: 80%;
   height: 100%;
 }
 
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
 @media (min-width: 1200px) {
+  .body {
+    margin-left: 300px;
+  }
   .container {
     grid-template-columns: 1fr;
   }
-  .container > h2 {
+  /* .container > h2 {
     margin-left: 300px;
     background-color: rosybrown;
-  }
+  } */
   .event__container {
     background-color: white;
     padding: 20px;

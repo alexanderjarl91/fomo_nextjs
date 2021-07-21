@@ -41,11 +41,11 @@ export default function myEvents() {
 
   return (
     <div
+      className={styles.body}
       style={{
-        height: "100%",
         overflowY: "scroll",
         zIndex: "-10",
-        
+        marginTop: "6rem",
       }}
     >
       <div className={styles.container}>

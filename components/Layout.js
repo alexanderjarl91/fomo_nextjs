@@ -22,15 +22,15 @@ export default function Layout({ children }) {
             WebkitTransition: "-webkit-transform 0.3s ease-out",
             overflow: "hidden",
             width: "100%;",
-            zIndex: "20",
+            zIndex: "12",
           },
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.8)",
             overflow: "hidden",
             width: "100%;",
+            zIndex: "11",
           },
           content: {
-            overflow: "hidden",
             width: "100%",
           },
         }}

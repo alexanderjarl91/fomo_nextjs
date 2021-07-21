@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useRouter } from "next/router";
 import fire from "../firebase";
 import styles from "../styles/Navbar.module.css";
@@ -13,11 +13,6 @@ export default function Navbar() {
 
   const { signInWithGoogle, signOut, showMenu, setShowMenu } =
     useContext(UsersContext);
-
-  useEffect(() => {
-    if (router.query.event)
-      console.log("event query from nav", router.query.event);
-  }, []);
 
   //on mount, if user is logged in, set avatar to his avatar - else set to placeholder
   useEffect(() => {
