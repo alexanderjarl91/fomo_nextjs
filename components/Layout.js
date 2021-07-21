@@ -31,6 +31,7 @@ export default function Layout({ children }) {
             zIndex: "11",
           },
           content: {
+            // overflow: "hidden",
             width: "100%",
           },
         }}

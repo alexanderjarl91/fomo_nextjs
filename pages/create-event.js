@@ -248,7 +248,13 @@ export default function maptester() {
   }, [imageFile]);
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      style={{
+        overflowY: "scroll",
+        zIndex: "-10",
+      }}
+    >
       <div className={styles.createEvent__container}>
         {/* PAGE CONTENT */}
         <h2>Create Event</h2>
@@ -295,8 +301,6 @@ export default function maptester() {
               <p className={styles.error}>{formErrors.promoterError}</p>
             ) : null}
           </div>
-
-          {/* <div id="map" className={styles.map} ref={mapRef}></div> */}
 
           {isMapsLoaded && (
             <div>

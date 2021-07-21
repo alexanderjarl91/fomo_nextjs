@@ -1,5 +1,4 @@
 .body {
-  width: 80%;
   overflow: hidden;
   height: auto;
   margin: 0 auto;
@@ -8,7 +7,7 @@
 .container {
   display: grid;
   grid-template-columns: 1fr;
-  max-width: 500px;
+  max-width: 480px;
   margin: 0 auto;
   width: 80%;
   height: 100%;

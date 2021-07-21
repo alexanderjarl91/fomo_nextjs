@@ -63,14 +63,6 @@ const Menu = () => {
                   <img src="/menu_icons/interested.svg" alt="" />
                   <p>Interested</p>
                 </li>
-                <li
-                  onClick={() => {
-                    routeTo("profile");
-                  }}
-                >
-                  <img src="/menu_icons/user.svg" alt="" />
-                  <p>Profile</p>
-                </li>
 
                 {userData && userData.promoter ? (
                   <>
@@ -97,6 +89,15 @@ const Menu = () => {
                         )}
                       </li>
                     )}
+
+                    <li
+                      onClick={() => {
+                        routeTo("profile");
+                      }}
+                    >
+                      <img src="/menu_icons/user.svg" alt="" />
+                      <p>Profile</p>
+                    </li>
 
                     <button
                       onClick={() => {

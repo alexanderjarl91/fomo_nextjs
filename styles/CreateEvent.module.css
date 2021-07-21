@@ -1,11 +1,11 @@
 .container {
   overflow-y: scroll;
-  margin-top: 6rem;
   height: 100%;
 }
 
 .createEvent__container {
   margin: 0 auto;
+  margin-top: 6rem;
   width: 80%;
   max-width: 500px;
   height: 100px !important;
