@@ -42,7 +42,7 @@ export default function places({
 
   // define results for input search
   const searchOptions = {
-    types: ["establishment"],
+    // types: ["establishment"],
     componentRestrictions: { country: "is" },
   };
 

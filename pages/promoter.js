@@ -61,10 +61,10 @@ export default function promoter() {
             charge
           </i>
         </p>
+        <button onClick={upgradeAccount} className={styles.upgrade__btn}>
+          Upgrade to promoter
+        </button>
       </div>
-      <button onClick={upgradeAccount} className={styles.upgrade__btn}>
-        Upgrade to promoter
-      </button>
     </div>
   );
 }

@@ -9,6 +9,7 @@
   .content {
     margin: 0 auto;
     padding-left: 320px;
+    padding-top: 8rem;
   }
 }
 
@@ -18,8 +19,8 @@
 
 .content > p {
   max-width: 260px;
-  margin: 0 auto;
-  margin-top: 2rem;
+
+  margin-top: 1rem;
 }
 
 .upgrade__btn {
@@ -30,4 +31,5 @@
   font-weight: 600;
   margin: 0 auto;
   margin-top: 3rem;
+  cursor: pointer;
 }
