@@ -1,7 +1,19 @@
 .content {
-  max-width: 300px;
+  max-width: 600px;
+  width: 80%;
   margin: 0 auto;
-  margin-top: 3rem;
+  padding-top: 6rem;
+}
+
+@media (min-width: 1200px) {
+  .content {
+    margin: 0 auto;
+    padding-left: 320px;
+  }
+}
+
+.title {
+  font-size: 18px;
 }
 
 .content > p {

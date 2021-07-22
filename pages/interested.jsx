@@ -8,6 +8,7 @@ import { UsersContext, DataContext } from "../context";
 //components
 import Navbar from "../components/Navbar";
 import Menu from "../components/Menu";
+import {useRouter} from "next/router";
 
 export default function interested() {
   //context data
@@ -15,6 +16,9 @@ export default function interested() {
 
   //states
   const [cards, setCards] = useState([]);
+
+
+  const router= useRouter()
 
   const getEvents = async () => {
     if (!fire.auth().currentUser) return;
@@ -29,7 +33,7 @@ export default function interested() {
 
     // FIND MATCHING EVENT ID IN EVENTS COLLECTION
     let tempCards = [];
-    interestedEventIds.forEach(async (id) => {
+    interestedEventIds?.forEach(async (id) => {
       const eventsRef = await fire.firestore().collection("events");
       const snapshot = await eventsRef.where("eventId", "==", id).get();
 
@@ -62,17 +66,10 @@ export default function interested() {
     return tempCards;
   };
 
-  // useEffect(() => {
-  //   console.log(cards, "cards");
-  // }, [cards]);
-
-  useEffect(() => {
-    console.log("showMenu state:", showMenu);
-  }, [showMenu]);
-
   return (
       <div className={styles.cards}>
         <h3>Interested</h3>
+        
         {cards ? (
           <>
             {cards.map((card) => (
@@ -103,7 +100,12 @@ export default function interested() {
               </Link>
             ))}
           </>
-        ) : null}
+        ) : <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', margin: '0 auto', marginTop: '10rem'}}>
+          <p> You have no interested events, swipe right or click the heart button to add event to your interested.</p>
+          <button className={styles.swipeButton} onClick={() => {
+            router.push('/')
+          }}>Swipe Events</button>
+          </div>}
       </div>
 
   );

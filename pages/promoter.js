@@ -49,7 +49,7 @@ export default function promoter() {
     <div>
       {/* PAGE CONTENT */}
       <div className={styles.content}>
-        <h1>Promote your own events</h1>
+        <h1 className={styles.title}>Promote your own events</h1>
         <p>
           By becoming a official fomo promoter you can promote your event to
           millions of nobodies in your area. Click the button below to upgrade
