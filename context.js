@@ -289,10 +289,14 @@ export const DataProvider = ({ children }) => {
       if (eventsArr?.length > 0) {
         eventsArr.map((event, i) => {
           const eventLocation = event.location.coordinates;
-          //origin is the users current location
+          // origin is the users current location
+          // let origin = new google.maps.LatLng(
+          //   userLocation?.latitude,
+          //   userLocation?.longitude
+          // );
           let origin = new google.maps.LatLng(
-            userLocation?.latitude,
-            userLocation?.longitude
+            64,
+            -21
           );
           // let origin = new google.maps.LatLng(65.681356, -18.089589);
           //convert event location to a google object
@@ -343,7 +347,7 @@ export const DataProvider = ({ children }) => {
   //USER FILTER EVENT
   useEffect(() => {
     let tempEvents = [];
-    console.log(allEvents, "allEvents");
+    // console.log(allEvents, "allEvents");
     const filter = [
       {
         dates: [

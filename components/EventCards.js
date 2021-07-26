@@ -25,11 +25,11 @@ function EventCards() {
   const [cardRefs, setCardRefs] = useState([]);
   const [showAnimation, setShowAnimation] = useState(false);
   const [activeCardIndex, setActiveCardIndex] = useState();
-  // useEffect(() => {
-  //   if (!renderedEvents) return;
-  //   setActiveCardIndex(renderedEvents.length - 1);
-  //   console.log("setActiveCard was triggered from useeffect");
-  // }, [renderedEvents]);
+  useEffect(() => {
+   
+  
+    console.log(renderedEvents , "renderedEvents");
+  }, [renderedEvents]);
 
   //get events on mount
   useEffect(() => {
@@ -60,9 +60,9 @@ function EventCards() {
     setRenderedEvents(futureEventsWithDistance);
   }, [futureEventsWithDistance]);
 
-  useEffect(() => {
-    console.log(`activeCardIndex`, activeCardIndex);
-  }, [activeCardIndex]);
+  // useEffect(() => {
+  //   console.log(`activeCardIndex`, activeCardIndex);
+  // }, [activeCardIndex]);
 
   // get user location function
   const getUserLocation = () => {
@@ -177,7 +177,7 @@ function EventCards() {
 
   //go to event dynamic page
   const goToEvent = (index) => {
-    const activeCard = filteredEvents[index];
+    const activeCard = renderedEvents[index];
     router.push(`/events/${activeCard.eventId}`);
   };
 
@@ -336,7 +336,7 @@ function EventCards() {
                             { [styles.swipe]: true }
                             // { [styles.animateOut]: showAnimation }
                           )}
-                          key={card.title}
+                          key={index}
                           ref={cardRefs[index]}
                           preventSwipe={["up", "down"]}
                           onSwipe={(dir) => handleSwipe(dir, index)}
