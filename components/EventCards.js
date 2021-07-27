@@ -25,14 +25,17 @@ function EventCards() {
   const [cardRefs, setCardRefs] = useState([]);
   const [showAnimation, setShowAnimation] = useState(false);
   const [activeCardIndex, setActiveCardIndex] = useState();
-  useEffect(() => {
-    console.log(renderedEvents, "renderedEvents");
-  }, [renderedEvents]);
+  const [country, setCountry] = useState();
 
   //get events on mount
   useEffect(() => {
     getEvents();
   }, []);
+
+  useEffect(()=> {
+    console.log('country:', country)
+  },[country])
+
 
   const removeSeen = (array) => {
     console.log("REMOVING SEEN");
@@ -58,14 +61,37 @@ function EventCards() {
     setRenderedEvents(futureEventsWithDistance);
   }, [futureEventsWithDistance]);
 
+
+
+  const getUserCountry = ()=> {
+    fetch("https://extreme-ip-lookup.com/json/")
+      .then((res) => res.json())
+      .then((response) => {
+        setCountry(response.country);
+      })
+      .catch((data, status) => {
+        console.log("Request failed");
+      });
+  }
+
+  useEffect(()=> {
+    getUserCountry()
+  },[])
   // get user location function
   const getUserLocation = () => {
+    //check users country
+
     //check if location is available in users browser
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setUserLocation(position.coords);
-          console.log("nav geo", navigator.geolocation);
+          if (country && country === "Iceland") {
+            setUserLocation(position.coords);
+          } else {
+            //  setUserLocation({ lat: 64.13, lng: -21.9 });
+            console.log('TEST1231231', country)
+
+          }
         },
         (err) => setUserLocation(err),
         { maximumAge: 60000, timeout: 5000, enableHighAccuracy: true }
@@ -78,7 +104,7 @@ function EventCards() {
   //get user location on mount
   useEffect(() => {
     getUserLocation();
-  }, []);
+  }, [country]);
 
   //handle function when like button is clicked
   const handleLike = (index) => {
@@ -199,6 +225,8 @@ function EventCards() {
   return (
     <div style={{ overflow: "hidden", position: "relative" }}>
       <div className={styles.container}>
+        {country === "Egypt" && <h1>COUNTRY IS ICELAND</h1> }
+        
         <div className={styles.cards__container}>
           {/* DISPLAY ERROR IF LOCATION IS DISABLED */}
           {userLocation?.code ? (
@@ -319,7 +347,7 @@ function EventCards() {
                             </div>
                             <div className={styles.categories__container}>
                               {card.categories.map((category) => (
-                                <p>{category}</p>
+                                <p key={category}>{category}</p>
                               ))}
                             </div>
 

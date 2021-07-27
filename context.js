@@ -294,6 +294,8 @@ export const DataProvider = ({ children }) => {
             userLocation?.latitude,
             userLocation?.longitude
           );
+          // let origin = new google.maps.LatLng(64, -21);
+          // let origin = new google.maps.LatLng(65.681356, -18.089589);
           //convert event location to a google object
           let destination = new google.maps.LatLng(
             eventLocation.lat,
