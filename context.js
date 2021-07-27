@@ -324,14 +324,16 @@ export const DataProvider = ({ children }) => {
             event.distance = eventDistance;
             tempDistanceArr = [...tempDistanceArr, event];
 
-            setFutureEventsWithDistance(
-              tempDistanceArr
-                .filter((event) => event.distance < maxDistance)
-                .sort(function (a, b) {
-                  console.log("SORTING EVENTS");
-                  return new Date(b.date) - new Date(a.date);
-                })
-            );
+            if (tempDistanceArr.length == eventsArr?.length) {
+              setFutureEventsWithDistance(
+                tempDistanceArr
+                  .filter((event) => event.distance < maxDistance)
+                  .sort(function (a, b) {
+                    console.log("SORTING EVENTS");
+                    return new Date(b.date) - new Date(a.date);
+                  })
+              );
+            }
           }
         });
       } else {
@@ -346,7 +348,7 @@ export const DataProvider = ({ children }) => {
 
   //USER FILTER EVENT
   useEffect(() => {
-    let tempEvents = [];
+    let tempEvents = allEvents;
     // console.log(allEvents, "allEvents");
     const filter = [
       {
