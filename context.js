@@ -348,7 +348,7 @@ export const DataProvider = ({ children }) => {
 
   //USER FILTER EVENT
   useEffect(() => {
-    let tempEvents = allEvents;
+    let tempEvents = [];
     // console.log(allEvents, "allEvents");
     const filter = [
       {
