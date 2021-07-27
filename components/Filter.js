@@ -136,7 +136,7 @@ export default function Filter() {
               min={2}
               max={maxRange}
               step={2}
-              onChange={handleMaxDistance}
+              onAfterChange={handleMaxDistance}
               // trackStyle={{ backgroundColor: "white", height: "12px" }}
               trackStyle={{
                 backgroundColor: "#CCCCCC",

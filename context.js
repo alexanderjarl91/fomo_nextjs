@@ -290,15 +290,10 @@ export const DataProvider = ({ children }) => {
         eventsArr.map((event, i) => {
           const eventLocation = event.location.coordinates;
           // origin is the users current location
-          // let origin = new google.maps.LatLng(
-          //   userLocation?.latitude,
-          //   userLocation?.longitude
-          // );
           let origin = new google.maps.LatLng(
-            64,
-            -21
+            userLocation?.latitude,
+            userLocation?.longitude
           );
-          // let origin = new google.maps.LatLng(65.681356, -18.089589);
           //convert event location to a google object
           let destination = new google.maps.LatLng(
             eventLocation.lat,
@@ -465,12 +460,8 @@ export const DataProvider = ({ children }) => {
     const onlyUnique = (value, index, self) => {
       return self.indexOf(value) === index;
     };
-    const unique = tempEvents?.filter(onlyUnique).sort(function (a, b) {
-      console.log("SORTING EVENTS");
-      return new Date(b.date) - new Date(a.date);
-    });
 
-    // const unseenSorted = removeSeen(unique);
+    const unique = tempEvents?.filter(onlyUnique);
 
     setFilteredEvents(unique);
   }, [allEvents, activeCategories, dateFilter, maxDistance]);
