@@ -221,3 +221,21 @@
 .pin {
   color: white;
 }
+
+.wrongCountry__container {
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 99990;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+}
+
+.wrongCountry__content {
+  max-width: 80%;
+  margin: 0 auto;
+  margin-top: 10rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  border-radius: 8px;
+}

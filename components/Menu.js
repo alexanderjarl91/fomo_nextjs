@@ -10,9 +10,6 @@ const Menu = () => {
   const { userData, showMenu, setShowMenu } = useContext(UsersContext);
   const router = useRouter();
 
-  useEffect(() => {
-    console.log("pending", pendingEvents);
-  }, [pendingEvents]);
   // Route to X parameter function
   const routeTo = (route) => {
     router.push(`/${route}`);

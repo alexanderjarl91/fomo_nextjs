@@ -86,11 +86,10 @@ function EventCards() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           if (country && country === "Iceland") {
+            console.log('position: ', position.coords)
             setUserLocation(position.coords);
           } else {
-            //  setUserLocation({ lat: 64.13, lng: -21.9 });
-            console.log('TEST1231231', country)
-
+              setUserLocation({ latitude: 64.13, longitude: -21.9 });
           }
         },
         (err) => setUserLocation(err),
@@ -218,14 +217,23 @@ function EventCards() {
     );
   }, [renderedEvents]);
 
-  // useEffect(() => {
-  //   console.log("LOGGED OUT EVENTS: ", loggedOutEvents);
-  // }, [loggedOutEvents]);
 
   return (
     <div style={{ overflow: "hidden", position: "relative" }}>
       <div className={styles.container}>
-        {country === "Egypt" && <h1>COUNTRY IS ICELAND</h1> }
+        {country && country !== "Iceland" && <div className={styles.wrongCountry__container} id="countryError">
+          <div  className={styles.wrongCountry__content}>
+          <p><strong>Woops!</strong> Looks like you're trying to access from {country} but fomo is currently only available in Iceland. Your
+          location will automatically be set to Downtown Reykjavík, Iceland.</p>
+          <p>If you want us in your hometown, contact us at alexander@pippen.is</p>
+          <button onClick={(e) => {
+            const errorDiv = document.getElementById('countryError')
+            errorDiv.style.display === "none"
+            }
+      
+          }>Continue</button>
+          </div>
+        </div> }
         
         <div className={styles.cards__container}>
           {/* DISPLAY ERROR IF LOCATION IS DISABLED */}
