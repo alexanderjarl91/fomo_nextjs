@@ -159,7 +159,7 @@ export default function Event() {
         <meta property="description" content="description" />
         <meta property="image" content="header_img.png" />
         {event && <title>{event.title} | fomo</title>}
-        <meta property="og:title" content="the title" key="ogtitle" />
+        <meta property="og:title" content={event.title} key="ogtitle" />
         <meta
           property="og:description"
           content="the description"
@@ -230,7 +230,6 @@ export default function Event() {
                       onRequestClose={closeModal}
                       style={customStyles}
                       contentLabel="Example Modal"
-                      appElement={""}
                     >
                       <h1
                         style={{
