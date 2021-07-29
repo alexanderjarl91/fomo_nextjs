@@ -261,7 +261,7 @@ function EventCards() {
               {/* IF USER IS LOGGED IN & HAS SWIPED ALL CARDS */}
               {userLocation &&
               fire.auth().currentUser &&
-              renderedEvents?.length === 0 ? (
+              activeCardIndex === -1 ? (
                 <div className={styles.noCards__container}>
                   <p>
                     No more events in your area.. change your filter or swipe
