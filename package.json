@@ -22,6 +22,7 @@
     "net": "^1.0.2",
     "next": "^10.2.3",
     "next-images": "^1.8.1",
+    "next-share": "^0.7.0",
     "node-modules": "^1.0.1",
     "rc-slider": "^9.7.2",
     "react": "16.9.0",

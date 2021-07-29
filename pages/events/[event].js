@@ -10,12 +10,12 @@ import {
   FacebookShareButton,
   WhatsappShareButton,
   TwitterShareButton,
-  EmailShareButton,
+  // EmailShareButton,
   FacebookIcon,
   TwitterIcon,
   WhatsappIcon,
-  EmailIcon,
-} from "react-share";
+  // EmailIcon,
+} from "next-share";
 import { FiShare2 } from "react-icons/fi";
 
 //components
@@ -278,9 +278,9 @@ export default function Event() {
                         <WhatsappShareButton url={window.location.href}>
                           <WhatsappIcon size={50} borderRadius={12} />
                         </WhatsappShareButton>
-                        <EmailShareButton url={window.location.href}>
+                        {/* <EmailShareButton url={window.location.href}>
                           <EmailIcon size={50} borderRadius={12} />
-                        </EmailShareButton>
+                        </EmailShareButton> */}
                       </div>
                       <h2 style={{ fontSize: "18px", marginTop: "12px" }}>
                         Or copy link
