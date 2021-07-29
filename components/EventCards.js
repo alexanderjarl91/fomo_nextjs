@@ -221,7 +221,7 @@ function EventCards() {
   return (
     <div style={{ overflow: "hidden", position: "relative" }}>
       <div className={styles.container}>
-        {country && country !== "Iceland" && <div className={styles.wrongCountry__container} id="countryError">
+        {/* {country && country !== "Iceland" && <div className={styles.wrongCountry__container} id="countryError">
           <div  className={styles.wrongCountry__content}>
           <p><strong>Woops!</strong> Looks like you're trying to access from {country} but fomo is currently only available in Iceland. Your
           location will automatically be set to Downtown Reykjavík, Iceland.</p>
@@ -233,7 +233,7 @@ function EventCards() {
       
           }>Continue</button>
           </div>
-        </div> }
+        </div> } */}
         
         <div className={styles.cards__container}>
           {/* DISPLAY ERROR IF LOCATION IS DISABLED */}
