@@ -223,22 +223,6 @@ function EventCards() {
   return (
     <div style={{ overflow: "hidden", position: "relative" }}>
       <div className={styles.container}>
-<<<<<<< HEAD
-        {/* {country && country !== "Iceland" && <div className={styles.wrongCountry__container} id="countryError">
-          <div  className={styles.wrongCountry__content}>
-          <p><strong>Woops!</strong> Looks like you're trying to access from {country} but fomo is currently only available in Iceland. Your
-          location will automatically be set to Downtown Reykjavík, Iceland.</p>
-          <p>If you want us in your hometown, contact us at alexander@pippen.is</p>
-          <button onClick={(e) => {
-            const errorDiv = document.getElementById('countryError')
-            errorDiv.style.display === "none"
-            }
-      
-          }>Continue</button>
-          </div>
-        </div> } */}
-        
-=======
         {showCountryError && (
           <div className={styles.wrongCountry__container} id="countryError">
             <div className={styles.wrongCountry__content}>
@@ -259,7 +243,6 @@ function EventCards() {
           </div>
         )}
 
->>>>>>> d457d46d4642431ba312272bb43834f727afacdb
         <div className={styles.cards__container}>
           {/* DISPLAY ERROR IF LOCATION IS DISABLED */}
           {userLocation?.code ? (
