@@ -325,7 +325,6 @@ export const DataProvider = ({ children }) => {
               tempDistanceArr
                 .filter((event) => event.distance < maxDistance)
                 .sort(function (a, b) {
-                  console.log("SORTING EVENTS");
                   return new Date(b.date) - new Date(a.date);
                 })
             );
