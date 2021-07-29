@@ -248,7 +248,10 @@ export default function Event() {
                           margin: "0 auto",
                         }}
                       >
-                        <FacebookShareButton url={window.location.href}>
+                        <FacebookShareButton
+                          url={window.location.href}
+                          quote={event.title}
+                        >
                           <FacebookIcon size={50} borderRadius={12} />
                         </FacebookShareButton>
 
