@@ -33,10 +33,6 @@ function EventCards() {
     getEvents();
   }, []);
 
-  useEffect(() => {
-    console.log("country:", country);
-  }, [country]);
-
   const removeSeen = (array) => {
     console.log("REMOVING SEEN");
     if (!userData) return;
@@ -82,8 +78,6 @@ function EventCards() {
   }, []);
   // get user location function
   const getUserLocation = () => {
-    //check users country
-
     //check if location is available in users browser
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -267,7 +261,7 @@ function EventCards() {
               {/* IF USER IS LOGGED IN & HAS SWIPED ALL CARDS */}
               {userLocation &&
               fire.auth().currentUser &&
-              activeCardIndex === -1 ? (
+              renderedEvents?.length === 0 ? (
                 <div className={styles.noCards__container}>
                   <p>
                     No more events in your area.. change your filter or swipe

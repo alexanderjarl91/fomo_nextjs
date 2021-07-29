@@ -321,16 +321,14 @@ export const DataProvider = ({ children }) => {
             event.distance = eventDistance;
             tempDistanceArr = [...tempDistanceArr, event];
 
-            if (tempDistanceArr.length == eventsArr?.length) {
-              setFutureEventsWithDistance(
-                tempDistanceArr
-                  .filter((event) => event.distance < maxDistance)
-                  .sort(function (a, b) {
-                    console.log("SORTING EVENTS");
-                    return new Date(b.date) - new Date(a.date);
-                  })
-              );
-            }
+            setFutureEventsWithDistance(
+              tempDistanceArr
+                .filter((event) => event.distance < maxDistance)
+                .sort(function (a, b) {
+                  console.log("SORTING EVENTS");
+                  return new Date(b.date) - new Date(a.date);
+                })
+            );
           }
         });
       } else {

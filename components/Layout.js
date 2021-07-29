@@ -14,7 +14,6 @@ export default function Layout({ children }) {
   useEffect(() => {
     if (!scrollRef) return;
     const scrollContainer = scrollRef.current.parentNode;
-    console.log("scrollContainer", scrollContainer);
     const updateBackground = () => {
       setShowNavBackground(scrollContainer.scrollTop > 60);
     };
@@ -25,10 +24,6 @@ export default function Layout({ children }) {
       scrollContainer.removeEventListener("scroll", updateBackground);
     };
   }, []);
-
-  useEffect(() => {
-    console.log(`showNavBackground`, showNavBackground);
-  }, [showNavBackground]);
 
   return (
     <div style={{ overflow: "hidden !important", height: "100%" }}>
@@ -42,17 +37,16 @@ export default function Layout({ children }) {
             transition: "transform 0.3s ease-out",
             WebkitTransition: "-webkit-transform 0.3s ease-out",
             overflow: "hidden",
-            width: "100%;",
+            width: "100%",
             zIndex: "12",
           },
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.8)",
             overflow: "hidden",
-            width: "100%;",
+            width: "100%",
             zIndex: "11",
           },
           content: {
-            // overflow: "hidden",
             width: "100%",
           },
         }}
