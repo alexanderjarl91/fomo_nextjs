@@ -155,8 +155,8 @@ export default function Event() {
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{props.title}</title>
-        <meta name="description" content={props.description} />
+        <title>{event.title}</title>
+        <meta name="description" content={event.description} />
         <meta http-equiv="content-language" content="en" />
         <meta
           name="keywords"
