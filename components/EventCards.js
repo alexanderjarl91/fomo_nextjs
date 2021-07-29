@@ -26,16 +26,16 @@ function EventCards() {
   const [showAnimation, setShowAnimation] = useState(false);
   const [activeCardIndex, setActiveCardIndex] = useState();
   const [country, setCountry] = useState();
+  const [showCountryError, setShowCountryError] = useState();
 
   //get events on mount
   useEffect(() => {
     getEvents();
   }, []);
 
-  useEffect(()=> {
-    console.log('country:', country)
-  },[country])
-
+  useEffect(() => {
+    console.log("country:", country);
+  }, [country]);
 
   const removeSeen = (array) => {
     console.log("REMOVING SEEN");
@@ -61,22 +61,25 @@ function EventCards() {
     setRenderedEvents(futureEventsWithDistance);
   }, [futureEventsWithDistance]);
 
-
-
-  const getUserCountry = ()=> {
+  const getUserCountry = () => {
     fetch("https://extreme-ip-lookup.com/json/")
       .then((res) => res.json())
       .then((response) => {
         setCountry(response.country);
+        if (response.country == "Iceland") {
+          setShowCountryError(false);
+        } else {
+          setShowCountryError(true);
+        }
       })
       .catch((data, status) => {
         console.log("Request failed");
       });
-  }
+  };
 
-  useEffect(()=> {
-    getUserCountry()
-  },[])
+  useEffect(() => {
+    getUserCountry();
+  }, []);
   // get user location function
   const getUserLocation = () => {
     //check users country
@@ -86,10 +89,10 @@ function EventCards() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           if (country && country === "Iceland") {
-            console.log('position: ', position.coords)
+            console.log("position: ", position.coords);
             setUserLocation(position.coords);
           } else {
-              setUserLocation({ latitude: 64.13, longitude: -21.9 });
+            setUserLocation({ latitude: 64.13, longitude: -21.9 });
           }
         },
         (err) => setUserLocation(err),
@@ -217,10 +220,10 @@ function EventCards() {
     );
   }, [renderedEvents]);
 
-
   return (
     <div style={{ overflow: "hidden", position: "relative" }}>
       <div className={styles.container}>
+<<<<<<< HEAD
         {/* {country && country !== "Iceland" && <div className={styles.wrongCountry__container} id="countryError">
           <div  className={styles.wrongCountry__content}>
           <p><strong>Woops!</strong> Looks like you're trying to access from {country} but fomo is currently only available in Iceland. Your
@@ -235,6 +238,28 @@ function EventCards() {
           </div>
         </div> } */}
         
+=======
+        {showCountryError && (
+          <div className={styles.wrongCountry__container} id="countryError">
+            <div className={styles.wrongCountry__content}>
+              <p>
+                <strong>Woops!</strong> Looks like you're trying to access from{" "}
+                {country} but fomo is currently only available in Iceland. Your
+                location will automatically be set to Downtown Reykjavík,
+                Iceland.
+              </p>
+              <p>
+                If you want us in your hometown, contact us at
+                alexander@pippen.is
+              </p>
+              <button onClick={(e) => setShowCountryError(false)}>
+                Continue
+              </button>
+            </div>
+          </div>
+        )}
+
+>>>>>>> d457d46d4642431ba312272bb43834f727afacdb
         <div className={styles.cards__container}>
           {/* DISPLAY ERROR IF LOCATION IS DISABLED */}
           {userLocation?.code ? (
@@ -259,7 +284,7 @@ function EventCards() {
               {/* IF USER IS LOGGED IN & HAS SWIPED ALL CARDS */}
               {userLocation &&
               fire.auth().currentUser &&
-              renderedEvents?.length === 0 ? (
+              activeCardIndex === -1 ? (
                 <div className={styles.noCards__container}>
                   <p>
                     No more events in your area.. change your filter or swipe
