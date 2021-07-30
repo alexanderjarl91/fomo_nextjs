@@ -94,7 +94,7 @@ export default function Buttons({
         {fire.auth().currentUser ? (
           <div
             onClick={() => {
-              handleLike();
+              handleLike(activeCardIndex);
             }}
             className={styles.interested__button}
           >

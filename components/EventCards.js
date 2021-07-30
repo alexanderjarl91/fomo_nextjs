@@ -1,4 +1,10 @@
-import React, { useState, useContext, createRef, useEffect } from "react";
+import React, {
+  useState,
+  useContext,
+  createRef,
+  useRef,
+  useEffect,
+} from "react";
 import TinderCard from "../components/TinderCard";
 import styles from "../styles/EventCards.module.css";
 import fire from "../firebase";
@@ -7,6 +13,7 @@ import { useRouter } from "next/router";
 import Buttons from "./Buttons";
 import cx from "../utils/cx";
 import { FaSearchLocation } from "react-icons/fa";
+import { render } from "react-dom";
 
 function EventCards() {
   const router = useRouter();
@@ -27,13 +34,14 @@ function EventCards() {
   const [activeCardIndex, setActiveCardIndex] = useState();
   const [country, setCountry] = useState();
   const [showCountryError, setShowCountryError] = useState();
-
+  const [activeId, setActiveId] = useState();
   //get events on mount
   useEffect(() => {
     getEvents();
   }, []);
 
   const removeSeen = (array) => {
+    console.log("REMOVING SEEN");
     if (!userData) return;
     let unseenEvents = [];
     const seenEvents = userData.seen;
@@ -103,50 +111,60 @@ function EventCards() {
 
   //handle function when like button is clicked
   const handleLike = (index) => {
-    cardRefs[index].current.swipe("right");
+    console.log(activeCardIndex, renderedEvents.length, index);
+    // if (activeCardIndex < 0) return;
+
+    // cardRefs[index].current.swipe("right");
+
+    renderedEvents.map((el, i) => {
+      console.log(el.eventId, activeId);
+      if (el.eventId == activeId) {
+        cardRefs[i].current.swipe("right");
+
+        // document.getElementById(`card-${i - 1}`).swipe("right");
+      } else {
+        console.log(i, "iiiii");
+        console.log(activeId, el.eventId);
+        cardRefs[index].current.swipe("right");
+        // cardRefs[i + 1].current.swipe("right");
+      }
+    });
   };
 
   //handle swipe
-  const handleSwipe = async (dir, index) => {
+  const handleSwipe = async (dir, index, id) => {
+    setActiveId(id);
     console.log("index from swipe", index);
-    const currentEventId = filteredEvents[index].eventId;
-
+    const currentEventId = renderedEvents[index].eventId;
     //set card to seen
     const saveToSeen = async () => {
       if (!fire.auth().currentUser) return;
-
       console.log("saving to seen...");
       //get swiped cards event
-
       //get authenticated user
       const userRef = await fire
         .firestore()
         .collection("users")
         .doc(fire.auth().currentUser.email);
-
       // //get auth users data
       const doc = await userRef.get();
       let tempSeen = doc.data().seen;
-
       // if (!doc.exists) return;
-
       //prevent duplicates
       if (tempSeen.includes(currentEventId)) {
         console.log("found duplicate");
         return;
       }
-
       //push new events ID to copy of array
       tempSeen.push(currentEventId);
       //post new array to database
       userRef.update({ seen: tempSeen });
     };
-
     await saveToSeen();
-
     //save event if swiped right
     if (dir === "right") {
       //animate
+
       const cardNotifications = document.querySelectorAll(".cardAnimate");
       const cardNotification = document.getElementById(`animate-${index}`);
       cardNotifications.forEach((item) => (item.style.display = "none"));
@@ -155,7 +173,6 @@ function EventCards() {
       await saveToInterested(activeCard);
     }
     setActiveCardIndex(activeCardIndex - 1);
-
     fire.analytics().logEvent("swipe");
   };
 
@@ -188,24 +205,34 @@ function EventCards() {
   useEffect(() => {
     if (!renderedEvents) return;
     setCardRefs(renderedEvents?.map(() => createRef()));
+    setActiveId(renderedEvents[renderedEvents.length - 1]?.eventId);
   }, [renderedEvents]);
+
+  useEffect(() => {
+    console.log(`activeId`, activeId);
+  }, [activeId]);
 
   //go to event dynamic page
   const goToEvent = (index) => {
+    const activeCard = renderedEvents[index];
+    console.log(
+      "🚀 ~ file: EventCards.js ~ line 197 ~ goToEvent ~ renderedEvents",
+      renderedEvents
+    );
+
     if (fire.auth().currentUser) {
-      const activeCard = renderedEvents[index];
-      router.push({
-        pathname: `/events/${activeCard.eventId}`,
-        query: { event: activeCard.eventId },
-      });
+      const activeCard = renderedEvents[renderedEvents.length - 1];
+      console.log(activeCard.title, index);
+      // router.push(`/events/${activeCard.eventId}`);
     } else {
       const activeCard = loggedOutEvents[index];
-      router.push({
-        pathname: `/events/${activeCard.eventId}`,
-        query: { event: activeCard.eventId },
-      });
+      // router.push(`/events/${activeCard.eventId}`);
     }
   };
+
+  useEffect(() => {
+    console.log("rendered", renderedEvents);
+  }, [activeCardIndex]);
 
   const reshuffleCards = async () => {
     await clearSeen();
@@ -300,16 +327,26 @@ function EventCards() {
                     {renderedEvents?.map((card, index) => (
                       <TinderCard
                         className={cx({ [styles.swipe]: true })}
-                        key={index}
+                        key={card.eventId}
                         ref={cardRefs[index]}
                         preventSwipe={["up", "down"]}
-                        onSwipe={(dir) => handleSwipe(dir, index)}
+                        onCardLeftScreen={() => {
+                          console.log(
+                            "card left screen",
+                            activeCardIndex,
+                            index
+                          );
+                        }}
+                        onSwipe={async (dir) =>
+                          handleSwipe(dir, index, card.eventId)
+                        }
                         onClick={() => {
-                          goToEvent(index);
+                          router.push(`/events/${card.eventId}`);
                         }}
                       >
                         <div
                           id={`card-${index}`}
+                          data-id={card.eventId}
                           className={cx({ [styles.card]: true })}
                         >
                           <div
@@ -335,6 +372,7 @@ function EventCards() {
 
                             <div className={styles.gradient}></div>
                             <h3>{card.title}</h3>
+                            <p>{card.eventId}</p>
                             <div className={styles.location__container}>
                               <img src="/location_pin.svg" alt="" />
                               <p>
