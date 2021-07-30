@@ -29,6 +29,7 @@ function EventCards() {
     maxDistance,
   } = useContext(DataContext);
   const [renderedEvents, setRenderedEvents] = useState();
+  const [eventsWithoutSeen, setEventsWithoutSeen] = useState();
   const [cardRefs, setCardRefs] = useState([]);
   const [showAnimation, setShowAnimation] = useState(false);
   const [activeCardIndex, setActiveCardIndex] = useState();
@@ -55,14 +56,15 @@ function EventCards() {
   };
 
   useEffect(() => {
-    if (fire.auth().currentUser && futureEventsWithDistance) {
-      const eventsWithoutSeen = removeSeen(futureEventsWithDistance);
-      setActiveCardIndex(eventsWithoutSeen?.length - 1);
-      setRenderedEvents(eventsWithoutSeen);
-      return;
-    }
-    setRenderedEvents(futureEventsWithDistance);
+    setEventsWithoutSeen(removeSeen(futureEventsWithDistance));
+    setActiveCardIndex(futureEventsWithDistance?.length - 1);
   }, [futureEventsWithDistance]);
+
+  useEffect(() => {
+    setActiveCardIndex(eventsWithoutSeen?.length - 1);
+    setRenderedEvents(eventsWithoutSeen);
+    console.log(eventsWithoutSeen?.length,'length .......')
+  }, [eventsWithoutSeen]);
 
   const getUserCountry = () => {
     fetch("https://extreme-ip-lookup.com/json/")
@@ -110,29 +112,41 @@ function EventCards() {
   }, [country]);
 
   //handle function when like button is clicked
-  const handleLike = (index) => {
-    console.log(activeCardIndex, renderedEvents.length, index);
+  const handleLike = (dir, index, id) => {
+    console.log(dir, index, id);
     // if (activeCardIndex < 0) return;
 
     // cardRefs[index].current.swipe("right");
 
-    renderedEvents.map((el, i) => {
-      console.log(el.eventId, activeId);
-      if (el.eventId == activeId) {
-        cardRefs[i].current.swipe("right");
+    // renderedEvents.map((el, i) => {
+    //   console.log(el.eventId, activeId);
+    //   if (i == index) {
+    //     if (el.eventId == activeId) {
+    //       cardRefs[i].current.swipe("right");
 
-        // document.getElementById(`card-${i - 1}`).swipe("right");
-      } else {
-        console.log(i, "iiiii");
-        console.log(activeId, el.eventId);
-        cardRefs[index].current.swipe("right");
-        // cardRefs[i + 1].current.swipe("right");
-      }
-    });
+    //       // document.getElementById(`card-${i - 1}`).swipe("right");
+    //     } else {
+    //       console.log(i, "iiiii", index);
+    //       console.log(activeId, el.eventId);
+    //       cardRefs[index].current.swipe("right");
+    //     }
+    //   }
+    // });
+    cardRefs[activeCardIndex].current.swipe(dir, index, id);
+    // renderedEvents.map((el, i) => {
+    //   if (i == activeCardIndex) {
+    //     if (el.eventId == activeId) {
+    //       cardRefs[activeCardIndex].current.swipe(dir,activeCardIndex,id);
+    //     } else {
+    //       cardRefs[i].current.swipe(dir,i,id);
+    //     }
+    //   }
+    // });
   };
 
   //handle swipe
   const handleSwipe = async (dir, index, id) => {
+    console.log("like called ", index, id);
     setActiveId(id);
     console.log("index from swipe", index);
     const currentEventId = renderedEvents[index].eventId;
@@ -164,15 +178,17 @@ function EventCards() {
     //save event if swiped right
     if (dir === "right") {
       //animate
-
+      console.log("direction is right");
+      console.log(eventsWithoutSeen.length , renderedEvents.length , activeCardIndex)
       const cardNotifications = document.querySelectorAll(".cardAnimate");
-      const cardNotification = document.getElementById(`animate-${index}`);
+      const cardNotification = document.getElementById(`animate-${id}`);
       cardNotifications.forEach((item) => (item.style.display = "none"));
       cardNotification.style.display = "block";
-      const activeCard = renderedEvents[index];
+      const activeCard = renderedEvents[activeCardIndex];
       await saveToInterested(activeCard);
+      // setActiveCardIndex(activeCardIndex);
     }
-    setActiveCardIndex(activeCardIndex - 1);
+    setActiveCardIndex(index);
     fire.analytics().logEvent("swipe");
   };
 
@@ -207,32 +223,6 @@ function EventCards() {
     setCardRefs(renderedEvents?.map(() => createRef()));
     setActiveId(renderedEvents[renderedEvents.length - 1]?.eventId);
   }, [renderedEvents]);
-
-  useEffect(() => {
-    console.log(`activeId`, activeId);
-  }, [activeId]);
-
-  //go to event dynamic page
-  const goToEvent = (index) => {
-    const activeCard = renderedEvents[index];
-    console.log(
-      "🚀 ~ file: EventCards.js ~ line 197 ~ goToEvent ~ renderedEvents",
-      renderedEvents
-    );
-
-    if (fire.auth().currentUser) {
-      const activeCard = renderedEvents[renderedEvents.length - 1];
-      console.log(activeCard.title, index);
-      // router.push(`/events/${activeCard.eventId}`);
-    } else {
-      const activeCard = loggedOutEvents[index];
-      // router.push(`/events/${activeCard.eventId}`);
-    }
-  };
-
-  useEffect(() => {
-    console.log("rendered", renderedEvents);
-  }, [activeCardIndex]);
 
   const reshuffleCards = async () => {
     await clearSeen();
@@ -293,7 +283,7 @@ function EventCards() {
               {/* IF USER IS LOGGED IN & HAS SWIPED ALL CARDS */}
               {userLocation &&
               fire.auth().currentUser &&
-              activeCardIndex === -1 ? (
+              eventsWithoutSeen  ? (
                 <div className={styles.noCards__container}>
                   <p>
                     No more events in your area.. change your filter or swipe
@@ -324,97 +314,108 @@ function EventCards() {
                 <>
                   <>
                     {/* RENDER CARDS */}
-                    {renderedEvents?.map((card, index) => (
-                      <TinderCard
-                        className={cx({ [styles.swipe]: true })}
-                        key={card.eventId}
-                        ref={cardRefs[index]}
-                        preventSwipe={["up", "down"]}
-                        onCardLeftScreen={() => {
-                          console.log(
-                            "card left screen",
-                            activeCardIndex,
-                            index
-                          );
-                        }}
-                        onSwipe={async (dir) =>
-                          handleSwipe(dir, index, card.eventId)
-                        }
-                        onClick={() => {
-                          router.push(`/events/${card.eventId}`);
-                        }}
-                      >
-                        <div
-                          id={`card-${index}`}
-                          data-id={card.eventId}
-                          className={cx({ [styles.card]: true })}
-                        >
-                          <div
-                            className={styles.card__front}
-                            style={{
-                              backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
+                    {renderedEvents?.map((card, index) => {
+                      return (
+                        <>
+                          <TinderCard
+                            className={cx({ [styles.swipe]: true })}
+                            key={card.eventId}
+                            ref={cardRefs[index]}
+                            preventSwipe={["up", "down"]}
+                            onCardLeftScreen={() => {
+                              console.log(
+                                "card left screen",
+                                activeCardIndex,
+                                index
+                              );
+                            }}
+                            onSwipe={async (dir) =>
+                              handleSwipe(dir, index, card.eventId)
+                            }
+                            onClick={() => {
+                              router.push(`/events/${card.eventId}`);
                             }}
                           >
-                            <img
-                              src="heart_fill.svg"
-                              id={`animate-${index}`}
-                              className="cardAnimate"
-                              style={{
-                                display: "none",
-                                position: "absolute",
-                                top: "20%",
-                                left: "30%",
-                                marginLeft: "-2rem",
-                                width: "250px",
-                                opacity: "0.8",
-                              }}
-                            />
+                            <div
+                              id={`card-${index}`}
+                              data-id={card.eventId}
+                              className={cx({ [styles.card]: true })}
+                            >
+                              <div
+                                className={styles.card__front}
+                                style={{
+                                  backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(${card.image})`,
+                                }}
+                              >
+                                <img
+                                  src="heart_fill.svg"
+                                  id={`animate-${card.eventId}`}
+                                  className="cardAnimate"
+                                  style={{
+                                    display: "none",
+                                    position: "absolute",
+                                    top: "20%",
+                                    left: "30%",
+                                    marginLeft: "-2rem",
+                                    width: "250px",
+                                    opacity: "0.8",
+                                  }}
+                                />
 
-                            <div className={styles.gradient}></div>
-                            <h3>{card.title}</h3>
-                            <p>{card.eventId}</p>
-                            <div className={styles.location__container}>
-                              <img src="/location_pin.svg" alt="" />
-                              <p>
-                                {card.location.name.length > 30
-                                  ? `${card.location?.name.substring(0, 30)}..`
-                                  : card.location.name}
-                              </p>
-                            </div>
-                            <p className={styles.card__distance}>
-                              {Math.round(card.distance * 100) / 100} km away
-                            </p>
+                                <div className={styles.gradient}></div>
+                                <h3>{card.title}</h3>
+                                <p>{card.eventId}</p>
+                                <div className={styles.location__container}>
+                                  <img src="/location_pin.svg" alt="" />
+                                  <p>
+                                    {card.location.name.length > 30
+                                      ? `${card.location?.name.substring(
+                                          0,
+                                          30
+                                        )}..`
+                                      : card.location.name}
+                                  </p>
+                                </div>
+                                <p className={styles.card__distance}>
+                                  {Math.round(card.distance * 100) / 100} km
+                                  away
+                                </p>
 
-                            <div className={styles.date__container}>
-                              <img src="/date.svg" alt="" />
-                              <p>
-                                {new Date(card.date)
-                                  .toDateString()
-                                  .substr(
-                                    0,
-                                    new Date(card.date).toDateString().length -
-                                      5
-                                  )}
-                                , {card.time}
-                              </p>
+                                <div className={styles.date__container}>
+                                  <img src="/date.svg" alt="" />
+                                  <p>
+                                    {new Date(card.date)
+                                      .toDateString()
+                                      .substr(
+                                        0,
+                                        new Date(card.date).toDateString()
+                                          .length - 5
+                                      )}
+                                    , {card.time}
+                                  </p>
+                                </div>
+                                <div className={styles.categories__container}>
+                                  {card.categories.map((category) => (
+                                    <p key={category}>{category}</p>
+                                  ))}
+                                </div>
+                                {userData?.interested?.includes(
+                                  card.eventId
+                                ) ? (
+                                  <div>
+                                    <img
+                                      className={styles.card__heart}
+                                      src="/heart_fill.svg"
+                                      alt=""
+                                    />
+                                  </div>
+                                ) : null}
+                              </div>
                             </div>
-                            <div className={styles.categories__container}>
-                              {card.categories.map((category) => (
-                                <p key={category}>{category}</p>
-                              ))}
-                            </div>
-
-                            {userData?.interested?.includes(card.eventId) ? (
-                              <img
-                                className={styles.card__heart}
-                                src="/heart_fill.svg"
-                                alt=""
-                              />
-                            ) : null}
-                          </div>
-                        </div>
-                      </TinderCard>
-                    ))}
+                          </TinderCard>
+                        </>
+                      );
+                    })}
                   </>
                 </>
               ) : (
@@ -525,6 +526,7 @@ function EventCards() {
             activeCardIndex={activeCardIndex}
             setActiveCardIndex={setActiveCardIndex}
             renderedEvents={renderedEvents}
+            id={activeId}
           />
         ) : null}
       </div>

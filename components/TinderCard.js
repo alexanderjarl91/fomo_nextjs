@@ -63,7 +63,7 @@ const animateOut = async (element, speed, easeIn = false) => {
 };
 
 const animateBack = async (element) => {
-  console.log("ANIMATE BACK CALLED");
+  // console.log("ANIMATE BACK CALLED");
   element.style.transition = settings.snapBackDuration + "ms";
   const startingPoint = getTranslate(element);
   const translation = translationString(
@@ -178,7 +178,6 @@ const TinderCard = React.forwardRef(
           );
         }
         // element.current.style.display = "none";
-        console.log("🚀 ~ file: TinderCard.js ~ line 209 ~ element", element);
         // element.current.style.visibility = "hidden";
         // element.current.style.opacity = "0";
         if (onCardLeftScreen) onCardLeftScreen(dir);

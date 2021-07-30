@@ -12,6 +12,7 @@ export default function Buttons({
   activeCardIndex,
   setActiveCardIndex,
   renderedEvents,
+  id,
 }) {
   const { filteredEvents } = useContext(DataContext);
   const { setShowFilter, showFilter } = useContext(UsersContext);
@@ -22,7 +23,6 @@ export default function Buttons({
   // show filter
   const handleShowFilter = () => {
     setShowFilter(!showFilter);
-    console.log(showFilter);
   };
 
   //get previous card
@@ -31,7 +31,7 @@ export default function Buttons({
 
     console.log(activeCardIndex, renderedEvents.length, filteredEvents.length);
 
-    if (activeCardIndex + 1 === renderedEvents.length) {
+    if (activeCardIndex === renderedEvents.length) {
       console.log("you are on first card");
       return;
     }
@@ -40,15 +40,14 @@ export default function Buttons({
     const lastCardIndex = activeCardIndex + 1;
     setActiveCardIndex(activeCardIndex + 1);
 
+    const cardNotifications = document.querySelectorAll(".cardAnimate");
+    cardNotifications.forEach((element) => {
+      element.style.display = "none";
+    });
     // get big heart dom and hide it
-    const cardNotification = document.getElementById(
-      `animate-${lastCardIndex}`
-    );
-    cardNotification.style.display = "none";
 
-    //get last card dom element
     const lastCardDOM = document.getElementById(
-      `card-${lastCardIndex}`
+      `card-${activeCardIndex}`
     ).parentElement;
 
     //bring it back
