@@ -78,10 +78,6 @@ export const UsersProvider = ({ children }) => {
       })
       // CREATE USER DATA IN FIRESTORE
       .then(async () => {
-        console.log(
-          "running .then at line 80 - currentUser",
-          fire.auth().currentUser
-        );
         const data = {
           name: fire.auth().currentUser.displayName,
           email: fire.auth().currentUser.email,
@@ -98,7 +94,6 @@ export const UsersProvider = ({ children }) => {
   };
 
   const signInWithFacebook = () => {
-    console.log("loggin in with fb");
     fire
       .auth()
       .signInWithPopup(fb_provider)
@@ -227,7 +222,6 @@ export const DataProvider = ({ children }) => {
       .doc(fire.auth().currentUser.email)
       .update({ seen: [] });
     getEvents();
-    console.log("seen has been cleared");
   };
 
   // load google maps script
@@ -251,7 +245,6 @@ export const DataProvider = ({ children }) => {
 
   ////GET EVENTS AND FILTER ONLY ACTIVE, FUTURE & UNSEEN EVENTS (if user is logged in)
   const getEvents = async () => {
-    console.log("GETTING CARDS!!!");
     const cardsRef = fire.firestore().collection("events");
     const snapshot = await cardsRef.get();
     let tempEvents = [];
@@ -331,7 +324,7 @@ export const DataProvider = ({ children }) => {
           }
         });
       } else {
-        setFutureEventsWithDistance();
+        setFutureEventsWithDistance([]);
       }
     }
   };
@@ -416,10 +409,7 @@ export const DataProvider = ({ children }) => {
         //if user only has a category filters applied
       } else if (activeCategories.length > 0) {
         let tempCategories = [];
-        console.log(
-          "🚀 ~ file: context.js ~ line 371 ~ _.map ~ activeCategories",
-          activeCategories
-        );
+
         if (key == 1) {
           activeCategories.map((flag, i) => {
             val["categories"].map((item) => {
@@ -429,11 +419,6 @@ export const DataProvider = ({ children }) => {
             });
           });
           tempEvents = tempCategories;
-
-          console.log(
-            "🚀 ~ file: context.js ~ line 403 ~ _.map ~ tempEvents",
-            tempEvents
-          );
         }
       }
       //if user only has a date filter applied

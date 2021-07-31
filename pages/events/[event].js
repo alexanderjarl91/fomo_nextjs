@@ -146,10 +146,6 @@ export default function Event() {
     setLinkCopied(true);
   };
 
-  useEffect(() => {
-    console.log("link copied?", linkCopied);
-  }, [linkCopied]);
-
   return (
     <>
       <Head>

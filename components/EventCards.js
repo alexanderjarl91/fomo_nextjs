@@ -42,11 +42,10 @@ function EventCards() {
   }, []);
 
   const removeSeen = (array) => {
-    console.log("REMOVING SEEN");
-    if (!userData) return;
+    //if there is no user data, return unaltered array
+    if (!userData) return array;
     let unseenEvents = [];
     const seenEvents = userData.seen;
-
     if (fire.auth().currentUser && userData) {
       unseenEvents = array?.filter(
         (item) => !seenEvents.includes(item.eventId)
@@ -63,7 +62,6 @@ function EventCards() {
   useEffect(() => {
     setActiveCardIndex(eventsWithoutSeen?.length - 1);
     setRenderedEvents(eventsWithoutSeen);
-    console.log(eventsWithoutSeen?.length,'length .......')
   }, [eventsWithoutSeen]);
 
   const getUserCountry = () => {
@@ -92,7 +90,6 @@ function EventCards() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           if (country && country === "Iceland") {
-            console.log("position: ", position.coords);
             setUserLocation(position.coords);
           } else {
             setUserLocation({ latitude: 64.13, longitude: -21.9 });
@@ -102,7 +99,7 @@ function EventCards() {
         { maximumAge: 60000, timeout: 5000, enableHighAccuracy: true }
       );
     } else {
-      console.log("Geolocation Not Available in browser");
+      console.log("Geolocation Not Available");
     }
   };
 
@@ -146,15 +143,11 @@ function EventCards() {
 
   //handle swipe
   const handleSwipe = async (dir, index, id) => {
-    console.log("like called ", index, id);
     setActiveId(id);
-    console.log("index from swipe", index);
     const currentEventId = renderedEvents[index].eventId;
     //set card to seen
     const saveToSeen = async () => {
       if (!fire.auth().currentUser) return;
-      console.log("saving to seen...");
-      //get swiped cards event
       //get authenticated user
       const userRef = await fire
         .firestore()
@@ -178,8 +171,6 @@ function EventCards() {
     //save event if swiped right
     if (dir === "right") {
       //animate
-      console.log("direction is right");
-      console.log(eventsWithoutSeen.length , renderedEvents.length , activeCardIndex)
       const cardNotifications = document.querySelectorAll(".cardAnimate");
       const cardNotification = document.getElementById(`animate-${id}`);
       cardNotifications.forEach((item) => (item.style.display = "none"));
@@ -236,6 +227,14 @@ function EventCards() {
     );
   }, [renderedEvents]);
 
+  useEffect(() => {
+    console.log(`renderedEvents`, renderedEvents);
+  }, [renderedEvents]);
+
+  useEffect(() => {
+    console.log("filteredEvents", filteredEvents);
+  }, [filteredEvents]);
+
   return (
     <div style={{ overflow: "hidden", position: "relative" }}>
       <div className={styles.container}>
@@ -281,9 +280,7 @@ function EventCards() {
               )}
 
               {/* IF USER IS LOGGED IN & HAS SWIPED ALL CARDS */}
-              {userLocation &&
-              fire.auth().currentUser &&
-              eventsWithoutSeen  ? (
+              {userLocation && fire.auth().currentUser && eventsWithoutSeen ? (
                 <div className={styles.noCards__container}>
                   <p>
                     No more events in your area.. change your filter or swipe
@@ -322,13 +319,7 @@ function EventCards() {
                             key={card.eventId}
                             ref={cardRefs[index]}
                             preventSwipe={["up", "down"]}
-                            onCardLeftScreen={() => {
-                              console.log(
-                                "card left screen",
-                                activeCardIndex,
-                                index
-                              );
-                            }}
+                            onCardLeftScreen={() => {}}
                             onSwipe={async (dir) =>
                               handleSwipe(dir, index, card.eventId)
                             }
@@ -364,7 +355,7 @@ function EventCards() {
 
                                 <div className={styles.gradient}></div>
                                 <h3>{card.title}</h3>
-                                <p>{card.eventId}</p>
+
                                 <div className={styles.location__container}>
                                   <img src="/location_pin.svg" alt="" />
                                   <p>
@@ -429,11 +420,13 @@ function EventCards() {
                             { [styles.swipe]: true }
                             // { [styles.animateOut]: showAnimation }
                           )}
-                          key={index}
+                          key={card.eventId}
                           ref={cardRefs[index]}
                           preventSwipe={["up", "down"]}
                           onSwipe={(dir) => handleSwipe(dir, index)}
-                          onClick={() => goToEvent(index)}
+                          onClick={() => {
+                            router.push(`/events/${card.eventId}`);
+                          }}
                         >
                           <div
                             id={`card-${index}`}
