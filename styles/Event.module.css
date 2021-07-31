@@ -1,27 +1,32 @@
+.container {
+  height: 100vh;
+}
 .content {
   display: flex;
   flex-direction: column;
   min-width: 300px;
   max-width: 600px;
-  padding: 3rem;
+  padding: 0 3rem;
   margin: 0 auto;
-  padding-top: 6rem;
-  height: 80vh;
+  padding-top: 7rem;
+  /* height: 100vh; */
 }
 
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
 @media (min-width: 1200px) {
   .content {
+    height: 100vh;
     padding-top: 8rem;
   }
   .container {
+    height: 100vh;
     margin-left: 280px;
   }
 }
 
-.container {
+/* .container {
   height: 100vh;
-}
+} */
 .content > h1 {
   font-family: Saira Condensed;
   font-style: normal;

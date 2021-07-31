@@ -182,7 +182,12 @@ export default function Event() {
 
       {event && (
         <div
-          style={{ margin: "0", padding: 0 }}
+          style={{
+            margin: "0",
+            padding: 0,
+            height: "100vh",
+            overflow: "hidden",
+          }}
           className={styles.container}
           style={{
             backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8) ), url(${event.image})`,
