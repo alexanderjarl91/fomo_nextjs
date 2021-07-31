@@ -91,15 +91,16 @@ export default function Buttons({
 
         {/* INTERESTED BUTTON */}
         {fire.auth().currentUser ? (
-          <div
-            onClick={() => {
-              handleLike(activeCardIndex);
-            }}
-            className={styles.interested__button}
-          >
-            <img src="/interested.svg" alt="" />
-          </div>
+          <div style={{textAlign: 'center'}}><p>swipe events to <br></br>see more</p></div>
         ) : (
+          // <div
+          //   onClick={() => {
+          //     handleLike(activeCardIndex);
+          //   }}
+          //   className={styles.interested__button}
+          // >
+          //   <img src="/interested.svg" alt="" />
+          // </div>
           <div
             onClick={() => {
               router.push("/signup");
