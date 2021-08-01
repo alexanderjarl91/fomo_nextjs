@@ -2282,6 +2282,11 @@
     "inherits" "^2.0.3"
     "minimalistic-assert" "^1.0.1"
 
+"haversine-distance@^1.2.1":
+  "integrity" "sha512-rQpG89d6NlAis0eqOSFXDqNU/GZcMPlHNVMqTSzD16niD9s1fDK8T6kwrK0WJ7OMU+iRNy3cgGYnNQihMqmaHg=="
+  "resolved" "https://registry.npmjs.org/haversine-distance/-/haversine-distance-1.2.1.tgz"
+  "version" "1.2.1"
+
 "hawk@~1.0.0":
   "integrity" "sha1-uQuxaYByhUEdp//LjdJZhQLTtS0="
   "resolved" "https://registry.npmjs.org/hawk/-/hawk-1.0.0.tgz"
