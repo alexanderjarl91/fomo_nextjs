@@ -201,12 +201,14 @@ export default function Event() {
             <div className={styles.content}>
               {/* TITLE */}
               <h1>{event.title}</h1>
+              <p>{event?.distance}</p>
 
               {/* TOP INFO */}
               <div className={styles.header__info}>
                 <div>
                   {/* <img src="/location_pin.svg" alt="" /> */}
                   <p>{event.categories[0]}</p>
+                  
                 </div>
                 <div>
                   {/* <img src="/date.svg" alt="" /> */}
@@ -298,7 +300,8 @@ export default function Event() {
                       {linkCopied && <p>copied!</p>}
                     </Modal>
                   </div>
-
+                  
+                  <h1>{event?.distance}</h1>
                   {/* HEART BUTTON */}
                   {!fire.auth().currentUser && (
                     <Link href="/signup">

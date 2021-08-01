@@ -151,11 +151,15 @@ const Menu = () => {
                   </p>
                 </li>
               ) : null}
-              <li>
-                <a href="">About us</a>
+              <li onClick={()=> {
+                router.push('about-us')
+              }}>
+                <p style={{cursor: 'pointer'}}>About us</p>
               </li>
-              <li>
-                <a href="">Contact us</a>
+              <li onClick={()=> {
+                router.push('contact')
+              }}>
+              <p style={{cursor: 'pointer'}}>Contact</p>
               </li>
             </ul>
 
