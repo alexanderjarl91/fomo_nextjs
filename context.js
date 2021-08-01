@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Router, useRouter } from "next/router";
 import axios from "axios";
+import haversine from "haversine-distance";
 
 import {
   isToday,
@@ -283,46 +284,26 @@ export const DataProvider = ({ children }) => {
         eventsArr.map((event, i) => {
           const eventLocation = event.location.coordinates;
           // origin is the users current location
-          let origin = new google.maps.LatLng(
-            userLocation?.latitude,
-            userLocation?.longitude
-          );
-          // let origin = new google.maps.LatLng(64, -21);
-          // let origin = new google.maps.LatLng(65.681356, -18.089589);
-          //convert event location to a google object
-          let destination = new google.maps.LatLng(
-            eventLocation.lat,
-            eventLocation.lng
-          );
-
-          var service = new google.maps.DistanceMatrixService();
-
-          //get distance from origin to destination with driving as travel mode
-          service.getDistanceMatrix(
-            {
-              origins: [origin],
-              destinations: [destination],
-              travelMode: "DRIVING",
-            },
-
-            callback
-          );
-          //append distance to each event
-          function callback(response, status) {
-            const eventDistance =
-              response?.rows[0].elements[0].distance?.value / 1000;
-            event.distance = eventDistance;
-            tempDistanceArr = [...tempDistanceArr, event];
-
-            setFutureEventsWithDistance(
-              tempDistanceArr
-                .filter((event) => event.distance < maxDistance)
-                .sort(function (a, b) {
-                  return new Date(b.date) - new Date(a.date);
-                })
-            );
-          }
+          let origin = {
+            latitude: userLocation?.latitude,
+            longitude: userLocation?.longitude,
+          };
+          let destination = {
+            latitude: eventLocation.lat,
+            longitude: eventLocation.lng,
+          };
+          const eventDistance = haversine(origin, destination) / 1000;
+          event.distance = eventDistance;
+          tempDistanceArr = [...tempDistanceArr, event];
         });
+        console.log("🚀 ~ file: context.js ~ line 305 ~ eventsArr.map ~ tempDistanceArr", tempDistanceArr)
+        setFutureEventsWithDistance(
+          tempDistanceArr
+            .filter((event) => event.distance < maxDistance)
+            .sort(function (a, b) {
+              return new Date(b.date) - new Date(a.date);
+            })
+        );
       } else {
         setFutureEventsWithDistance([]);
       }
