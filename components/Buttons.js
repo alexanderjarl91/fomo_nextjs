@@ -91,7 +91,11 @@ export default function Buttons({
 
         {/* INTERESTED BUTTON */}
         {fire.auth().currentUser ? (
-          <div style={{textAlign: 'center'}}><p>swipe events to <br></br>see more</p></div>
+          <div style={{ textAlign: "center" }}>
+            <p>
+              swipe events <br></br>tap to see more
+            </p>
+          </div>
         ) : (
           // <div
           //   onClick={() => {

@@ -99,7 +99,7 @@
   margin-bottom: 6px;
 }
 
-.footer__socialIcons > img {
+.footer__socialIcons > a {
   margin-right: 8px;
 }
 

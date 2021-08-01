@@ -160,8 +160,14 @@ const Menu = () => {
             </ul>
 
             <div className={styles.footer__socialIcons}>
-              <img src="/facebook.svg" alt="" />
+              <a target="_blank"  href="https://www.facebook.com/www.fomo.events">
+              <img src="/facebook.svg" alt="www.facebook.com"/>
+              </a>
+
+                  <a target="_blank" href="https://www.instagram.com/fomoxevents">
               <img src="/instagram.svg" alt="" />
+
+                  </a>
             </div>
             <p className={styles.copyright}>Pippen ehf © 2021</p>
           </div>
