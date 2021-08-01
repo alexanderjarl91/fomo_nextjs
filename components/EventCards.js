@@ -176,14 +176,15 @@ function EventCards() {
       cardNotifications.forEach((item) => (item.style.display = "none"));
       cardNotification.style.display = "block";
       const activeCard = renderedEvents[activeCardIndex];
-      await saveToInterested(activeCard);
+      console.log("id", id);
+      await saveToInterested(id);
       // setActiveCardIndex(activeCardIndex);
     }
     setActiveCardIndex(index);
     fire.analytics().logEvent("swipe");
   };
 
-  const saveToInterested = async (activeCard) => {
+  const saveToInterested = async (id) => {
     //if user is not logged in, cancel function
     if (!fire.auth().currentUser) return;
     // get current users interested array
@@ -195,17 +196,25 @@ function EventCards() {
     // create a temp array and fill it with firestore data
     let tempInterested = [];
     //if no doc was found, cancel function
-    if (!doc.exists) return;
+    if (!doc.exists) {
+      console.log("!doc doesnt exist");
+      return;
+    }
     //if doc had an interested array, save a temp version of it
     if (doc.data().interested) {
       tempInterested = doc.data().interested;
     }
     // // cancel if item is already
-    if (tempInterested.includes(activeCard.eventId)) return;
+    if (tempInterested.includes(id)) {
+      console.log("doc already exists");
+      return;
+    }
+
     // push activeCards eventId to temporary interested array
-    tempInterested.push(activeCard.eventId);
+    tempInterested.push(id);
     // save new interested array to firestore
     userRef.update({ interested: tempInterested });
+    console.log("saving...");
   };
 
   //create an array of references for each event card whenever filteredEvents array updates
@@ -227,13 +236,13 @@ function EventCards() {
     );
   }, [renderedEvents]);
 
-  useEffect(() => {
-    console.log(`renderedEvents`, renderedEvents);
-  }, [renderedEvents]);
+  // useEffect(() => {
+  //   console.log(`renderedEvents`, renderedEvents);
+  // }, [renderedEvents]);
 
-  useEffect(() => {
-    console.log("filteredEvents", filteredEvents);
-  }, [filteredEvents]);
+  // useEffect(() => {
+  //   console.log("filteredEvents", filteredEvents);
+  // }, [filteredEvents]);
 
   return (
     <div style={{ overflow: "hidden", position: "relative" }}>
