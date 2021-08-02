@@ -63,7 +63,7 @@ export const UsersProvider = ({ children }) => {
   const signInWithGoogle = () => {
     fire
       .auth()
-      .signInWithRedirect(google_provider)
+      .signInWithPopup(google_provider)
       .then((result) => {
         /** @type {firebase.auth.OAuthCredential} */
       })
