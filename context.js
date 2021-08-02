@@ -98,6 +98,7 @@ export const UsersProvider = ({ children }) => {
   };
 
   fire.auth().onAuthStateChanged((user) => {
+    if (fire.auth().currentUser?.email === "alexanderjarl91@gmail.com") return;
     if (user) {
       const data2 = { text: `${fire.auth().currentUser.email} logged in.` };
       sendMessage(data2);
