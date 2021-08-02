@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Router, useRouter } from "next/router";
-import axios from "axios";
 import haversine from "haversine-distance";
+import { sendMessage } from "./utils/slack";
 
 import {
   isToday,
@@ -91,6 +91,9 @@ export const UsersProvider = ({ children }) => {
           .collection("users")
           .doc(fire.auth().currentUser.email)
           .set(data, { merge: true });
+
+        const data2 = { text: `${data.email} logged in` };
+        sendMessage(data2);
       });
   };
 
@@ -296,7 +299,6 @@ export const DataProvider = ({ children }) => {
           event.distance = eventDistance;
           tempDistanceArr = [...tempDistanceArr, event];
         });
-        console.log("🚀 ~ file: context.js ~ line 305 ~ eventsArr.map ~ tempDistanceArr", tempDistanceArr)
         setFutureEventsWithDistance(
           tempDistanceArr
             .filter((event) => event.distance < maxDistance)

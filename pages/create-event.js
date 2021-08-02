@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import fire from "../firebase";
 import styles from "../styles/CreateEvent.module.css";
 import { v4 as uuidv4 } from "uuid";
+import { sendMessage } from "../utils/slack";
 
 //components
 import PlacesInput from "../components/PlacesInput";
@@ -53,6 +54,12 @@ export default function maptester() {
           router.push("/");
         });
     }, 1000);
+    const message = {
+      text: `${
+        fire.auth().currentUser.email
+      } just added a new event that's pending review: ${event.title}`,
+    };
+    sendMessage(message);
   };
 
   //post event to users own event collection
@@ -75,7 +82,6 @@ export default function maptester() {
     //push new events ID to copy of array
     tempEvents.push(eventId);
     //post new array to database
-    console.log("tempEvents :>> ", tempEvents);
     userRef.update({ events: tempEvents });
   };
 

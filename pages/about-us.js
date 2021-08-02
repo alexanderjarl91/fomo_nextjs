@@ -1,9 +1,13 @@
 import React from "react";
 import styles from "../styles/About.module.css";
 import {useRouter} from "next/router"
+import axios from 'axios'
 
+import { sendMessage } from "../utils/slack";
 
 export default function aboutus() {
+  const data = { text: "test123" };
+
   return <div className={styles.container}>
 
       <h1>About us</h1>
@@ -27,5 +31,8 @@ export default function aboutus() {
         <p>fomo was designed, developed and maintained by web developer <a href="https://alexanderjarl-portfolio.vercel.app/"><strong>Alexander Jarl</strong></a>.</p>
       </div>
       
+      <button onClick={()=> {
+        sendMessage(data)
+      }}>send to slack</button>
   </div>;
 }
