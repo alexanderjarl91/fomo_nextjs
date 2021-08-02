@@ -6,7 +6,7 @@ import axios from 'axios'
 import { sendMessage } from "../utils/slack";
 
 export default function aboutus() {
-  const data = { text: "test123" };
+ 
 
   return <div className={styles.container}>
 
@@ -30,9 +30,5 @@ export default function aboutus() {
         </p>
         <p>fomo was designed, developed and maintained by web developer <a href="https://alexanderjarl-portfolio.vercel.app/"><strong>Alexander Jarl</strong></a>.</p>
       </div>
-      
-      <button onClick={()=> {
-        sendMessage(data)
-      }}>send to slack</button>
   </div>;
 }

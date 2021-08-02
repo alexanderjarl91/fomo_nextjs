@@ -63,7 +63,7 @@ export const UsersProvider = ({ children }) => {
   const signInWithGoogle = () => {
     fire
       .auth()
-      .signInWithPopup(google_provider)
+      .signInWithRedirect(google_provider)
       .then((result) => {
         /** @type {firebase.auth.OAuthCredential} */
       })
@@ -79,6 +79,9 @@ export const UsersProvider = ({ children }) => {
       })
       // CREATE USER DATA IN FIRESTORE
       .then(async () => {
+        const data2 = { text: `${fire.auth().currentUser.email} logged in.` };
+        sendMessage(data2);
+
         const data = {
           name: fire.auth().currentUser.displayName,
           email: fire.auth().currentUser.email,
@@ -91,11 +94,15 @@ export const UsersProvider = ({ children }) => {
           .collection("users")
           .doc(fire.auth().currentUser.email)
           .set(data, { merge: true });
-
-        const data2 = { text: `${data.email} logged in` };
-        sendMessage(data2);
       });
   };
+
+  fire.auth().onAuthStateChanged((user) => {
+    if (user) {
+      const data2 = { text: `${fire.auth().currentUser.email} logged in.` };
+      sendMessage(data2);
+    }
+  });
 
   const signInWithFacebook = () => {
     fire
