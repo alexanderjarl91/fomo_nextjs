@@ -59,26 +59,13 @@ export const UsersProvider = ({ children }) => {
       });
   }, [user]); // <-- rerun when user changes
 
-  // SIGN IN WITH GOOGLE
-  const signInWithGoogle = () => {
-    fire
-      .auth()
-      .signInWithPopup(google_provider)
-      .then((result) => {
+  fire
+    .auth()
+    .getRedirectResult()
+    .then(async (result) => {
+      if (result.credential) {
         /** @type {firebase.auth.OAuthCredential} */
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-        console.log("ERROR", error);
-      })
-      // CREATE USER DATA IN FIRESTORE
-      .then(async () => {
+
         const data2 = { text: `${fire.auth().currentUser.email} logged in.` };
         await sendMessage(data2);
 
@@ -94,7 +81,57 @@ export const UsersProvider = ({ children }) => {
           .collection("users")
           .doc(fire.auth().currentUser.email)
           .set(data, { merge: true });
-      });
+      }
+      // The signed-in user info.
+      var user = result.user;
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+
+  // SIGN IN WITH GOOGLE
+  const signInWithGoogle = async () => {
+    await fire.auth().signInWithRedirect(google_provider);
+
+    // .then((result) => {
+    //   /** @type {firebase.auth.OAuthCredential} */
+    // })
+    // .catch((error) => {
+    //   // Handle Errors here.
+    //   var errorCode = error.code;
+    //   var errorMessage = error.message;
+    //   // The email of the user's account used.
+    //   var email = error.email;
+    //   // The firebase.auth.AuthCredential type that was used.
+    //   var credential = error.credential;
+    //   console.log("ERROR", error);
+    // })
+
+    // // CREATE USER DATA IN FIRESTORE
+    // .then(async () => {
+    //   const data2 = { text: `${fire.auth().currentUser.email} logged in.` };
+    //   await sendMessage(data2);
+
+    //   const data = {
+    //     name: fire.auth().currentUser.displayName,
+    //     email: fire.auth().currentUser.email,
+    //     avatar: fire.auth().currentUser.photoURL,
+    //     uid: fire.auth().currentUser.uid,
+    //     seen: [],
+    //   };
+    //   await fire
+    //     .firestore()
+    //     .collection("users")
+    //     .doc(fire.auth().currentUser.email)
+    //     .set(data, { merge: true });
+    // });
   };
 
   // fire.auth().onAuthStateChanged((user) => {
