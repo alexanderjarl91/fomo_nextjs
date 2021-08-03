@@ -128,8 +128,8 @@ export default function maptester() {
       errors.titleError = "Event must have a title";
     }
 
-    if (event?.title?.length < 3 || event?.title?.length > 35) {
-      errors.titleError = "Title length must be between 3 and 35 characters";
+    if (event?.title?.length < 3 || event?.title?.length > 50) {
+      errors.titleError = "Title length must be between 3 and 50 characters";
     }
 
     //promoter validation
