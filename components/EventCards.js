@@ -112,36 +112,8 @@ function EventCards() {
   }, [country]);
 
   //handle function when like button is clicked
-  const handleLike = (dir, index, id) => {
-    console.log(dir, index, id);
-    // if (activeCardIndex < 0) return;
-
-    // cardRefs[index].current.swipe("right");
-
-    // renderedEvents.map((el, i) => {
-    //   console.log(el.eventId, activeId);
-    //   if (i == index) {
-    //     if (el.eventId == activeId) {
-    //       cardRefs[i].current.swipe("right");
-
-    //       // document.getElementById(`card-${i - 1}`).swipe("right");
-    //     } else {
-    //       console.log(i, "iiiii", index);
-    //       console.log(activeId, el.eventId);
-    //       cardRefs[index].current.swipe("right");
-    //     }
-    //   }
-    // });
-    cardRefs[activeCardIndex].current.swipe(dir, index, id);
-    // renderedEvents.map((el, i) => {
-    //   if (i == activeCardIndex) {
-    //     if (el.eventId == activeId) {
-    //       cardRefs[activeCardIndex].current.swipe(dir,activeCardIndex,id);
-    //     } else {
-    //       cardRefs[i].current.swipe(dir,i,id);
-    //     }
-    //   }
-    // });
+  const handleLike = (index) => {
+      cardRefs[index -1].current.swipe("right");
   };
 
   //handle swipe
@@ -184,8 +156,10 @@ function EventCards() {
       await saveToInterested(id);
       // setActiveCardIndex(activeCardIndex);
     }
+    console.log('setting active card index to:', index)
     setActiveCardIndex(index);
     fire.analytics().logEvent("swipe");
+
   };
 
   const saveToInterested = async (id) => {
@@ -241,13 +215,15 @@ function EventCards() {
     );
   }, [renderedEvents]);
 
-  // useEffect(() => {
-  //   console.log(`renderedEvents`, renderedEvents);
-  // }, [renderedEvents]);
+  useEffect(() => {
+    console.log(`renderedEvents`, renderedEvents);
+  }, [renderedEvents]);
 
-  // useEffect(() => {
-  //   console.log("filteredEvents", filteredEvents);
-  // }, [filteredEvents]);
+  useEffect(() => {
+    console.log('activeCardIndex:', activeCardIndex)
+  }, [activeCardIndex])
+
+
 
   useEffect(()=> {
     console.log(`eventsWithoutSeen`, eventsWithoutSeen)

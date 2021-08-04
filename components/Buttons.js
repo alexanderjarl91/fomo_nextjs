@@ -28,16 +28,13 @@ export default function Buttons({
   //get previous card
   const handleLastCard = async () => {
     //if first card, cancel function
-    console.log(activeCardIndex, renderedEvents.length, filteredEvents.length);
-
-    if (activeCardIndex === renderedEvents.length) {
+    if (activeCardIndex === renderedEvents.length - 1) {
       console.log("you are on first card");
       return;
     }
-
     //save event if swiped right
     const lastCardIndex = activeCardIndex + 1;
-    setActiveCardIndex(activeCardIndex);
+    setActiveCardIndex(lastCardIndex);
 
     const cardNotifications = document.querySelectorAll(".cardAnimate");
     cardNotifications.forEach((element) => {
@@ -90,10 +87,18 @@ export default function Buttons({
 
         {/* INTERESTED BUTTON */}
         {fire.auth().currentUser ? (
-          <div style={{ textAlign: "center" }}>
-            <p>
-              swipe events <br></br>tap to see more
-            </p>
+          // <div style={{ textAlign: "center" }}>
+          //   <p>
+          //     swipe events <br></br>tap to see more
+          //   </p>
+          // </div>
+                    <div
+            onClick={() => {
+              handleLike(activeCardIndex);
+            }}
+            className={styles.interested__button}
+          >
+            <img src="/interested.svg" alt="" />
           </div>
         ) : (
           // <div
