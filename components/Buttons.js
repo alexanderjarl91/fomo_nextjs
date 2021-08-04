@@ -28,7 +28,6 @@ export default function Buttons({
   //get previous card
   const handleLastCard = async () => {
     //if first card, cancel function
-
     console.log(activeCardIndex, renderedEvents.length, filteredEvents.length);
 
     if (activeCardIndex === renderedEvents.length) {
@@ -38,7 +37,7 @@ export default function Buttons({
 
     //save event if swiped right
     const lastCardIndex = activeCardIndex + 1;
-    setActiveCardIndex(activeCardIndex + 1);
+    setActiveCardIndex(activeCardIndex);
 
     const cardNotifications = document.querySelectorAll(".cardAnimate");
     cardNotifications.forEach((element) => {

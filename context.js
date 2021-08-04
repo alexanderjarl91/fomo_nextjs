@@ -265,6 +265,7 @@ export const DataProvider = ({ children }) => {
   }, [fire.auth().currentUser]);
 
   const clearSeen = async () => {
+    console.log("hello");
     await fire
       .firestore()
       .collection("users")
@@ -294,6 +295,7 @@ export const DataProvider = ({ children }) => {
 
   ////GET EVENTS AND FILTER ONLY ACTIVE, FUTURE & UNSEEN EVENTS (if user is logged in)
   const getEvents = async () => {
+    console.log("getting events");
     const cardsRef = fire.firestore().collection("events");
     const snapshot = await cardsRef.get();
     let tempEvents = [];
@@ -317,9 +319,9 @@ export const DataProvider = ({ children }) => {
     setAllEvents(approvedFutureEvents);
   };
 
-  useEffect(() => {
-    getEvents();
-  }, []);
+  // useEffect(() => {
+  //   getEvents();
+  // }, []);
 
   const [futureEventsWithDistance, setFutureEventsWithDistance] = useState();
   //APPEND DISTANCE TO ALL EVENTS
@@ -477,10 +479,6 @@ export const DataProvider = ({ children }) => {
 
     setFilteredEvents(unique);
   }, [allEvents, activeCategories, dateFilter, maxDistance]);
-
-  useEffect(() => {
-    getEvents();
-  }, []);
 
   return (
     <DataContext.Provider

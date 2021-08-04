@@ -16,6 +16,7 @@ export default function Filter() {
     dateFilter,
     setDateFilter,
     maxRange,
+    clearSeen,
   } = useContext(DataContext);
 
   const handleFilter = () => {
@@ -167,6 +168,9 @@ export default function Filter() {
             within {maxDistance} km
           </p>
         </div>
+        <button onClick={async ()=> {
+          await clearSeen()
+        }}>clear seen events</button>
       </div>
     </div>
   );
