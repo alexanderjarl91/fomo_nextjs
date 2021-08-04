@@ -113,7 +113,12 @@ function EventCards() {
 
   //handle function when like button is clicked
   const handleLike = (index) => {
-      cardRefs[index -1].current.swipe("right");
+    // if (index === renderedEvents.length - 1) {
+      // cardRefs[index].current.swipe("right");
+      // console.log('index and renderedevents length are equal')
+    //   return
+    // }
+      cardRefs[index].current.swipe("right");
   };
 
   //handle swipe
@@ -157,7 +162,7 @@ function EventCards() {
       // setActiveCardIndex(activeCardIndex);
     }
     console.log('setting active card index to:', index)
-    setActiveCardIndex(index);
+    setActiveCardIndex(index - 1);
     fire.analytics().logEvent("swipe");
 
   };

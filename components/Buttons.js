@@ -27,6 +27,7 @@ export default function Buttons({
 
   //get previous card
   const handleLastCard = async () => {
+    console.log('index from lastCard', activeCardIndex)
     //if first card, cancel function
     if (activeCardIndex === renderedEvents.length - 1) {
       console.log("you are on first card");
@@ -43,7 +44,7 @@ export default function Buttons({
     // get big heart dom and hide it
 
     const lastCardDOM = document.getElementById(
-      `card-${activeCardIndex}`
+      `card-${activeCardIndex + 1}`
     ).parentElement;
 
     //bring it back
@@ -53,6 +54,7 @@ export default function Buttons({
     lastCardDOM.style.opacity = 1;
   };
 
+  
   return (
     <div className={styles.container}>
       <motion.div
