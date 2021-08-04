@@ -168,9 +168,9 @@ export default function Filter() {
             within {maxDistance} km
           </p>
         </div>
-        <button onClick={async ()=> {
+        {/* <button onClick={async ()=> {
           await clearSeen()
-        }}>clear seen events</button>
+        }}>clear seen events</button> */}
       </div>
     </div>
   );

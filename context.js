@@ -315,13 +315,9 @@ export const DataProvider = ({ children }) => {
     let approvedFutureEvents = allFutureEvents?.filter(
       (event) => event.status === "approved"
     );
-
     setAllEvents(approvedFutureEvents);
   };
 
-  // useEffect(() => {
-  //   getEvents();
-  // }, []);
 
   const [futureEventsWithDistance, setFutureEventsWithDistance] = useState();
   //APPEND DISTANCE TO ALL EVENTS
@@ -366,7 +362,6 @@ export const DataProvider = ({ children }) => {
   //USER FILTER EVENT
   useEffect(() => {
     let tempEvents = [];
-    // console.log(allEvents, "allEvents");
     const filter = [
       {
         dates: [

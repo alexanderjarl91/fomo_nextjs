@@ -14,12 +14,12 @@ import Buttons from "./Buttons";
 import cx from "../utils/cx";
 import { FaSearchLocation } from "react-icons/fa";
 import { render } from "react-dom";
+import { set } from "date-fns";
 
 function EventCards() {
   const router = useRouter();
   const {
     getEvents,
-    filteredEvents,
     futureEventsWithDistance,
     userLocation,
     setUserLocation,
@@ -36,6 +36,7 @@ function EventCards() {
   const [country, setCountry] = useState();
   const [showCountryError, setShowCountryError] = useState();
   const [activeId, setActiveId] = useState();
+  
   //get events on mount
   useEffect(() => {
     getEvents();
@@ -55,6 +56,8 @@ function EventCards() {
   };
 
   useEffect(() => {
+    //clearing renderedEvents
+    setRenderedEvents([])
     setEventsWithoutSeen(removeSeen(futureEventsWithDistance));
     setActiveCardIndex(futureEventsWithDistance?.length - 1);
   }, [futureEventsWithDistance]);
@@ -147,6 +150,7 @@ function EventCards() {
     const currentEventId = renderedEvents[index].eventId;
     //set card to seen
     const saveToSeen = async () => {
+      console.log('saveToSeen called')
       if (!fire.auth().currentUser) return;
       //get authenticated user
       const userRef = await fire
@@ -217,6 +221,7 @@ function EventCards() {
     console.log("saving...");
   };
 
+
   //create an array of references for each event card whenever filteredEvents array updates
   useEffect(() => {
     if (!renderedEvents) return;
@@ -243,6 +248,10 @@ function EventCards() {
   // useEffect(() => {
   //   console.log("filteredEvents", filteredEvents);
   // }, [filteredEvents]);
+
+  useEffect(()=> {
+    console.log(`eventsWithoutSeen`, eventsWithoutSeen)
+  }, [eventsWithoutSeen])
 
   return (
     <div style={{ overflow: "hidden", position: "relative" }}>
