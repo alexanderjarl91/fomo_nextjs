@@ -15,6 +15,8 @@ import cx from "../utils/cx";
 import { FaSearchLocation } from "react-icons/fa";
 import { render } from "react-dom";
 import { set } from "date-fns";
+import { motion } from "framer-motion"
+
 
 function EventCards() {
   const router = useRouter();
@@ -162,7 +164,7 @@ function EventCards() {
       // setActiveCardIndex(activeCardIndex);
     }
     console.log('setting active card index to:', index)
-    setActiveCardIndex(index - 1);
+    setActiveCardIndex(index -1);
     fire.analytics().logEvent("swipe");
 
   };

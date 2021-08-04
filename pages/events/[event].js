@@ -17,6 +17,8 @@ import {
   // EmailIcon,
 } from "next-share";
 import { FiShare2 } from "react-icons/fi";
+import { motion } from "framer-motion"
+
 
 //components
 import EventMap from "../../components/EventMap";
@@ -181,7 +183,8 @@ export default function Event() {
       </Head>
 
       {event && (
-        <div
+        <motion.div initial={{ x: "100%" }}
+        animate={{ x: "calc(100vw - 100%)" }}
           style={{
             margin: "0",
             padding: 0,
@@ -336,7 +339,7 @@ export default function Event() {
               </div>
             </div>
           )}
-        </div>
+        </motion.div>
       )}
     </>
   );
