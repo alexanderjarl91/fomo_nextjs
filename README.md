@@ -9,7 +9,7 @@
 - user authentication with firebase auth
 - 1-click sign up & sign in with google
 
-
+- app like animation online on mobile/tablet, desktop handles like desktop
 
 ### to-do
 

@@ -148,6 +148,22 @@ export default function Event() {
     setLinkCopied(true);
   };
 
+
+    //ANIMATION
+  //add animation if user is in mobile
+  let boxVariants = {}
+  if (typeof window !== "undefined") {
+    const isMobile = window.innerWidth < 1200; //Add the width you want to check for here (now 768px)
+    console.log('is mobile?', isMobile)
+    if (isMobile) {
+      boxVariants = {
+        initial: { opacity: 0.5, x: '100%' },
+        animate: { opacity: 1, x: "calc(100vw - 100%)"},
+      };
+    }
+  }
+
+
   return (
     <>
       <Head>
@@ -183,8 +199,10 @@ export default function Event() {
       </Head>
 
       {event && (
-        <motion.div initial={{ x: "100%" }}
-        animate={{ x: "calc(100vw - 100%)" }}
+        <motion.div 
+        variants={boxVariants}
+        initial="initial"
+        animate="animate"
           style={{
             margin: "0",
             padding: 0,
