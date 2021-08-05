@@ -43,7 +43,7 @@
   flex-direction: column;
   font-weight: bold;
   margin: 0.5rem 0;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 .info__list > li {
   display: flex;

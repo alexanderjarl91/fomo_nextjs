@@ -6,6 +6,7 @@ import React, {
   useEffect,
 } from "react";
 import TinderCard from "../components/TinderCard";
+import CountryError from "./CountryError";
 import styles from "../styles/EventCards.module.css";
 import fire from "../firebase";
 import { DataContext } from "../context";
@@ -15,8 +16,7 @@ import cx from "../utils/cx";
 import { FaSearchLocation } from "react-icons/fa";
 import { render } from "react-dom";
 import { set } from "date-fns";
-import { motion } from "framer-motion"
-
+import { motion } from "framer-motion";
 
 function EventCards() {
   const router = useRouter();
@@ -38,7 +38,7 @@ function EventCards() {
   const [country, setCountry] = useState();
   const [showCountryError, setShowCountryError] = useState();
   const [activeId, setActiveId] = useState();
-  
+
   //get events on mount
   useEffect(() => {
     getEvents();
@@ -59,7 +59,7 @@ function EventCards() {
 
   useEffect(() => {
     //clearing renderedEvents
-    setRenderedEvents([])
+    setRenderedEvents([]);
     setEventsWithoutSeen(removeSeen(futureEventsWithDistance));
     setActiveCardIndex(futureEventsWithDistance?.length - 1);
   }, [futureEventsWithDistance]);
@@ -116,11 +116,11 @@ function EventCards() {
   //handle function when like button is clicked
   const handleLike = (index) => {
     // if (index === renderedEvents.length - 1) {
-      // cardRefs[index].current.swipe("right");
-      // console.log('index and renderedevents length are equal')
+    // cardRefs[index].current.swipe("right");
+    // console.log('index and renderedevents length are equal')
     //   return
     // }
-      cardRefs[index].current.swipe("right");
+    cardRefs[index].current.swipe("right");
   };
 
   //handle swipe
@@ -129,7 +129,7 @@ function EventCards() {
     const currentEventId = renderedEvents[index].eventId;
     //set card to seen
     const saveToSeen = async () => {
-      console.log('saveToSeen called')
+      console.log("saveToSeen called");
       if (!fire.auth().currentUser) return;
       //get authenticated user
       const userRef = await fire
@@ -163,10 +163,9 @@ function EventCards() {
       await saveToInterested(id);
       // setActiveCardIndex(activeCardIndex);
     }
-    console.log('setting active card index to:', index)
-    setActiveCardIndex(index -1);
+    console.log("setting active card index to:", index);
+    setActiveCardIndex(index - 1);
     fire.analytics().logEvent("swipe");
-
   };
 
   const saveToInterested = async (id) => {
@@ -202,7 +201,6 @@ function EventCards() {
     console.log("saving...");
   };
 
-
   //create an array of references for each event card whenever filteredEvents array updates
   useEffect(() => {
     if (!renderedEvents) return;
@@ -227,36 +225,21 @@ function EventCards() {
   }, [renderedEvents]);
 
   useEffect(() => {
-    console.log('activeCardIndex:', activeCardIndex)
-  }, [activeCardIndex])
+    console.log("activeCardIndex:", activeCardIndex);
+  }, [activeCardIndex]);
 
-
-
-  useEffect(()=> {
-    console.log(`eventsWithoutSeen`, eventsWithoutSeen)
-  }, [eventsWithoutSeen])
+  useEffect(() => {
+    console.log(`eventsWithoutSeen`, eventsWithoutSeen);
+  }, [eventsWithoutSeen]);
 
   return (
     <div style={{ overflow: "hidden", position: "relative" }}>
       <div className={styles.container}>
         {showCountryError && (
-          <div className={styles.wrongCountry__container} id="countryError">
-            <div className={styles.wrongCountry__content}>
-              <p>
-                <strong>Woops!</strong> Looks like you're trying to access from{" "}
-                {country} but fomo is currently only available in Iceland. Your
-                location will automatically be set to Downtown Reykjavík,
-                Iceland.
-              </p>
-              <p>
-                If you want us in your hometown, contact us at
-                alexander@pippen.is
-              </p>
-              <button onClick={(e) => setShowCountryError(false)}>
-                Continue
-              </button>
-            </div>
-          </div>
+          <CountryError
+            country={country}
+            setShowCountryError={setShowCountryError}
+          />
         )}
 
         <div className={styles.cards__container}>
