@@ -175,7 +175,7 @@ export default function Filter() {
             handleFilter();
           }}
         >
-          clear seen
+          RESHUFFLE EVENTS
         </button>
       </div>
     </div>

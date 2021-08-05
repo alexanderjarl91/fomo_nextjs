@@ -1,6 +1,6 @@
 .index__container {
   overflow: hidden;
-  /* overflow-y: scroll; */
+  overflow-y: hidden;
   height: 100vh;
 }
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
