@@ -7,5 +7,6 @@
 @media (min-width: 1200px) {
   .index__container {
     margin-left: 280px;
+    height: 100vh;
   }
 }

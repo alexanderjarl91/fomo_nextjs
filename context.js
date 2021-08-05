@@ -220,8 +220,8 @@ export const DataProvider = ({ children }) => {
   const [pendingEvents, setPendingEvents] = useState();
   const [filteredEvents, setFilteredEvents] = useState(); //events after filtering (rendered)
   const [userLocation, setUserLocation] = useState(); //users current location
-  const [maxDistance, setMaxDistance] = useState(1000); //max distance set in filter
-  const [maxRange, setMaxRange] = useState(1000); //max distance set in filter
+  const [maxDistance, setMaxDistance] = useState(500); //max distance set in filter
+  const [maxRange, setMaxRange] = useState(500); //max distance set in filter
   const [activeCategories, setActiveCategories] = useState([]); //array of categories active
   const [dateFilter, setDateFilter] = useState([]); // array of date selections active
   const [eventDistanceArr, setEventDistanceArr] = useState();
@@ -317,7 +317,6 @@ export const DataProvider = ({ children }) => {
     );
     setAllEvents(approvedFutureEvents);
   };
-
 
   const [futureEventsWithDistance, setFutureEventsWithDistance] = useState();
   //APPEND DISTANCE TO ALL EVENTS
