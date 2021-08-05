@@ -2,7 +2,6 @@
 import React from "react";
 import sleep from "p-sleep";
 
-
 const settings = {
   snapBackDuration: 300,
   maxTilt: 5,

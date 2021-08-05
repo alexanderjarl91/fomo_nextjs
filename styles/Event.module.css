@@ -1,6 +1,7 @@
 .container {
   height: 100vh;
   overflow: hidden;
+  margin-bottom: 5rem;
 }
 .content {
   display: flex;
