@@ -1,11 +1,11 @@
 .index__container {
   overflow: hidden;
-  overflow-y: hidden;
-  height: 100vh;
 }
 /* MOVE INDEX TO MIDDLE IN DESKTOP vieW */
 @media (min-width: 1200px) {
   .index__container {
     margin-left: 280px;
+    overflow-y: hidden;
+    height: 100vh;
   }
 }
