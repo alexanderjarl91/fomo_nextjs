@@ -15,7 +15,7 @@ export default function interested() {
   const { userData, showMenu, setShowMenu } = useContext(UsersContext);
 
   //states
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState();
 
 
   const router= useRouter()
@@ -65,15 +65,19 @@ export default function interested() {
     });
     return tempCards;
   };
+  const removeInterested = (id) => {
+    console.log(id)
+  }
 
   return (
       <div className={styles.cards}>
         <h3>Interested</h3>
         
-        {cards ? (
+        {fire.auth().currentUser && cards ? (
           <>
-            {cards.map((card) => (
-              <Link href={`events/${card.eventId}`}>
+            {cards.map((card, index) => (
+              <div key={index}>
+              <Link  href={`events/${card.eventId}`}>
                 <div className={styles.card}>
                   <div className={styles.card__content}>
                     <div className={styles.img__container}>
@@ -81,10 +85,10 @@ export default function interested() {
                     </div>
                     <div className={styles.info}>
                       <h1>
-                        {card?.title?.length > 3 &&
-                          card.title.substr(0, 12).concat("...")}
+                        {card?.title?.length > 20 ?
+                          card.title.substr(0, 17).concat("...") : card.title}
                       </h1>
-                      <p>{card?.location?.name}</p>
+                      <p>{card?.location?.name.length > 24 ? card?.location?.name.substr(0, 28).concat("..."): card.location?.name}</p>
                       <p>
                         {new Date(card.date)
                           .toDateString()
@@ -94,13 +98,31 @@ export default function interested() {
                           )}
                         , {card.time}{" "}
                       </p>
+
+                      {fire.auth().currentUser && (
+                    <>
+                      
+                        <img
+                          className={styles.heart_btn}
+                          src="/heart_fill.svg"
+                          alt=""
+                          onClick={() => {
+                            removeInterested(card.eventId)
+                          }}
+                        />
+                    
+                    </>
+                  )}
                     </div>
                   </div>
                 </div>
               </Link>
+              </div>
             ))}
           </>
-        ) : <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', margin: '0 auto', marginTop: '10rem'}}>
+        ) : null}
+
+        {cards && cards.length < 1 && <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', margin: '0 auto', marginTop: '10rem'}}>
           <p> You have no interested events, swipe right or click the heart button to add event to your interested.</p>
           <button className={styles.swipeButton} onClick={() => {
             router.push('/')

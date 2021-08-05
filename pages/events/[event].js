@@ -17,8 +17,7 @@ import {
   // EmailIcon,
 } from "next-share";
 import { FiShare2 } from "react-icons/fi";
-import { motion } from "framer-motion"
-
+import { motion } from "framer-motion";
 
 //components
 import EventMap from "../../components/EventMap";
@@ -148,21 +147,19 @@ export default function Event() {
     setLinkCopied(true);
   };
 
-
-    //ANIMATION
+  //ANIMATION
   //add animation if user is in mobile
-  let boxVariants = {}
+  let boxVariants = {};
   if (typeof window !== "undefined") {
     const isMobile = window.innerWidth < 1200; //Add the width you want to check for here (now 768px)
-    console.log('is mobile?', isMobile)
+    console.log("is mobile?", isMobile);
     if (isMobile) {
       boxVariants = {
-        initial: { opacity: 0.5, x: '100%' },
-        animate: { opacity: 1, x: "calc(100vw - 100%)"},
+        initial: { opacity: 0.5, x: "100%" },
+        animate: { opacity: 1, x: "calc(100vw - 100%)" },
       };
     }
   }
-
 
   return (
     <>
@@ -199,10 +196,10 @@ export default function Event() {
       </Head>
 
       {event && (
-        <motion.div 
-        variants={boxVariants}
-        initial="initial"
-        animate="animate"
+        <motion.div
+          variants={boxVariants}
+          initial="initial"
+          animate="animate"
           style={{
             margin: "0",
             padding: 0,
@@ -229,7 +226,6 @@ export default function Event() {
                 <div>
                   {/* <img src="/location_pin.svg" alt="" /> */}
                   <p>{event.categories[0]}</p>
-                  
                 </div>
                 <div>
                   {/* <img src="/date.svg" alt="" /> */}
@@ -321,7 +317,7 @@ export default function Event() {
                       {linkCopied && <p>copied!</p>}
                     </Modal>
                   </div>
-                  
+
                   <h1>{event?.distance}</h1>
                   {/* HEART BUTTON */}
                   {!fire.auth().currentUser && (

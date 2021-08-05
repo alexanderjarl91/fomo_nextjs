@@ -83,12 +83,17 @@ export default function places({
                   : `${styles.suggestion_item}`;
                 // inline style for demonstration purpose
                 const style = suggestion.active
-                  ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                  ? {
+                      backgroundColor: "#fafafa",
+                      cursor: "pointer",
+                      color: "black",
+                      fontSize: "20px",
+                    }
                   : {
                       backgroundColor: "white",
                       cursor: "pointer",
                       color: "black",
-                      fontSize: "18px",
+                      fontSize: "20px",
                     };
                 return (
                   <div

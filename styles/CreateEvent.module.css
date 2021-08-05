@@ -130,6 +130,8 @@
 }
 
 .autocomplete_dropdown {
+  margin-top: -8px;
+  border-radius: 20px;
 }
 
 .map__container {
